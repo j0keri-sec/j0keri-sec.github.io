@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记一道HECTF RSA的题目，混淆了我好久。 1234567891011121314151617181920212223242526272829from Crypto.Util.number import *import gmpy2import mathfrom flag import flag,e1,e2assert flag[:6]&#x3D;&#x3D;b&amp;#x27;HECTF&amp;#123;&amp;#x27;m&#x3D;by">
+<meta property="og:type" content="article">
+<meta property="og:title" content="crypto1">
+<meta property="og:url" content="http://example.com/2021/11/15/crypto1/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="记一道HECTF RSA的题目，混淆了我好久。 1234567891011121314151617181920212223242526272829from Crypto.Util.number import *import gmpy2import mathfrom flag import flag,e1,e2assert flag[:6]&#x3D;&#x3D;b&amp;#x27;HECTF&amp;#123;&amp;#x27;m&#x3D;by">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/2.jpg">
+<meta property="article:published_time" content="2021-11-15T15:19:05.000Z">
+<meta property="article:modified_time" content="2022-01-14T09:53:28.083Z">
+<meta property="article:author" content="j0ker">
+<meta property="article:tag" content="crypto">
+<meta property="article:tag" content="RSA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/cover/2.jpg">
+  
+  
+  <title>crypto1 - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="crypto1">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-11-15 23:19" pubdate>
+        2021年11月15日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.4k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      45 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">crypto1</h1>
+            
+            <div class="markdown-body">
+              <p>记一道HECTF RSA的题目，混淆了我好久。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></div></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-keyword">import</span> math<br><span class="hljs-keyword">from</span> flag <span class="hljs-keyword">import</span> flag,e1,e2<br><span class="hljs-keyword">assert</span> flag[:<span class="hljs-number">6</span>]==<span class="hljs-string">b&#x27;HECTF&#123;&#x27;</span><br>m=bytes_to_long(flag)<br><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>    p1=getPrime(<span class="hljs-number">512</span>)<br>    q1=gmpy2.next_prime(p1)<br>    <span class="hljs-keyword">if</span> p1%<span class="hljs-number">4</span>==<span class="hljs-number">3</span> <span class="hljs-keyword">and</span> q1%<span class="hljs-number">4</span>==<span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">break</span><br>n1=p1*q1<br>c1=<span class="hljs-built_in">pow</span>(m,e1,n1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;c1=&#x27;</span>,c1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;n1=&#x27;</span>,n1)<br>p2=getPrime(<span class="hljs-number">512</span>)<br>q2=getPrime(<span class="hljs-number">512</span>)<br>n2=p2*q2<br>m2=e1*getPrime(<span class="hljs-number">340</span>)<br>c2=<span class="hljs-built_in">pow</span>(m2,e2,n2)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;c2=&#x27;</span>,c2)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;n2=&#x27;</span>,n2)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;e2=&#x27;</span>,e2)<br><br><span class="hljs-comment">#c1= 47916081717706538925639104682570684180170502544820197539239827441426724468768104306254078605230687136184497929</span><br><span class="hljs-comment">#n1= 164133678169710886720989064489094710242148933867688762980230890673424334054283751851389412792855634009922402873730095480540590589967587744481839586009206921690415208556737311431588106941893527836076971942678255228990259381439694065742253470463684082142779114879828632048097049587164541575068678559785497341341</span><br><span class="hljs-comment">#c2= 63878844405215916614306503133484342687866237414982537489487243642156715327887644418701791728466044672606833177790745723348407141495434918350324367721472060206442057535810542180796122799773614557047720846326110736372382283280049448530028736552356917154044523343646598823659486063811304671208433254991406080968</span><br><span class="hljs-comment">#n2= 81943314005002234143294576769951701354140501422348161833411886396153974002840590020014331444356263770668675416273077939014396178809052011274358602695903955726427501943378842406211922876951617483948075311923120200295968581991729752554553727773176109055672586268192629406914315361730879469185143748796847985621</span><br><span class="hljs-comment">#e2= 3</span><br></code></pre></td></tr></table></figure>
+
+<p>这里可以直接用yufa求出n1的p1和q1。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">p1 = 12811466667392570112903020723113200908135795522924343912673155238307646898630978112977114315459571857717363854146878156826948894915692623941799726230600543<br>q1 = 12811466667392570112903020723113200908135795522924343912673155238307646898630978112977114315459571857717363854146878156826948894915692623941799726230598787<br></code></pre></td></tr></table></figure>
+
+<p>本以为要爆破e1求出一部分明文，可没发现这是Rabin加密，Rabin加密是RSA的衍生算法，e==2是Rabin加密典型特征,这里可以推理出e1=2。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>    p1=getPrime(<span class="hljs-number">512</span>)<br>    q1=gmpy2.next_prime(p1)<br>    <span class="hljs-keyword">if</span> p1%<span class="hljs-number">4</span>==<span class="hljs-number">3</span> <span class="hljs-keyword">and</span> q1%<span class="hljs-number">4</span>==<span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+
+<p>看一下Rabin加密过程。</p>
+<img src="/2021/11/15/crypto1/image-20211115233501411.png" srcset="/img/loading.gif" lazyload class="" title="image-20211115233501411">
+
+<p>一般先通过其他方法分解得到p，q，然后解密。</p>
+<p>直接上脚本。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> gmpy2 <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> libnum<br>n = <span class="hljs-number">164133678169710886720989064489094710242148933867688762980230890673424334054283751851389412792855634009922402873730095480540590589967587744481839586009206921690415208556737311431588106941893527836076971942678255228990259381439694065742253470463684082142779114879828632048097049587164541575068678559785497341341</span><br>e = <span class="hljs-number">2</span><br>c = <span class="hljs-number">47916081717706538925639104682570684180170502544820197539239827441426724468768104306254078605230687136184497929</span><br>q=<span class="hljs-number">12811466667392570112903020723113200908135795522924343912673155238307646898630978112977114315459571857717363854146878156826948894915692623941799726230600543</span><br>p=<span class="hljs-number">12811466667392570112903020723113200908135795522924343912673155238307646898630978112977114315459571857717363854146878156826948894915692623941799726230598787</span><br><br>inv_p = invert(p, q)<br>inv_q = invert(q, p)<br>mp = <span class="hljs-built_in">pow</span>(c, (p + <span class="hljs-number">1</span>) // <span class="hljs-number">4</span>, p)<br>mq = <span class="hljs-built_in">pow</span>(c, (q + <span class="hljs-number">1</span>) // <span class="hljs-number">4</span>, q)<br>a = (inv_p * p * mq + inv_q * q * mp) % n<br>b = n - <span class="hljs-built_in">int</span>(a)<br>c = (inv_p * p * mq - inv_q * q * mp) % n<br>d = n - <span class="hljs-built_in">int</span>(c)<br><span class="hljs-comment">#因为rabin 加密有四种结果，全部列出。</span><br>aa=[a,b,c,d]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> aa:<br>    <span class="hljs-built_in">print</span>(i)<br>    <span class="hljs-built_in">print</span>(libnum.n2s(<span class="hljs-built_in">int</span>(i)))<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">164133678169710886720989064489094710242148933867688762980230890673424334054283751851389412792855634009922402873730095480540590589967587744481839586009206921690415208556737311431588106941893527836076971942678255228990259381439694065742253470463684082142772192735528077014238153360304748328089408080112449883168</span><br><span class="hljs-string">b&quot;\xe9\xbb\xef\nj\xb4\xf0\xe9\xf7W_\x18\x7f\xb2\r\xd3G\xac\tw\xa8\x85\xa5\xf7\x91\x1c\x8b\xd4k\xde\x85\xe2\xf2\xc4\x0b\xe7\xc5\xb9N\x98\xb6\t\x8c2_\xb1\xe5\xb0\xdd#\xa8o#\x18&#x27;\xbc\x03\xf5V\x12G\xec\xf4&gt;\x9b`^\xb3C\nl\x0et.\xa2\xbd\x02\xf8b\x9b\xe2\x91\xb6\xda\x85\xa8\xcc\xa68\xea\x92W2w\xd7\x8b\xd2TG\xe81\xac\x1d\x9fD\xa4MZ\xa4\xb1\xf4C\xe2\x94\x81\x86\xb7\x8eI\xea\xf1p-\x97\x99&gt;\x0c &quot;</span><br><span class="hljs-number">6922144300555033858896226859793246979270479673047458173</span><br><span class="hljs-string">b&#x27;HECTF&#123;Ra6in_1s_g0od!!!&#125;&#x27;</span><br><span class="hljs-number">151234790021977343231526370354985900439519917424783837415725273980410348804004049257145825682710942954573925678611719267208705091305263740825485945735814116354276508999823334615039797016241940670202777442443875548448946315518120283668504491803612714327792225148164646682934408234881905123107732661481149367263</span><br><span class="hljs-string">b&quot;\xd7]\x90\xbc\xea1\x82mr&#123;]\xbe\xcfv\xde\x16[g\xfe:\x102\xd5\xdc\xd2d\x12\x0b)\xa9,\x0e\xa2u\x13\xb7\x86\xa8\xb4\x02\x81&gt;\x86q\x96O/\xbf&#x27;M\x89\x07\x9aO8\x87m\xb6\xa9\x08\xdfh\xeb\x9fx\r\xbd\xef\x96 \xbb\xd7\x11\xe3\x0b1VD\x8e\xf71\xa1\xf0\xbbL\x91SU\x18\xad\xb0\xb8\xb2\xc5W\x88Y\x05\xdb\x96\xac\xe4\xf3\x99\xd7A\xe7\x8f`:t-?R\x8a\x01\x9ak4\x08&#x27;\x02\xbd\xfc;1\x03\xdf&quot;</span><br><span class="hljs-number">12898888147733543489462694134108809802629016442904925564505616693013985250279702594243587110144691055348477195118376213331885498662324003656353640273392805336138699556913976816548309925651587165874194500234379680541313065921573782073748978660071367814986889731663985365162641352282636451960945898304347974078</span><br><span class="hljs-string">b&#x27;\x12^^M\x80\x83n|\x84\xdc\x01Y\xb0;/\xbc\xecD\x0b=\x98R\xd0\x1a\xbe\xb8y\xc9B5Y\xd4PN\xf80?\x10\x9a\x964\xcb\x05\xc0\xc9b\xb5\xf1\xb5\xd6\x1fg\x88\xc8\xef4\x96&gt;\xad\th\x84\x08\x9f#R\xa0\xc3\xac\xe9\xb07bK\x97\x8b\xac\xb3\xd3\xa4\xb0\xef\xc6\x1f9\x17yQ &lt;\xe1\x9e\x7f\xb2\x80\x03yNlQ\x84\xc7*\x05m\xaa\xab\x0e\x98\xbd\xfbi\x04x`\xf3|T\x89B1\x9d\xde\xff\x7f.)\xbe&#x27;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>可解出flag为：HECTF{Ra6in_1s_g0od!!!}。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/">CTF</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/crypto/">crypto</a>
+                    
+                      <a class="hover-with-bg" href="/tags/RSA/">RSA</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/11/29/mysql-homework/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mysql数据库实训</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/06/wsl2/">
+                        <span class="hidden-mobile">win10搭建kali子系统(WSL2)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

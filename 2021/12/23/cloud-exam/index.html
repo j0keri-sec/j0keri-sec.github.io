@@ -1,0 +1,618 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言快期末了，不能摸鱼了，还是做点实操吧。 题目  0x01 yum仓库配置1.挂载本地镜像作为yum源懒了，这里直接贴命令。 123456789101112131415161718#使用root用户su root#将镜像挂载至&#x2F;opt&#x2F;centosmkdir -p &#x2F;opt&#x2F;centos &amp;&amp; mount &#x2F;dev&#x2F;cdrom &#x2F;opt&#x2F;centos#设置永久挂载(可选项)cat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cloud_exam">
+<meta property="og:url" content="http://example.com/2021/12/23/cloud-exam/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="前言快期末了，不能摸鱼了，还是做点实操吧。 题目  0x01 yum仓库配置1.挂载本地镜像作为yum源懒了，这里直接贴命令。 123456789101112131415161718#使用root用户su root#将镜像挂载至&#x2F;opt&#x2F;centosmkdir -p &#x2F;opt&#x2F;centos &amp;&amp; mount &#x2F;dev&#x2F;cdrom &#x2F;opt&#x2F;centos#设置永久挂载(可选项)cat">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223151158095.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223162142874.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223162607886.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223162739295.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223163042252.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223163112787.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223163127457.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223163925423.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223164253789.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223164513232.png">
+<meta property="og:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223164538279.png">
+<meta property="article:published_time" content="2021-12-23T07:00:45.000Z">
+<meta property="article:modified_time" content="2022-01-14T10:00:10.215Z">
+<meta property="article:author" content="j0ker">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2021/12/23/cloud-exam/image-20211223151158095.png">
+  
+  
+  <title>cloud_exam - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="cloud_exam">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-23 15:00" pubdate>
+        2021年12月23日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      23 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">cloud_exam</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>快期末了，不能摸鱼了，还是做点实操吧。</p>
+<h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><img src="/2021/12/23/cloud-exam/image-20211223151158095.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="0x01-yum仓库配置"><a href="#0x01-yum仓库配置" class="headerlink" title="0x01 yum仓库配置"></a>0x01 yum仓库配置</h3><h4 id="1-挂载本地镜像作为yum源"><a href="#1-挂载本地镜像作为yum源" class="headerlink" title="1.挂载本地镜像作为yum源"></a>1.挂载本地镜像作为yum源</h4><p>懒了，这里直接贴命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">使用root用户</span><br>su root<br><span class="hljs-meta">#</span><span class="bash">将镜像挂载至/opt/centos</span><br>mkdir -p /opt/centos &amp;&amp; mount /dev/cdrom /opt/centos<br><span class="hljs-meta">#</span><span class="bash">设置永久挂载(可选项)</span><br>cat &gt;&gt;/etc/fstab&lt;&lt;EOF<br>/dev/cdrom /opt/centos /opt/centos iso9660 defaults 0 0<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">进入yum源目录</span><br>cd /etc/yum.repos.d/<br><span class="hljs-meta">#</span><span class="bash">编辑local.repo文件</span><br>cat &gt;local.repo<br><br>[local]<br>name=local<br>baseurl=file:///opt/centos<br>enabled=1<br>gpgcheck=0<br></code></pre></td></tr></table></figure>
+
+<p>设置好了本地yum源后，可能会出现获取不到本地yum源，这里的话们可以清除yum缓存等操作进行解决。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">清除yum缓存</span><br>yum clean all <br><span class="hljs-meta">#</span><span class="bash">把Yum源缓存到本地，加快软件的搜索好安装速度</span><br>yum makecache <br><span class="hljs-meta">#</span><span class="bash">列出了yum包</span><br>yum list <br></code></pre></td></tr></table></figure>
+
+<h4 id="2-配置ftp源"><a href="#2-配置ftp源" class="headerlink" title="2.配置ftp源"></a>2.配置ftp源</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">ftp.repo</span><br>[iaas]<br>name=iaas<br>baseurl=ftp://192.168.100.200/iaas<br>gpgcheck=0<br>enabled=1<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-配置网络源"><a href="#3-配置网络源" class="headerlink" title="3.配置网络源"></a>3.配置网络源</h4><p>虽然题目给点源有问题，但也得做作业!</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">替换默认的源</span><br>sudo sed -e &#x27;s|^mirrorlist=|#mirrorlist=|g&#x27; \<br>         -e &#x27;s|^#baseurl=http://mirror.centos.org/centos|baseurl=https://mirrors.aliyun.com/repo/|g&#x27; \<br>         -i.bak \<br>         /etc/yum.repos.d/CentOS-Base.repo<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">local.repo</span><br>[local]<br>name=CentOS-$releasever - Base - mirrors.aliyun.com<br>failovermethod=priority<br>baseurl=https://mirrors.aliyun.com/repo/<br>gpgcheck=1<br>gpgkey=0<br></code></pre></td></tr></table></figure>
+
+<p>再清除yum缓存</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">清除yum缓存</span><br>yum clean all <br><span class="hljs-meta">#</span><span class="bash">把Yum源缓存到本地，加快软件的搜索好安装速度</span><br>yum makecache <br><span class="hljs-meta">#</span><span class="bash">列出了yum包</span><br>yum list <br></code></pre></td></tr></table></figure>
+
+<h3 id="0x02-使用LNMP架构部署商城网站"><a href="#0x02-使用LNMP架构部署商城网站" class="headerlink" title="0x02 使用LNMP架构部署商城网站"></a>0x02 使用LNMP架构部署商城网站</h3><p>这里和老师做的有些不同，当时为了方便（瞎折腾），便自己开始用docker搭建商城网站，当时想法挺不错的，但实施的过程中出现了很多问题，例如docker权限问题，hosts文件问题等等。这里便记录一下。</p>
+<h4 id="1-使用docker-创建好centos7环境"><a href="#1-使用docker-创建好centos7环境" class="headerlink" title="1. 使用docker 创建好centos7环境"></a>1. 使用docker 创建好centos7环境</h4><p>(1)在远程仓库上拉取centos7镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull centos:7.2.1511<br></code></pre></td></tr></table></figure>
+
+<p>(2)创建容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">docker --privileged=<span class="hljs-literal">true</span> 使用该参数，container内的root拥有真正的root权限。否则，container内的root只是外部的一个普通用户权限。</span><br>docker run -it -v C:\Users\23719\centos7:/root --privileged=true -p8999:80 --name centos7 centos:7.2.1511 /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p>创建好了容器之后,直接按照老师的文档做就行了。</p>
+<p>如图所示：</p>
+<img src="/2021/12/23/cloud-exam/image-20211223162142874.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>之前做了一个问题排除的文档，这里给大家发一下。</p>
+<h4 id="2-问题排除"><a href="#2-问题排除" class="headerlink" title="2.问题排除"></a>2.问题排除</h4><p>1.用以下命令先关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">以下的命令一行一行的输</span><br>iptables -F;iptables -X;iptables -Z;iptables-save<br>setenforce 0<br>systemctl stop firewalld<br></code></pre></td></tr></table></figure>
+
+<p>2.修改主机名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">hostnamectl set-hostname mall<br></code></pre></td></tr></table></figure>
+
+<p>用以下命令查看主机名</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">hostname<br></code></pre></td></tr></table></figure>
+
+<img src="/2021/12/23/cloud-exam/image-20211223162607886.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>若出现mall则代表修改成功</p>
+<p>3.开启 zookeeper和 kafka服务</p>
+<p>进入到 zookeeper-3.4.14/bin 目录下，启动 ZooKeeper 服务，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./zkServer.sh start<br></code></pre></td></tr></table></figure>
+
+<p>进入到 kafka_2.11-1.1.1/bin 目录下，启动 Kafka 服务，命令如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">./kafka-server-start.sh -daemon ../config/server.properties<br></code></pre></td></tr></table></figure>
+
+<p>利用jps命令查看有没有开启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">jps<br></code></pre></td></tr></table></figure>
+
+<img src="/2021/12/23/cloud-exam/image-20211223162739295.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>若出现Kafka和QuorumPeerMain字样则证明开启成功。</p>
+<p>4.修改hosts文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">vi /etc/hosts<br></code></pre></td></tr></table></figure>
+
+<p>输入以下内容,要注意的是，这里的ip是本机地址的ip</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">172.17.0.2 kafka.mall<br>172.17.0.2 mysql.mall<br>172.17.0.2 redis.mall<br>172.17.0.2 zookeeper.mall<br></code></pre></td></tr></table></figure>
+
+<p>5.启动数据库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start mariadb<br></code></pre></td></tr></table></figure>
+
+<p>6.启动redis</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start redis<br></code></pre></td></tr></table></figure>
+
+<p>7.启动 Elasticsearch</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl start elasticsearch<br></code></pre></td></tr></table></figure>
+
+<p>8.启动java软件包</p>
+<p>进入gpmall-source文件夹下，运行以下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">nohup java -jar user-provider-0.0.1-SNAPSHOT.jar &amp;<br>nohup java -jar shopping-provider-0.0.1-SNAPSHOT.jar &amp;<br>nohup java -jar gpmall-user-0.0.1-SNAPSHOT.jar &amp;<br>nohup java -jar gpmall-shopping-0.0.1-SNAPSHOT.jar &amp;<br></code></pre></td></tr></table></figure>
+
+<p>9.重启nginx，并等待几分钟再打开浏览器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl restart nginx<br></code></pre></td></tr></table></figure>
+
+<p>8.查看一下是否有8082端口开放</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">netstat -nptl<br></code></pre></td></tr></table></figure>
+
+<img src="/2021/12/23/cloud-exam/image-20211223163042252.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>可以发现，并没有8082端口开放</p>
+<p>继续重复8和9的步骤，就可以了。</p>
+<img src="/2021/12/23/cloud-exam/image-20211223163112787.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>最终效果</p>
+<img src="/2021/12/23/cloud-exam/image-20211223163127457.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="0x03-docker-swarm集群配置"><a href="#0x03-docker-swarm集群配置" class="headerlink" title="0x03 docker swarm集群配置"></a>0x03 docker swarm集群配置</h3><p>按照老师给的文档做即可，建议两台虚拟机内存都在2G以上，如果配置过程中无法连接到WEB页面，可能是防火墙没有关。</p>
+<p>这里只给出配置过程中相关的截图。</p>
+<img src="/2021/12/23/cloud-exam/image-20211223163925423.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>parainer登录界面</p>
+<img src="/2021/12/23/cloud-exam/image-20211223164253789.png" srcset="/img/loading.gif" lazyload class="">
+
+<p> 完成时的截图 </p>
+<p>master节点:</p>
+<img src="/2021/12/23/cloud-exam/image-20211223164513232.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>node节点:</p>
+<img src="/2021/12/23/cloud-exam/image-20211223164538279.png" srcset="/img/loading.gif" lazyload class="">
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Linux/">Linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/29/mysql-exam/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">mysql-exam</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/16/summary1/">
+                        <span class="hidden-mobile">summary1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

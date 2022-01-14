@@ -1,0 +1,675 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1、在数据库game下建表，注意满足如下要求：（20分）1）定义各个表的主外健约束。2）运动员的姓名和所属系别不能为空值。3）积分要么为空值，要么为6，4，2，0。分别代表第一、二、三名和其他名次的积分 答： 先创建数据库game 命令如下： 1create database game;  截图如下：   使用数据库game 命令如下： 1use game;  截图如下：   接下来开始创建一下的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql-exam">
+<meta property="og:url" content="http://example.com/2021/12/29/mysql-exam/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="1、在数据库game下建表，注意满足如下要求：（20分）1）定义各个表的主外健约束。2）运动员的姓名和所属系别不能为空值。3）积分要么为空值，要么为6，4，2，0。分别代表第一、二、三名和其他名次的积分 答： 先创建数据库game 命令如下： 1create database game;  截图如下：   使用数据库game 命令如下： 1use game;  截图如下：   接下来开始创建一下的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/8.jpg">
+<meta property="article:published_time" content="2021-12-29T06:45:54.000Z">
+<meta property="article:modified_time" content="2022-01-14T09:54:35.155Z">
+<meta property="article:author" content="j0ker">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/cover/8.jpg">
+  
+  
+  <title>mysql-exam - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="mysql-exam">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-29 14:45" pubdate>
+        2021年12月29日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.8k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      41 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">mysql-exam</h1>
+            
+            <div class="markdown-body">
+              <h3 id="1、在数据库game下建表，注意满足如下要求：（20分）"><a href="#1、在数据库game下建表，注意满足如下要求：（20分）" class="headerlink" title="1、在数据库game下建表，注意满足如下要求：（20分）"></a>1、在数据库game下建表，注意满足如下要求：（20分）</h3><p>1）定义各个表的主外健约束。<br>2）运动员的姓名和所属系别不能为空值。<br>3）积分要么为空值，要么为6，4，2，0。分别代表第一、二、三名和其他名次的积分</p>
+<p>答：</p>
+<p>先创建数据库game</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs mysql">create database game;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229144336734.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229144336734">
+
+<p>使用数据库game</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">use game;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229144429855.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229144429855">
+
+<p>接下来开始创建一下的几张表：信息表gameinfo、运动员表sporter、项目表item和成绩表grade。</p>
+<p>创建运动会信息表gameinfo</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create table gameinfo(<br>Gameid int primary key,<br>Gamename varchar(30) not null,<br>School varchar(20),<br>Gamedate date,<br>Count int check(count&gt;0),<br>charge decimal(7,2) check(charge&gt;0)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229150108562.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229150108562">
+
+<p>创建运动员表sporter</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create table sporter(<br>sporterid int primary key ,<br>name varchar(10) not null ,<br>sex varchar(2) ,<br>department varchar(15) not null<br>);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229150950167.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229150950167">
+
+<p>创建项目表item</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create table item(<br>itemid int primary key,<br>itemname varchar(20),<br>location varchar(20)<br>);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229151305171.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229151305171">
+
+<p>创建成绩表grade</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create table gradel(<br>id int,<br>Itemid int,<br>Mark int,<br>constraint fk_itemid<br>foreign key( itemid) references item( itemid),<br>constraint mark_ck check ( mark in( 6,4,2,0))<br>);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229151722746.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229151722746">
+
+<h3 id="2、-向数据库game的表中插入如下数据：（15）"><a href="#2、-向数据库game的表中插入如下数据：（15）" class="headerlink" title="2、 向数据库game的表中插入如下数据：（15）"></a>2、 向数据库game的表中插入如下数据：（15）</h3><p>运动会信息表gameinfo</p>
+<p>(101,秋季运动会，工业大学，‘2008-8-8’，1000，12300.50)</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mysql">insert into gameinfo (Gameid,Gamename,School,Gamedate,Count,charge)<br>VALUES<br>(101,&#x27;秋季运动会&#x27;,&#x27;工业大学&#x27;,&#x27;2008-08-08&#x27;,1000,12300.50);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229153710793.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229153710793">
+
+<p>运动员表sporter(</p>
+<p>1001,李明，男，计算机系</p>
+<p>1002,张三，男，数学系</p>
+<p>1003,李四，男，计算机系</p>
+<p>1004,王二，男，物理系</p>
+<p>1005,李娜，女，心理系</p>
+<p>1006,孙丽，女，数学系）</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs mysql">insert into sporter(sporterid,name,sex,department)<br>values<br>(1001,&#x27;李明&#x27;,&#x27;男&#x27;,&#x27;计算机&#x27;);<br>insert into sporter(sporterid,name,sex,department)<br>values <br> (1002,&#x27;张三&#x27;,&#x27;男&#x27;,&#x27;数学系&#x27;);<br>insert into sporter(sporterid,name,sex,department)<br> values <br> (1003,&#x27;李四&#x27;,&#x27;男&#x27;,&#x27;计算机&#x27;);<br>insert into sporter(sporterid,name,sex,department)<br> values <br> (1004,&#x27;王二&#x27;,&#x27;男&#x27;,&#x27;计算机&#x27;);<br> insert into sporter(sporterid,name,sex,department)<br> values <br> (1005,&#x27;李娜&#x27;,&#x27;男&#x27;,&#x27;计算机&#x27;);<br>insert into sporter(sporterid,name,sex,department)<br>values <br>(1006,&#x27;孙丽&#x27;,&#x27;男&#x27;,&#x27;计算机&#x27;);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229155243605.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229155243605">
+
+<img src="/2021/12/29/mysql-exam/image-20211229161035062.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229161035062">
+
+<p>项目表item(</p>
+<p>001,男子五千米，一操场</p>
+<p>002,男子标枪，一操场</p>
+<p>003,男子跳远，二操场</p>
+<p>004,女子跳高，二操场</p>
+<p>005,女子三千米，三操场）</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs mysql">insert into item(itemid,itemname,location)<br>values<br>(&#x27;001&#x27;,&#x27;男子五千米&#x27;,&#x27;一操场&#x27;);<br>insert into item(itemid,itemname,location)<br>values<br>(&#x27;002&#x27;,&#x27;男子标枪&#x27;,&#x27;一操场&#x27;);<br>insert into item(itemid,itemname,location)<br>values<br>(&#x27;003&#x27;,&#x27;男子跳远&#x27;,&#x27;一操场&#x27;);<br>insert into item(itemid,itemname,location)<br>values<br>(&#x27;004&#x27;,&#x27;女子跳高&#x27;,&#x27;二操场&#x27;);<br>insert into item(itemid,itemname,location)<br>values<br>(&#x27;005&#x27;,&#x27;女子三千米&#x27;,&#x27;三操场&#x27;);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229160001399.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229160001399">
+
+<img src="/2021/12/29/mysql-exam/image-20211229161013493.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229161013493">
+
+<p>成绩表（</p>
+<p>1001，001,6</p>
+<p>1002，001,4</p>
+<p>1003，001,2</p>
+<p>1004，001,0</p>
+<p>1001，003,4</p>
+<p>1002，003,6</p>
+<p>1004，003,2</p>
+<p>1005，004,6</p>
+<p>1006，004,4)</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs mysql">insert into grade(id,Itemid,Mark)<br>values (1001,&#x27;001&#x27;,6);<br>insert into grade(id,Itemid,Mark)<br>values (1002,&#x27;001&#x27;,4);<br>insert into grade(id,Itemid,Mark)<br>values (1003,&#x27;001&#x27;,2);<br>insert into grade(id,Itemid,Mark)<br>values (1004,&#x27;001&#x27;,0);<br>insert into grade(id,Itemid,Mark)<br>values (1001,&#x27;003&#x27;,4);<br>insert into grade(id,Itemid,Mark)<br>values (1002,&#x27;003&#x27;,6);<br>insert into grade(id,Itemid,Mark)<br>values (1004,&#x27;003&#x27;,2);<br>insert into grade(id,Itemid,Mark)<br>values (1005,&#x27;004&#x27;,6);<br>insert into grade(id,Itemid,Mark)<br>values (1006,&#x27;004&#x27;,4);<br><br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229160906699.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229160906699">
+
+<img src="/2021/12/29/mysql-exam/image-20211229160949929.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229160949929">
+
+<h3 id="3、-完成如下查询操作。（60分）"><a href="#3、-完成如下查询操作。（60分）" class="headerlink" title="3、 完成如下查询操作。（60分）"></a>3、 完成如下查询操作。（60分）</h3><p>（1） 查询运动会信息表以文字形式显示运动会的信息，例如：工业大学秋季运动会在2008</p>
+<p>年8月8日举行，参加人数1000人，赛会预计费用12300.50元。（concat）</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">不会<br></code></pre></td></tr></table></figure>
+
+<p>（2） 由于客观原因，参赛人数减少20%，费用缩减为原来的90%，请更改运动会信息表。</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">update gameinfo set count=count*(1-0.2),charge=charge*0.9;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229162043519.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229162043519">
+
+<p>（3） 1006号运动员的信息更改为孙梦，外语系。</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">update sporter set name=&#x27;孙梦&#x27;,department=&#x27;外语系&#x27; where sporterid=1006;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229162322725.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229162322725">
+
+<p>验证一下是否更改成功，发现更改成功。</p>
+<img src="/2021/12/29/mysql-exam/image-20211229162445708.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229162445708">
+
+<p>（4） 计算参加运动会的男女运动员共多少人。</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select sex, count(*) from sporter group by sex;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229162654572.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229162654572">
+
+<p>（5） 查出姓李的运动员，显示他们的姓名和所在的系别。</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select name,department from sporter where name like &#x27;李%&#x27;;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229162837775.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229162837775">
+
+<p>（6） 求出目前总积分最高的系别及其积分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select s.department, sum(g.mark) from sporter s, grade g where s.sporterid=g.id group by s.department;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229163115412.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229163115412">
+
+<p>（7） 找出在一操场进行比赛的各项目名称及其冠军的姓名</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select s.name,i.itemname from sporter s,item i, grade g where i.itemid=g.itemid and g.id=s.sporterid and g.mark=6 and i.location=&#x27;一操场&#x27;;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229163345652.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229163345652">
+
+<p>（8） 找出参加了张三所参加的所有项目的其他同学的姓名。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select s.name，s.sex,s.department ,i.itemname from sporter s， item i ,grade where i.itemid=g.itemid and g.id=s.sporterid and itemname =(select i.itemname fromsporter s, item i，gradel g where i.itemid=g.itemid and g.id=s. sporterid and s. name=&#x27;张三&#x27;);<br></code></pre></td></tr></table></figure>
+
+<p>（9） 经查张三因为使用了违禁药品，其成绩都记0分，请在数据库中作出相应修改。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">update grade set mark=0 where id=(select sporterid from sporter where name=&#x27;张三&#x27;);<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229163804465.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229163804465">
+
+<p>（10） 经组委会协商，需要删除女子跳高比赛项目。</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">delete from grade where itemid=(select itemid from item where itemname=&#x27;女子跳高&#x27;);delete from item where itemname=’女子跳高’;delete from grade where itemid=(select itemid from item where itemname=&#x27;女子跳高&#x27;);delete from item where itemname=’女子跳高’;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229164253835.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229164253835">
+
+<p>（11） 在game数据库中创建一个名为v_jf的视图，该视图显示成绩表grade中积分大于等于</p>
+<p>4的运动员编号、项目编号、积分信息。</p>
+<p>命令如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create view v_jf <br>as<br>select sporter.sporterid,sporter.name,grade.Mark from grade, sporter where sporter.sporterid=grade.id and grade.Mark &gt;=6;<br>desc v_jf;<br>select * from v_jf;<br></code></pre></td></tr></table></figure>
+
+<p>截图如下：</p>
+<img src="/2021/12/29/mysql-exam/image-20211229170014923.png" srcset="/img/loading.gif" lazyload class="" title="image-20211229170014923">
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/03/cloud-computing/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">cloud-computing</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/23/cloud-exam/">
+                        <span class="hidden-mobile">cloud_exam</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

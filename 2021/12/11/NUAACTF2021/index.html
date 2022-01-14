@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言MISCbaby_mix   用010查看压缩包，发现是假加密，binwalk 分离压缩包，得出图片。   再用StegSolve查看是否有隐写，发现里面有张二维码。   扫描二维码得出一串16进制的字符，再16进制转字符串-&gt;BASE32-&gt;BASE58-&gt;BASE64，最终得出flag。 1234567894a5a4a584732544748424658515654514">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NUAACTF2021">
+<meta property="og:url" content="http://example.com/2021/12/11/NUAACTF2021/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="前言MISCbaby_mix   用010查看压缩包，发现是假加密，binwalk 分离压缩包，得出图片。   再用StegSolve查看是否有隐写，发现里面有张二维码。   扫描二维码得出一串16进制的字符，再16进制转字符串-&gt;BASE32-&gt;BASE58-&gt;BASE64，最终得出flag。 1234567894a5a4a584732544748424658515654514">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/10.jpg">
+<meta property="article:published_time" content="2021-12-11T08:51:12.000Z">
+<meta property="article:modified_time" content="2022-01-14T09:54:52.886Z">
+<meta property="article:author" content="j0ker">
+<meta property="article:tag" content="CTF">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/cover/10.jpg">
+  
+  
+  <title>NUAACTF2021 - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="NUAACTF2021">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-11 16:51" pubdate>
+        2021年12月11日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      48 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">NUAACTF2021</h1>
+            
+            <div class="markdown-body">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a><strong>MISC</strong></h3><p><strong>baby_mix</strong></p>
+<img src="/2021/12/11/NUAACTF2021/image-20211211183343578.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>用010查看压缩包，发现是假加密，binwalk 分离压缩包，得出图片。</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212125319781.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>再用StegSolve查看是否有隐写，发现里面有张二维码。</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212130319382.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>扫描二维码得出一串16进制的字符，再16进制转字符串-&gt;BASE32-&gt;BASE58-&gt;BASE64，最终得出flag。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><pre><code class="hljs tex">4a5a4a584732544748424658515654514f4634575135435447564a4749564a5347463455595754564f464c444f5752594f56465751334b55474a345841324b494b4a3546495533594b524a4449524b454b35435753334c324f4a41564153534f48424756515243574d355a464d3543474a593d3d3d3d3d3d<br><span class="hljs-params">#1</span>6-&gt;str<br>JZJXG2TGHBFXQVTQOF4WQ5CTGVJGIVJSGF4UYWTVOFLDOWRYOVFWQ3KUGJ4XA2KIKJ5FIU3YKRJDIRKEK5CWS3L2OJAVASSOHBGVQRCWM5ZFM5CGJY======<br><span class="hljs-params">#</span>BASE32解码<br>NSsjf8KxVpqyhtS5RdU21yLZuqV7Z8uKhmT2ypiHRzTSxTR4EDWEimzrAPJN8MXDVgrVtFN<br><span class="hljs-params">#</span>BASE58解码<br>YXN1cml7aV90aGlua190aGF0X2lzX3NvX2Vhc3lfZm9yX3lvdX0=<br><span class="hljs-params">#</span>BASE64解码<br>asuri&#123;i<span class="hljs-built_in">_</span>think<span class="hljs-built_in">_</span>that<span class="hljs-built_in">_</span>is<span class="hljs-built_in">_</span>so<span class="hljs-built_in">_</span>easy<span class="hljs-built_in">_</span>for<span class="hljs-built_in">_</span>you&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>我们生活在南京（一）——穿越时空的电波</strong></p>
+<img src="/2021/12/11/NUAACTF2021/image-20211211183404606.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>猜测音频隐写，用Audacity打开音频，再进行反向，综合题意，到网上搜索无线电通信中英语字母读法对照表，进行比对，得出flag：flag{RADIOWAVESACROSSTIME}</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212132706058.png" srcset="/img/loading.gif" lazyload class="">
+
+<p><strong>我们生活在南京（一）——等幅电报</strong></p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212152412424.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>更多操作根据提示，发现程序中被插入了高频正弦波，可以算出来频率是 1000Hz，添加一个相位相反的新正弦波抵消即可。解出flag为：</p>
+<p><strong>medium</strong></p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212140901221.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>用Audacity打开音频文件，查看频谱图，得出AES的key:MudaMudaMudaMuda</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211213130705558.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>用010打开图片，发现数据的末尾有串奇怪的编码，利用basecrack进行解密,发现是base64加密。</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212145726230.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>提取字符串，去除空格，再16-&gt;str，解出一串表情包。</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212145910699.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>再利用AES表情包解密，得出flag：flag{AES_1s_Gr3atS0_y0u_L1ke_1t_V3ry_Much}</p>
+<h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><p>checkin</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211211165705121.png" srcset="/img/loading.gif" lazyload class="" title="image-20211211165705121">
+
+<p><strong>仿射密码</strong>是一种替换密码。它是一个字母对一个字母的。</p>
+<p><strong>加密函数</strong></p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tex">e(x)=ax+b(mod m)<br></code></pre></td></tr></table></figure>
+
+<p>其中 a 和 <em>m</em> 互质，<em>m</em> 是字母的数目。</p>
+<p><strong>解密函数</strong></p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs erlang"><span class="hljs-function"><span class="hljs-title">d</span><span class="hljs-params">(x)</span>=<span class="hljs-title">a</span>^<span class="hljs-params">(−<span class="hljs-number">1</span>)</span>*<span class="hljs-params">(x−b)</span><span class="hljs-params">(mod m)</span></span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">affline_decode</span>(<span class="hljs-params">cipher_text, a, b, m</span>):</span><br>	plain_text = <span class="hljs-string">&#x27;&#x27;</span><br>	<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> cipher_text:<br>		<span class="hljs-keyword">if</span> i <span class="hljs-keyword">in</span> <span class="hljs-string">&#x27;abcdefghijklmnopqrstuvwxyz&#x27;</span>:<br>			plain_text += <span class="hljs-built_in">chr</span>(((<span class="hljs-built_in">ord</span>(i)-<span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;a&#x27;</span>))-b)*gmpy2.invert(a,m) % m + <span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;a&#x27;</span>))<br>		<span class="hljs-keyword">else</span>:<br>			plain_text += i<br>	<span class="hljs-built_in">print</span>(plain_text)<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    cipher_text=<span class="hljs-string">&#x27;oclz&#123;loovyd_vb_l_bvnucd_hqpumj&#125;&#x27;</span><br>    a=<span class="hljs-number">11</span><br>    b=<span class="hljs-number">11</span><br>    m=<span class="hljs-number">26</span><br>    affline_decode(cipher_text, a, b, m)<br></code></pre></td></tr></table></figure>
+
+<p>解出flag为：flag{affine_is_a_simple_crypto}</p>
+<p><strong>easyRSA</strong></p>
+<img src="/2021/12/11/NUAACTF2021/image-20211211183252104.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>利用python提取出文件中的c1和c2，再利用共模攻击，解出flag：flag{cry_is_so_hard_but_this_is_so_easy}</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> gmpy2 <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>c1=<span class="hljs-number">409050138400231971554294088177137255457866075540394361465618420085942037334914972271553348781734546381272987423855027216175678797436131073306888763180501523905135583905144901381224572922542735812959826069495112995911282269377230245515683164143316763758642080370867274365360647518283349684822272605576874844625387807047876206532634507258565110299247417968586498427727688356287596783690957837504438650897148190345700044861267114786057049491164836631033845216983588558199652913012590435836646957168387808248342739079479547784004511726635639407815336376908051269831834833967007931321906512831272657668494512124731674031937509111585885992978363095964860952405173714000880231608814695517820595229454266690556749667796735461828114590568954658520700475934939183919597602772428393159957171678913035977611490511885932486154785287709132255326686398261542844030065556598666191350007752712425713619749771672365637485154754564779267050928584728661807027994863116745339833084769533981399300503220638563466169390183736267153617583845250415885823024980144631079997094009230377992595577328633292390530018606442243369688905175147209020920954422003555782869268678894916106413862664953146515732785804502660407314901808581405034432308726147933849979689989</span><br>c2=<span class="hljs-number">660786051824910230873884600744959030265388429192727951166721113879854464522389325739802703310913732902833778034401632628938144275110259033918655077691853918758634982899427693594671785857857909036915654998761013827868199342737749405352507276436866364180154665315956829382533710951839019853169966694154970158966072113917267296101513243808003273019100867933714599898053661451818477001562112853209154906322205083636027498233807131522283087979547271774312067398759611022191882371123084261761098923994873110788704960182273817371315264655632343946622563006808101322364265578490109714246148052618988958628592753911496921563155003551926547472410642201974274781280633708636309449501619866376422440041537758514811836133804597783256003504933767151921016752120604258580059668650713822253122650687275054081288622996628277268146723350191531420962242602380839728712825405572549099787290957348706683963946075215806340393267714297975946671488782713260980129229158285210722045502442378445134853897763065681974592818004420357542042894544487694477937617156099760573978759048442186633017206146993595028297257148566673402976005517349438948032707348011387517929999285636559431700923275025083662201127580201286747957827301089492530820945594666308738557238429</span><br>n=<span class="hljs-built_in">int</span>(<span class="hljs-string">&#x27;00b0bee5e3e9e5a7e8d00b493355c618fc8c7d7d03b82e409951c182f398dee3104580e7ba70d383ae5311475656e8a964d380cb157f48c951adfa65db0b122ca40e42fa709189b719a4f0d746e2f6069baf11cebd650f14b93c977352fd13b1eea6d6e1da775502abff89d3a8b3615fd0db49b88a976bc20568489284e181f6f11e270891c8ef80017bad238e363039a458470f1749101bc29949d3a4f4038d463938851579c7525a69984f15b5667f34209b70eb261136947fa123e549dfff00601883afd936fe411e006e4e93d1a00b0fea541bbfc8c5186cb6220503a94b2413110d640c77ea54ba3220fc8f4cc6ce77151e29b3e06578c478bd1bebe04589ef9a197f6f806db8b3ecd826cad24f5324ccdec6e8fead2c2150068602c8dcdc59402ccac9424b790048ccdd9327068095efa010b7f196c74ba8c37b128f9e1411751633f78b7b9e56f71f77a1b4daad3fc54b5e7ef935d9a72fb176759765522b4bbc02e314d5c06b64d5054b7b096c601236e6ccf45b5e611c805d335dbab0c35d226cc208d8ce4736ba39a0354426fae006c7fe52d5267dcfb9c3884f51fddfdf4a9794bcfe0e1557113749e6c8ef421dba263aff68739ce00ed80fd0022ef92d3488f76deb62bdef7bea6026f22a1d25aa2a92d124414a8021fe0c174b9803e6bb5fad75e186a946a17280770f1243f4387446ccceb2222a965cc30b3929&#x27;</span>,<span class="hljs-number">16</span>)<br>e1 = <span class="hljs-number">17</span><br>e2 = <span class="hljs-number">65537</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">egcd</span>(<span class="hljs-params">a, b</span>):</span><br>	<span class="hljs-keyword">if</span> a == <span class="hljs-number">0</span>:<br>		<span class="hljs-keyword">return</span> (b, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br>	<span class="hljs-keyword">else</span>:<br>		g, y, x = egcd(b % a, a)<br>		<span class="hljs-keyword">return</span> (g, x - (b // a) * y, y)<br>s = egcd(e1, e2)<br>s1 = s[<span class="hljs-number">1</span>]<br>s2 = s[<span class="hljs-number">2</span>]<br><span class="hljs-keyword">if</span> s1&lt;<span class="hljs-number">0</span>:<br>	s1 = - s1<br>	c1 = invert(c1, n)<br><span class="hljs-keyword">elif</span> s2&lt;<span class="hljs-number">0</span>:<br>	s2 = - s2<br>	c2 = invert(c2, n)<br><br>m = <span class="hljs-built_in">pow</span>(c1,s1,n)*<span class="hljs-built_in">pow</span>(c2,s2,n) % n<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(m)[<span class="hljs-number">2</span>:])<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">bytes</span>.fromhex(<span class="hljs-built_in">hex</span>(m)[<span class="hljs-number">2</span>:]))<br></code></pre></td></tr></table></figure>
+
+<h3 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h3><p><strong>IDA Start</strong></p>
+<img src="/2021/12/11/NUAACTF2021/image-20211211183445681.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>解压，用wireshark打开，发现flag：flag{St4rt_t0_u3e_IDA}</p>
+<img src="/2021/12/11/NUAACTF2021/image-20211212140222049.png" srcset="/img/loading.gif" lazyload class="">
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/">CTF</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/CTF/">CTF</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/12/dockerstudy/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">dockerstudy</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/02/teach/">
+                        <span class="hidden-mobile">teach</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -16,23 +16,23 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta name="description" content="第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制1234#知识点：1、JavaWeb常见安全及代码逻辑2、目录遍历&amp;身份验证&amp;逻辑&amp;JWT3、访问控制&amp;安全组件&amp;越权&amp;三方组件   演示案例：  JavaWeb-WebGoat8靶场搭建使用 安全问题-目录遍历&amp;身份认证-JWT攻击 安全问题">
+    <meta name="description" content="第2天：基础入门-Web应用&amp;架构搭建&amp;漏洞&amp;HTTP数据包&amp;代理服务器12345#知识点：1、网站搭建前置知识2、WEB应用环境架构类3、WEB应用安全漏洞分类4、WEB请求返回过程数据包  0x01网站搭建前置知识域名，子域名，DNS，HTTP&#x2F;HTTPS，证书等 0x02 WEB应用环境架构类12345678理解不同WEB应用组成角色功能架构:开发语言，程序源">
 <meta property="og:type" content="article">
-<meta property="og:title" content="day21">
-<meta property="og:url" content="http://example.com/2022/01/12/day21/index.html">
+<meta property="og:title" content="day02">
+<meta property="og:url" content="http://example.com/2022/01/14/day02/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
-<meta property="og:description" content="第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制1234#知识点：1、JavaWeb常见安全及代码逻辑2、目录遍历&amp;身份验证&amp;逻辑&amp;JWT3、访问控制&amp;安全组件&amp;越权&amp;三方组件   演示案例：  JavaWeb-WebGoat8靶场搭建使用 安全问题-目录遍历&amp;身份认证-JWT攻击 安全问题">
+<meta property="og:description" content="第2天：基础入门-Web应用&amp;架构搭建&amp;漏洞&amp;HTTP数据包&amp;代理服务器12345#知识点：1、网站搭建前置知识2、WEB应用环境架构类3、WEB应用安全漏洞分类4、WEB请求返回过程数据包  0x01网站搭建前置知识域名，子域名，DNS，HTTP&#x2F;HTTPS，证书等 0x02 WEB应用环境架构类12345678理解不同WEB应用组成角色功能架构:开发语言，程序源">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/cover/15.jpg">
-<meta property="article:published_time" content="2022-01-12T12:29:24.000Z">
-<meta property="article:modified_time" content="2022-01-14T13:29:48.235Z">
+<meta property="article:published_time" content="2022-01-14T13:49:01.000Z">
+<meta property="article:modified_time" content="2022-01-14T14:03:47.210Z">
 <meta property="article:author" content="j0ker">
-<meta property="article:tag" content="渗透测试 - Java">
+<meta property="article:tag" content="渗透测试">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/cover/15.jpg">
   
   
-  <title>day21 - j0ker&#39;s blog</title>
+  <title>day02 - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="day21">
+            <span class="h2" id="subtitle" title="day02">
               
             </span>
 
@@ -188,8 +188,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-12 20:29" pubdate>
-        2022年1月12日 晚上
+      <time datetime="2022-01-14 21:49" pubdate>
+        2022年1月14日 晚上
       </time>
     </span>
   
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      878 字
+      903 字
     </span>
   
 
@@ -237,19 +237,30 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">day21</h1>
+            <h1 style="display: none">day02</h1>
             
             <div class="markdown-body">
-              <h2 id="第21天：WEB攻防-JavaWeb项目-amp-JWT身份攻击-amp-组件安全-amp-访问控制"><a href="#第21天：WEB攻防-JavaWeb项目-amp-JWT身份攻击-amp-组件安全-amp-访问控制" class="headerlink" title="第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制"></a>第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制</h2><figure class="highlight tex"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs tex"><span class="hljs-params">#</span>知识点：<br>1、JavaWeb常见安全及代码逻辑<br>2、目录遍历<span class="hljs-built_in">&amp;</span>身份验证<span class="hljs-built_in">&amp;</span>逻辑<span class="hljs-built_in">&amp;</span>JWT<br>3、访问控制<span class="hljs-built_in">&amp;</span>安全组件<span class="hljs-built_in">&amp;</span>越权<span class="hljs-built_in">&amp;</span>三方组件<br></code></pre></td></tr></table></figure>
+              <h2 id="第2天：基础入门-Web应用-amp-架构搭建-amp-漏洞-amp-HTTP数据包-amp-代理服务器"><a href="#第2天：基础入门-Web应用-amp-架构搭建-amp-漏洞-amp-HTTP数据包-amp-代理服务器" class="headerlink" title="第2天：基础入门-Web应用&amp;架构搭建&amp;漏洞&amp;HTTP数据包&amp;代理服务器"></a>第2天：基础入门-Web应用&amp;架构搭建&amp;漏洞&amp;HTTP数据包&amp;代理服务器</h2><figure class="highlight tex"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs tex"><span class="hljs-params">#</span>知识点：<br>1、网站搭建前置知识<br>2、WEB应用环境架构类<br>3、WEB应用安全漏洞分类<br>4、WEB请求返回过程数据包<br></code></pre></td></tr></table></figure>
 
-<hr>
+<h3 id="0x01网站搭建前置知识"><a href="#0x01网站搭建前置知识" class="headerlink" title="0x01网站搭建前置知识"></a>0x01网站搭建前置知识</h3><p>域名，子域名，DNS，HTTP/HTTPS，证书等</p>
+<h3 id="0x02-WEB应用环境架构类"><a href="#0x02-WEB应用环境架构类" class="headerlink" title="0x02 WEB应用环境架构类"></a>0x02 WEB应用环境架构类</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs tex">理解不同WEB应用组成角色功能架构:<br>开发语言，程序源码，中间件容器，数据库类型，服务器操作系统，第三方软件等<br>开发语言：asp,php,aspx,jsp,java,python,ruby,go,html,javascript等<br>程序源码：根据开发语言分类；应用类型分类；开源CMS分类；开发框架分类等<br>中间件容器：IIS,Apache,Nginx,Tomcat,Weblogic,Jboos,glasshfish等<br>数据库类型：Access,Mysql,Mssql,Oracle,db2,Sybase,Redis,MongoDB等<br>服务器操作系统：Windows系列，Linux系列，Mac系列等<br>第三方软件：phpmyadmin,vs-ftpd,VNC,ELK,Openssh等<br></code></pre></td></tr></table></figure>
+
+<h3 id="0x03-WEB应用安全漏洞分类"><a href="#0x03-WEB应用安全漏洞分类" class="headerlink" title="0x03 WEB应用安全漏洞分类"></a>0x03 WEB应用安全漏洞分类</h3><p>SQL注入，文件安全，RCE执行，XSS跨站，CSRF/SSRF/CRLF，<br>反序列化，逻辑越权，未授权访问，XXE/XML，弱口令安全等</p>
+<h3 id="0x04-WEB请求返回过程"><a href="#0x04-WEB请求返回过程" class="headerlink" title="0x04 WEB请求返回过程"></a>0x04 WEB请求返回过程</h3><p>参考于<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/558455228c43">https://www.jianshu.com/p/558455228c43</a></p>
+<p>​                 <img src="/2022/01/14/day02/P-CXBjDJIbf6whZeJ0ghFA.png" srcset="/img/loading.gif" lazyload class="" title="img">        </p>
+<p>​                 <img src="/2022/01/14/day02/ZKpoyq4mYDuQ6r3_5gagJA.png" srcset="/img/loading.gif" lazyload class="" title="img">        </p>
+<p>​                 <img src="/2022/01/14/day02/0I-QOC6Sfebb2EFCC4jj5A.png" srcset="/img/loading.gif" lazyload class="" title="img">        </p>
+<h3 id="0x05-HTTP协议数据包简单总结"><a href="#0x05-HTTP协议数据包简单总结" class="headerlink" title="0x05 HTTP协议数据包简单总结"></a>0x05 HTTP协议数据包简单总结</h3><p>参考于<a target="_blank" rel="noopener" href="https://www.cnblogs.com/cherrycui/p/10815465.html">https://www.cnblogs.com/cherrycui/p/10815465.html</a></p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs tex">请求数据包，请求方法，请求体，响应包，响应头，状态码，代理服务器等<br>Request,Response,User-Agent,Cookie,Server,Content-Length等<br></code></pre></td></tr></table></figure>
+
 <p>演示案例：</p>
 <ul>
-<li>JavaWeb-WebGoat8靶场搭建使用</li>
-<li>安全问题-目录遍历&amp;身份认证-JWT攻击</li>
-<li>安全问题-访问控制&amp;安全组件-第三方组件</li>
+<li>架构-Web应用搭建-域名源码解析</li>
+<li>请求包-新闻回帖点赞-重放数据包</li>
+<li>请求包-移动端&amp;PC访问-自定义UA头</li>
+<li>返回包-网站文件目录扫描-返回状态码</li>
+<li>数据包-WAF文件目录扫描-代理服务器</li>
 </ul>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-meta">#环境下载：</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//github.com/WebGoat/WebGoat</span><br><br><span class="hljs-meta">#目录遍历</span><br><br><span class="hljs-meta">#身份认证</span><br>-键值逻辑：使用键名键值进行对比验证错误<br>-JWT攻击：<span class="hljs-number">1</span>、签名没验证空加密 <span class="hljs-number">2</span>、爆破密匙 <span class="hljs-number">3</span>、KID利用<br><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.cnblogs.com/vege/p/14468030.html</span><br><br><span class="hljs-meta">#访问控制</span><br>-隐藏属性：前端页面的自慰限制显示<br>-水平越权：同一级别用户权限的查看<br><br><span class="hljs-meta">#安全组件</span><br>-联想到刚爆出的Log4j2<br><span class="hljs-params">&lt;sorted-set&gt;</span><br>  <span class="hljs-params">&lt;string&gt;</span>foo<span class="hljs-params">&lt;/string&gt;</span><br>  <span class="hljs-params">&lt;dynamic-proxy&gt;</span><br>    <span class="hljs-params">&lt;interface&gt;</span>java.lang.Comparable<span class="hljs-params">&lt;/interface&gt;</span><br>    <span class="hljs-params">&lt;handler class=&quot;java.beans.EventHandler&quot;&gt;</span><br>      <span class="hljs-params">&lt;target class=&quot;java.lang.ProcessBuilder&quot;&gt;</span><br>        <span class="hljs-params">&lt;command&gt;</span><br>          <span class="hljs-params">&lt;string&gt;</span>calc.exe<span class="hljs-params">&lt;/string&gt;</span><br>        <span class="hljs-params">&lt;/command&gt;</span><br>      <span class="hljs-params">&lt;/target&gt;</span><br>      <span class="hljs-params">&lt;action&gt;</span>start<span class="hljs-params">&lt;/action&gt;</span><br>    <span class="hljs-params">&lt;/handler&gt;</span><br>  <span class="hljs-params">&lt;/dynamic-proxy&gt;</span><br><span class="hljs-params">&lt;/sorted-set&gt;</span><br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -267,7 +278,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-Java/">渗透测试 - Java</a>
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
                     
                   </div>
                 
@@ -284,9 +295,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/01/14/day02/">
+                      <a href="/2022/01/14/day03/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">day02</span>
+                        <span class="hidden-mobile">day03</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -294,8 +305,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/11/day01/">
-                        <span class="hidden-mobile">day01</span>
+                      <a href="/2022/01/12/day21/">
+                        <span class="hidden-mobile">day21</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

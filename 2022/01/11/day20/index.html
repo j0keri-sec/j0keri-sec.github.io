@@ -18,21 +18,21 @@
   
     <meta name="description" content="第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例​                          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666">
 <meta property="og:type" content="article">
-<meta property="og:title" content="day20">
+<meta property="og:title" content="day20-php安全特性学习">
 <meta property="og:url" content="http://example.com/2022/01/11/day20/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
 <meta property="og:description" content="第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例​                          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/cover/15.jpg">
 <meta property="article:published_time" content="2022-01-11T06:31:56.000Z">
-<meta property="article:modified_time" content="2022-01-14T09:56:23.418Z">
+<meta property="article:modified_time" content="2022-01-14T13:21:25.172Z">
 <meta property="article:author" content="j0ker">
-<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="渗透测试 - php">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/cover/15.jpg">
   
   
-  <title>day20 - j0ker&#39;s blog</title>
+  <title>day20-php安全特性学习 - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -178,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="day20">
+            <span class="h2" id="subtitle" title="day20-php安全特性学习">
               
             </span>
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      54 分钟
+      53 分钟
     </span>
   
 
@@ -237,10 +237,10 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">day20</h1>
+            <h1 style="display: none">day20-php安全特性学习</h1>
             
             <div class="markdown-body">
-              <h2 id="第20天：WEB攻防-PHP特性-amp-缺陷对比函数-amp-CTF考点-amp-CMS审计实例"><a href="#第20天：WEB攻防-PHP特性-amp-缺陷对比函数-amp-CTF考点-amp-CMS审计实例" class="headerlink" title="第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例"></a>第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例</h2><p>​                 <img src="/2022/01/11/day20/muqdM-yYanBa0D97VkonDA.png" srcset="/img/loading.gif" lazyload class="" title="img">        </p>
+              <h2 id="第20天：WEB攻防-PHP特性-amp-缺陷对比函数-amp-CTF考点-amp-CMS审计实例"><a href="#第20天：WEB攻防-PHP特性-amp-缺陷对比函数-amp-CTF考点-amp-CMS审计实例" class="headerlink" title="第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例"></a>第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例</h2><p>​                 <img src="/2022/01/11/day20/PHP.png" srcset="/img/loading.gif" lazyload class="" title="img">        </p>
 <figure class="highlight tex"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></div></td><td class="code"><pre><code class="hljs tex"><span class="hljs-params">#</span>知识点：<br>1、过滤函数缺陷绕过<br>2、CTF考点与代码审计<br><br><span class="hljs-params">#</span>详细点：<br>==与===<br>md5<br>intval<br>strpos<br>in<span class="hljs-built_in">_</span>array<br>preg<span class="hljs-built_in">_</span>match<br>str<span class="hljs-built_in">_</span>replace<br><br>&lt;?php<br>header(&quot;Content-Type:text/html;charset=utf-8&quot;);<br><span class="hljs-built_in">$</span>flag=&#x27;xiaodi ai chi xigua!&#x27;;<br><br>1、== ===缺陷绕过 == 弱类型对比 ===还会比较类型<br>&lt;?php<br><span class="hljs-built_in">$</span>a=1;<br>if(<span class="hljs-built_in">$</span>a==<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;x&#x27;])&#123;<br>   		 echo <span class="hljs-built_in">$</span>flag;<br>    &#125;<br>?&gt;<br>//1.0 +1 1a<br>&lt;?php<br><span class="hljs-built_in">$</span>a=&#x27;1&#x27;;<br>if(<span class="hljs-built_in">$</span>a===<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;y&#x27;])&#123;<br>    echo <span class="hljs-built_in">$</span>flag;<br>&#125;<br>?&gt;<br><br>//1.0 +1等<br><br><br>2、MD5函数缺陷绕过 ==弱对比 ===强类型对比<br>&lt;?php<br>if(<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;name&#x27;] != <span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;password&#x27;])&#123;<br>    if(MD5(<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;name&#x27;]) == MD5(<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;password&#x27;]))&#123;<br>        echo <span class="hljs-built_in">$</span>flag;<br>    &#125;<br>    echo &#x27;?&#x27;;<br>&#125;<br>?&gt;<br>//==<br>//echo MD5(&#x27;QNKCDZO&#x27;);<br>//echo MD5(&#x27;240610708&#x27;);<br><br>//===<br>//name[]=1<span class="hljs-built_in">&amp;</span>password[]=2<br><br>3、intval缺陷绕过<br>&lt;?php<br><span class="hljs-built_in">$</span>i=&#x27;666&#x27;;<br><span class="hljs-built_in">$</span>ii=<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;n&#x27;];<br>if(intval(<span class="hljs-built_in">$</span>ii==<span class="hljs-built_in">$</span>i))&#123;<br>    echo <span class="hljs-built_in">$</span>flag;<br>&#125;<br>?&gt;<br><br>// 666.0 +666<br><br><span class="hljs-built_in">$</span>i=&#x27;666&#x27;;<br><span class="hljs-built_in">$</span>ii=<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;n&#x27;];<br>if(intval(<span class="hljs-built_in">$</span>ii==<span class="hljs-built_in">$</span>i,0))&#123;<br>    echo <span class="hljs-built_in">$</span>flag;<br>&#125;<br><br>//0x29a<br><br>//4、对于strpos()函数，我们可以利用换行进行绕过（<span class="hljs-comment">%0a）</span><br><span class="hljs-built_in">$</span>i=&#x27;666&#x27;;<br><span class="hljs-built_in">$</span>ii=<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;h&#x27;];<br>if(strpos(<span class="hljs-built_in">$</span>ii==<span class="hljs-built_in">$</span>i,&quot;0&quot;))&#123;<br>    echo <span class="hljs-built_in">$</span>flag;<br>&#125;<br><br><br>//?num=<span class="hljs-comment">%0a666</span><br><br><br><br>//5、in<span class="hljs-built_in">_</span>array第三个参数安全<br><span class="hljs-built_in">$</span>whitelist = [1,2,3];<br><span class="hljs-built_in">$</span>page=<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;i&#x27;];<br>if (in<span class="hljs-built_in">_</span>array(<span class="hljs-built_in">$</span>page, <span class="hljs-built_in">$</span>whitelist)) &#123;<br>    echo &quot;yes&quot;;<br>&#125;<br><br>//?i=1ex<br><br>//6、preg<span class="hljs-built_in">_</span>match只能处理字符串，如果不按规定传一个字符串，通常是传一个数组进去，这样就会报错<br>if(isset(<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;num&#x27;]))&#123;<br>    <span class="hljs-built_in">$</span>num = <span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;num&#x27;];<br>    if(preg<span class="hljs-built_in">_</span>match(&quot;/[0-9]/&quot;, <span class="hljs-built_in">$</span>num))&#123;<br>        die(&quot;no no no!&quot;);<br>    &#125;<br>    if(intval(<span class="hljs-built_in">$</span>num))&#123;<br>        echo <span class="hljs-built_in">$</span>flag;<br>    &#125;<br>&#125;<br><br><br>//?num[]=1<br><br>//7、str<span class="hljs-built_in">_</span>replace无法迭代过滤<br><span class="hljs-built_in">$</span>sql=<span class="hljs-built_in">$</span><span class="hljs-built_in">_</span>GET[&#x27;s&#x27;];<br><span class="hljs-built_in">$</span>sql=str<span class="hljs-built_in">_</span>replace(&#x27;select&#x27;,&#x27;&#x27;,<span class="hljs-built_in">$</span>sql);<br>echo <span class="hljs-built_in">$</span>sql;<br><br>//?s=sselectelect<br></code></pre></td></tr></table></figure>
 
 <p>演示案例：</p>
@@ -249,8 +249,6 @@
 <li>实践-CTFShow-PHP特性-89关卡</li>
 <li>实践-代码审计-过滤缺陷-文件读取</li>
 </ul>
-<p>涉及资源：</p>
-<p><a target="_blank" rel="noopener" href="https://docs.qq.com/doc/DQ3Z6RkNpaUtMcEFr">补充：涉及录像课件资源软件包资料等下载地址</a></p>
 <h3 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h3><p>今天的课程主要是通过ctf来讲php函数的一些缺陷，比如弱类型与强类型的比较，一些函数引发的安全问题，以及如何绕过等等，很有深意。</p>
 <h3 id="0x01-与-的区别"><a href="#0x01-与-的区别" class="headerlink" title="0x01 ==与===的区别"></a>0x01 ==与===的区别</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs tex">1、在PHP中===表示全等运算符，而==表示等于运算符；<br>2、如果等于运算符两边的值相等，则返回true，而如果全等运算符两边的值相等但类型不等，则返回false。<br></code></pre></td></tr></table></figure>
 
@@ -295,17 +293,17 @@
 <p>也就是说在 <strong>$haystack</strong> 中搜索 <strong>$needle</strong> ，如果第三个参数 <strong>$strict</strong> 的值为 <strong>TRUE</strong> ，则 <strong>in_array()</strong> 函数会进行强检查，检查 <strong>$needle</strong> 的类型是否和 <strong>$haystack</strong> 中的相同。如果找到 <strong>$haystack</strong> ，则返回 <strong>TRUE</strong>，否则返回 <strong>FALSE</strong>。</p>
 <p>也就是说，in_array()函数检测上传文件时候，如果未将第三个参数设置为true，从而导致攻击者构造文件名绕过服务端的检测。</p>
 <p>文章参考于<a target="_blank" rel="noopener" href="https://www.cnblogs.com/nice0e3/p/15380627.html">PHP审计之in_array函数缺陷绕过</a></p>
-<h3 id="0x06-preg-match函数缺陷"><a href="#0x06-preg-match函数缺陷" class="headerlink" title="0x06 preg_match函数缺陷"></a>0x06 preg_match函数缺陷</h3><p><strong>当被匹配的数据为数组的时候回返回false值。</strong></p>
+<h3 id="0x06-preg-match-函数缺陷"><a href="#0x06-preg-match-函数缺陷" class="headerlink" title="0x06 preg_match()函数缺陷"></a>0x06 preg_match()函数缺陷</h3><p><strong>当被匹配的数据为数组的时候回返回false值。</strong></p>
 <h3 id="0x07-Preg-replace-函数缺陷"><a href="#0x07-Preg-replace-函数缺陷" class="headerlink" title="0x07 Preg_replace()函数缺陷"></a>0x07 Preg_replace()函数缺陷</h3><p><strong>Preg_replcae在存在/e模式的时候会产生代码执行漏洞</strong></p>
-<h3 id="0x08-str-replace函数缺陷"><a href="#0x08-str-replace函数缺陷" class="headerlink" title="0x08 str_replace函数缺陷"></a>0x08 str_replace函数缺陷</h3><h3 id="0x09-isset-函数缺陷"><a href="#0x09-isset-函数缺陷" class="headerlink" title="0x09 isset()函数缺陷"></a>0x09 isset()函数缺陷</h3><p><strong>isset()函数只检查变量是否存在，不检查值。</strong></p>
+<h3 id="0x08-str-replace-函数缺陷"><a href="#0x08-str-replace-函数缺陷" class="headerlink" title="0x08 str_replace()函数缺陷"></a>0x08 str_replace()函数缺陷</h3><h3 id="0x09-isset-函数缺陷"><a href="#0x09-isset-函数缺陷" class="headerlink" title="0x09 isset()函数缺陷"></a>0x09 isset()函数缺陷</h3><p><strong>isset()函数只检查变量是否存在，不检查值。</strong></p>
 <h3 id="0x10-strcmp函数缺陷"><a href="#0x10-strcmp函数缺陷" class="headerlink" title="0x10 strcmp函数缺陷"></a>0x10 strcmp函数缺陷</h3><p><strong>strcmp函数无法比较数组，可以使用数组绕过。</strong></p>
 <h3 id="0x11-file-get-contents-函数缺陷"><a href="#0x11-file-get-contents-函数缺陷" class="headerlink" title="0x11 file_get_contents() 函数缺陷"></a>0x11 file_get_contents() 函数缺陷</h3><p><strong>file_get_contents() 函数把整个文件读入一个字符串中，如果文件不存在，则函数返回flase(0)。</strong></p>
 <h3 id="0x12-is-numeric-函数缺陷"><a href="#0x12-is-numeric-函数缺陷" class="headerlink" title="0x12 is_numeric()函数缺陷"></a>0x12 is_numeric()函数缺陷</h3><p><strong>is_numeric()</strong> 函数用于检测变量是否为数字或数字字符串。</p>
 <p>Is_numeric函数在对末尾含有%20的整数进行判断时会返回false。</p>
-<h3 id="0x13-Ereg-函数缺陷"><a href="#0x13-Ereg-函数缺陷" class="headerlink" title="0x13 Ereg()函数缺陷"></a>0x13 Ereg()函数缺陷</h3><h3 id="0x14-Call-user-func-函数缺陷"><a href="#0x14-Call-user-func-函数缺陷" class="headerlink" title="0x14 Call_user_func()函数缺陷"></a>0x14 Call_user_func()函数缺陷</h3><p><strong>函数将第一个参数作为调用的函数，其余参数为函数的传入参数，当两个值为可控内容时会产生命令执行漏洞。</strong></p>
-<h3 id="0x15-assert-函数-php-lt-7"><a href="#0x15-assert-函数-php-lt-7" class="headerlink" title="0x15 assert()函数(php&lt;7)"></a>0x15 assert()函数(php&lt;7)</h3><p><strong>将字符串以php代码来执行。</strong></p>
-<h3 id="0x16-ereg函数"><a href="#0x16-ereg函数" class="headerlink" title="0x16 ereg函数"></a>0x16 ereg函数</h3><p>Ereg函数用来对字符串中指定的字符进行匹配，返回True或False值。</p>
+<h3 id="0x13-ereg-函数缺陷"><a href="#0x13-ereg-函数缺陷" class="headerlink" title="0x13 ereg()函数缺陷"></a>0x13 ereg()函数缺陷</h3><p>Ereg函数用来对字符串中指定的字符进行匹配，返回True或False值。</p>
 <p><strong>当字符串中存在%00的时候，ereg将不会匹配%00后面的字符串，进行截断，从而进行绕过。</strong></p>
+<h3 id="0x14-Call-user-func-函数缺陷"><a href="#0x14-Call-user-func-函数缺陷" class="headerlink" title="0x14 Call_user_func()函数缺陷"></a>0x14 Call_user_func()函数缺陷</h3><p><strong>函数将第一个参数作为调用的函数，其余参数为函数的传入参数，当两个值为可控内容时会产生命令执行漏洞。</strong></p>
+<h3 id="0x15-assert-函数-php-lt-7"><a href="#0x15-assert-函数-php-lt-7" class="headerlink" title="0x15 assert()函数(php&lt;7)"></a>0x15 assert()函数(php&lt;7)</h3><p><strong>将字符串以php代码来执行。</strong></p>
 <p>最后收藏一个代码审计的练习的git项目：<a target="_blank" rel="noopener" href="https://github.com/hongriSec/PHP-Audit-Labs">红日安全代码审计</a></p>
 
             </div>
@@ -324,7 +322,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-php/">渗透测试 - php</a>
                     
                   </div>
                 

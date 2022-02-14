@@ -506,33 +506,6 @@
   
   
   <entry>
-    <title>kali修复引导方法</title>
-    <link href="/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/"/>
-    <url>/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/</url>
-    
-    <content type="html"><![CDATA[<p>win10更新系统后，发现自己的grub引导没了</p><h3 id="1-别慌，进BIOS在boot里面添加kali的efi引导"><a href="#1-别慌，进BIOS在boot里面添加kali的efi引导" class="headerlink" title="1.别慌，进BIOS在boot里面添加kali的efi引导"></a>1.别慌，进BIOS在boot里面添加kali的efi引导</h3><h3 id="2-进kali后，进入了grub-rescure模式，慢慢找。"><a href="#2-进kali后，进入了grub-rescure模式，慢慢找。" class="headerlink" title="2.进kali后，进入了grub rescure模式，慢慢找。"></a>2.进kali后，进入了grub rescure模式，慢慢找。</h3><p>先ls,查看分区情况</p><p>再ls (sd0,gpt1),一个一个找/boot/efi分区，反馈unknown的不管，出现其他的可能就是/boot分区</p><h3 id="3-如果找到了"><a href="#3-如果找到了" class="headerlink" title="3.如果找到了"></a>3.如果找到了</h3><figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ls</span> (hd<span class="hljs-number">1</span>,gpt<span class="hljs-number">4</span>)/boot/grub<br></code></pre></td></tr></table></figure><p>会显示kali的efi配置文件</p><h3 id="4-之后输命令"><a href="#4-之后输命令" class="headerlink" title="4.之后输命令"></a>4.之后输命令</h3><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-keyword">set</span> root=(hd1,gpt4)<br><br><span class="hljs-keyword">set</span> <span class="hljs-comment">prefix=(hd1,gpt4)</span>/boot/<span class="hljs-comment">grub</span><br><br>insmod <span class="hljs-comment">normal</span><br><br>normal<br></code></pre></td></tr></table></figure><h3 id="5-进入kali系统后，打开终端。"><a href="#5-进入kali系统后，打开终端。" class="headerlink" title="5.进入kali系统后，打开终端。"></a>5.进入kali系统后，打开终端。</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">grub-install <span class="hljs-regexp">/dev/</span>sda (我的kali系统是装在<span class="hljs-regexp">/dev/</span>sda5)<br><br>update-grub<br></code></pre></td></tr></table></figure><p>reboot重启一下，大功告成。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>kali Linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>kali Linux</tag>
-      
-      <tag>grub</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>kali Linux安装docker教程</title>
     <link href="/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/"/>
     <url>/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/</url>
@@ -552,6 +525,33 @@
       <tag>docker</tag>
       
       <tag>kali Linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>kali修复引导方法</title>
+    <link href="/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/"/>
+    <url>/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>win10更新系统后，发现自己的grub引导没了</p><h3 id="1-别慌，进BIOS在boot里面添加kali的efi引导"><a href="#1-别慌，进BIOS在boot里面添加kali的efi引导" class="headerlink" title="1.别慌，进BIOS在boot里面添加kali的efi引导"></a>1.别慌，进BIOS在boot里面添加kali的efi引导</h3><h3 id="2-进kali后，进入了grub-rescure模式，慢慢找。"><a href="#2-进kali后，进入了grub-rescure模式，慢慢找。" class="headerlink" title="2.进kali后，进入了grub rescure模式，慢慢找。"></a>2.进kali后，进入了grub rescure模式，慢慢找。</h3><p>先ls,查看分区情况</p><p>再ls (sd0,gpt1),一个一个找/boot/efi分区，反馈unknown的不管，出现其他的可能就是/boot分区</p><h3 id="3-如果找到了"><a href="#3-如果找到了" class="headerlink" title="3.如果找到了"></a>3.如果找到了</h3><figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ls</span> (hd<span class="hljs-number">1</span>,gpt<span class="hljs-number">4</span>)/boot/grub<br></code></pre></td></tr></table></figure><p>会显示kali的efi配置文件</p><h3 id="4-之后输命令"><a href="#4-之后输命令" class="headerlink" title="4.之后输命令"></a>4.之后输命令</h3><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-keyword">set</span> root=(hd1,gpt4)<br><br><span class="hljs-keyword">set</span> <span class="hljs-comment">prefix=(hd1,gpt4)</span>/boot/<span class="hljs-comment">grub</span><br><br>insmod <span class="hljs-comment">normal</span><br><br>normal<br></code></pre></td></tr></table></figure><h3 id="5-进入kali系统后，打开终端。"><a href="#5-进入kali系统后，打开终端。" class="headerlink" title="5.进入kali系统后，打开终端。"></a>5.进入kali系统后，打开终端。</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">grub-install <span class="hljs-regexp">/dev/</span>sda (我的kali系统是装在<span class="hljs-regexp">/dev/</span>sda5)<br><br>update-grub<br></code></pre></td></tr></table></figure><p>reboot重启一下，大功告成。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>kali Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>kali Linux</tag>
+      
+      <tag>grub</tag>
       
     </tags>
     

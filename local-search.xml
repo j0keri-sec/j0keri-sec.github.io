@@ -506,33 +506,6 @@
   
   
   <entry>
-    <title>kali Linux安装docker教程</title>
-    <link href="/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/"/>
-    <url>/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/</url>
-    
-    <content type="html"><![CDATA[<h3 id="1-使用的清华镜像"><a href="#1-使用的清华镜像" class="headerlink" title="1.使用的清华镜像:"></a>1.使用的清华镜像:</h3><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -<br></code></pre></td></tr></table></figure><h3 id="2-配置docker-apt-："><a href="#2-配置docker-apt-：" class="headerlink" title="2.配置docker apt ："></a>2.配置docker apt ：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">echo &#x27;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/ buster stable&#x27; | sudo tee /etc/apt/sources.list.d/docker.list<br></code></pre></td></tr></table></figure><h3 id="3-更新apt"><a href="#3-更新apt" class="headerlink" title="3.更新apt:"></a>3.更新apt:</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get update<br></code></pre></td></tr></table></figure><h3 id="4-安装docker："><a href="#4-安装docker：" class="headerlink" title="4.安装docker："></a>4.安装docker：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get install docker-ce<br></code></pre></td></tr></table></figure><h3 id="5-查看docker版本："><a href="#5-查看docker版本：" class="headerlink" title="5.查看docker版本："></a>5.查看docker版本：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker -v<br></code></pre></td></tr></table></figure><h3 id="6-查看docker运行状态："><a href="#6-查看docker运行状态：" class="headerlink" title="6.查看docker运行状态："></a>6.查看docker运行状态：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl status docker<br><br>或 sudo service docker status<br></code></pre></td></tr></table></figure><p>好了，安装完成了。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>kali Linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>docker</tag>
-      
-      <tag>kali Linux</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>kali修复引导方法</title>
     <link href="/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/"/>
     <url>/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/</url>
@@ -552,6 +525,33 @@
       <tag>kali Linux</tag>
       
       <tag>grub</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>kali Linux安装docker教程</title>
+    <link href="/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/"/>
+    <url>/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1-使用的清华镜像"><a href="#1-使用的清华镜像" class="headerlink" title="1.使用的清华镜像:"></a>1.使用的清华镜像:</h3><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -<br></code></pre></td></tr></table></figure><h3 id="2-配置docker-apt-："><a href="#2-配置docker-apt-：" class="headerlink" title="2.配置docker apt ："></a>2.配置docker apt ：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">echo &#x27;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/ buster stable&#x27; | sudo tee /etc/apt/sources.list.d/docker.list<br></code></pre></td></tr></table></figure><h3 id="3-更新apt"><a href="#3-更新apt" class="headerlink" title="3.更新apt:"></a>3.更新apt:</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get update<br></code></pre></td></tr></table></figure><h3 id="4-安装docker："><a href="#4-安装docker：" class="headerlink" title="4.安装docker："></a>4.安装docker：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get install docker-ce<br></code></pre></td></tr></table></figure><h3 id="5-查看docker版本："><a href="#5-查看docker版本：" class="headerlink" title="5.查看docker版本："></a>5.查看docker版本：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker -v<br></code></pre></td></tr></table></figure><h3 id="6-查看docker运行状态："><a href="#6-查看docker运行状态：" class="headerlink" title="6.查看docker运行状态："></a>6.查看docker运行状态：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl status docker<br><br>或 sudo service docker status<br></code></pre></td></tr></table></figure><p>好了，安装完成了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>kali Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>docker</tag>
+      
+      <tag>kali Linux</tag>
       
     </tags>
     

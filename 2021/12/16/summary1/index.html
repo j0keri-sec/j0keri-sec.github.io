@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/cover/12.jpg">
 <meta property="article:published_time" content="2021-12-16T11:40:27.000Z">
-<meta property="article:modified_time" content="2022-02-14T06:27:24.345Z">
+<meta property="article:modified_time" content="2022-02-19T09:50:25.993Z">
 <meta property="article:author" content="j0ker">
 <meta property="article:tag" content="总结">
 <meta name="twitter:card" content="summary_large_image">
@@ -158,6 +158,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -203,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      346 字
+      623 字
     </span>
   
 
@@ -212,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      6 分钟
     </span>
   
 
@@ -256,6 +268,25 @@
 <img src="/2021/12/16/summary1/image-20211216201539002.png" srcset="/img/loading.gif" lazyload class="" title="image-20211216201539002">
 
 <p>但查阅<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46436935/article/details/109600481">相关文档</a>后发现，yum安装软件时会自动进行缓存,我猜测可能是网络源和本地源会有冲突。</p>
+<h3 id="0x02-mysql数据库where条件自动类型问题带来的思考"><a href="#0x02-mysql数据库where条件自动类型问题带来的思考" class="headerlink" title="0x02 mysql数据库where条件自动类型问题带来的思考"></a>0x02 mysql数据库where条件自动类型问题带来的思考</h3><p>一个朋友问到的问题，执行了以下语句后并没有报错，而是把user字段的值全查出来了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select * from users where user=&#x27;admin&#x27; --&#x27;&#x27;;<br></code></pre></td></tr></table></figure>
+
+<img src="/2021/12/16/summary1/407796688db5159fc2e93f2d6d74420.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>mysql在使用where查询的时候，如果查询约束的字段是varchar类型，但是查询条件是int类型，则会把无法直接转成数字的值都强转映射成0。</p>
+<h3 id="0x03-离谱，被一个错误搞自闭了"><a href="#0x03-离谱，被一个错误搞自闭了" class="headerlink" title="0x03 离谱，被一个错误搞自闭了"></a>0x03 离谱，被一个错误搞自闭了</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sh: 0: getcwd() failed: No such file or directory<br></code></pre></td></tr></table></figure>
+
+<img src="/2021/12/16/summary1/image-20220215212854737.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/2021/12/16/summary1/image-20220215212925214.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="0x04composer入坑记录"><a href="#0x04composer入坑记录" class="headerlink" title="0x04composer入坑记录"></a>0x04composer入坑记录</h3><img src="/2021/12/16/summary1/image-20220216145816266.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/2021/12/16/summary1/image-20220216150616059.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/2021/12/16/summary1/image-20220216150757695.png" srcset="/img/loading.gif" lazyload class="">
+
+<img src="/2021/12/16/summary1/image-20220216152248161.png" srcset="/img/loading.gif" lazyload class="" title="image-20220216152248161">
 
             </div>
             <hr>

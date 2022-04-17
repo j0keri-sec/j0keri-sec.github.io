@@ -16,16 +16,16 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言学了这么久的docker，该记一记笔记了。 1. docker原理1.1 Docker 架构在安装docker之前，先了解它的原理，我们可以直接从它的架构开始，Docker 使用客户端-服务器架构。Docker客户端与 Docker守护进程对话，后者负责构建、运行和分发 Docker 容器的繁重工作。Docker 客户端和守护程序可以 运行在同一系统上，或者可以将 Docker 客户端连接到远">
+    <meta name="description" content="前言学了这么久的docker，该记一记笔记了。笔记参考于GitHub大佬们写的一本书：Docker从入门到实践，以及Docker官方文档。 1. Docker的基本概念我们可以把docker可以分成三大部分：镜像、容器和仓库，理解了这三个概念，就理解了 Docker 的整个生命周期。 镜像(image)我们都知道，操作系统分为 内核 和 用户空间。对于 Linux 而言，内核启动后，会挂载 roo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker学习记录">
 <meta property="og:url" content="http://example.com/2021/12/12/dockerstudy1/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
-<meta property="og:description" content="前言学了这么久的docker，该记一记笔记了。 1. docker原理1.1 Docker 架构在安装docker之前，先了解它的原理，我们可以直接从它的架构开始，Docker 使用客户端-服务器架构。Docker客户端与 Docker守护进程对话，后者负责构建、运行和分发 Docker 容器的繁重工作。Docker 客户端和守护程序可以 运行在同一系统上，或者可以将 Docker 客户端连接到远">
+<meta property="og:description" content="前言学了这么久的docker，该记一记笔记了。笔记参考于GitHub大佬们写的一本书：Docker从入门到实践，以及Docker官方文档。 1. Docker的基本概念我们可以把docker可以分成三大部分：镜像、容器和仓库，理解了这三个概念，就理解了 Docker 的整个生命周期。 镜像(image)我们都知道，操作系统分为 内核 和 用户空间。对于 Linux 而言，内核启动后，会挂载 roo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/cover/4.jpg">
 <meta property="article:published_time" content="2021-12-12T08:50:28.000Z">
-<meta property="article:modified_time" content="2022-03-18T06:46:08.415Z">
+<meta property="article:modified_time" content="2022-04-16T02:45:51.676Z">
 <meta property="article:author" content="j0ker">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary_large_image">
@@ -215,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.4k 字
+      7.9k 字
     </span>
   
 
@@ -224,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20 分钟
+      67 分钟
     </span>
   
 
@@ -256,28 +256,53 @@
             <h1 style="display: none">docker学习记录</h1>
             
             <div class="markdown-body">
-              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学了这么久的docker，该记一记笔记了。</p>
-<h3 id="1-docker原理"><a href="#1-docker原理" class="headerlink" title="1. docker原理"></a>1. docker原理</h3><h4 id="1-1-Docker-架构"><a href="#1-1-Docker-架构" class="headerlink" title="1.1 Docker 架构"></a>1.1 Docker 架构</h4><p>在安装docker之前，先了解它的原理，我们可以直接从它的架构开始，Docker 使用客户端-服务器架构。Docker<em>客户端</em>与 Docker<em>守护进程</em>对话，后者负责构建、运行和分发 Docker 容器的繁重工作。Docker 客户端和守护程序<em>可以</em> 运行在同一系统上，或者可以将 Docker 客户端连接到远程 Docker 守护程序。Docker 客户端和守护进程使用 REST API、UNIX 套接字或网络接口进行通信。另一个 Docker 客户端是 Docker Compose，它允许使用由一组容器组成的应用程序。</p>
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>学了这么久的docker，该记一记笔记了。笔记参考于GitHub大佬们写的一本书：<a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/">Docker从入门到实践</a>，以及<a target="_blank" rel="noopener" href="https://docs.docker.com/get-started/overview/">Docker官方文档</a>。</p>
+<h3 id="1-Docker的基本概念"><a href="#1-Docker的基本概念" class="headerlink" title="1. Docker的基本概念"></a>1. Docker的基本概念</h3><p>我们可以把docker可以分成三大部分：镜像、容器和仓库，理解了这三个概念，就理解了 <strong>Docker</strong> 的整个生命周期。</p>
+<h4 id="镜像-image"><a href="#镜像-image" class="headerlink" title="镜像(image)"></a>镜像(image)</h4><p>我们都知道，操作系统分为 <strong>内核</strong> 和 <strong>用户空间</strong>。对于 <code>Linux</code> 而言，内核启动后，会挂载 <code>root</code> 文件系统为其提供用户空间支持。而 <strong>Docker 镜像</strong>（<code>Image</code>），就相当于是一个 <code>root</code> 文件系统。比如官方镜像 <code>ubuntu:18.04</code> 就包含了完整的一套 Ubuntu 18.04 最小系统的 <code>root</code> 文件系统。</p>
+<p><strong>Docker 镜像</strong> 是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像 <strong>不包含</strong> 任何动态数据，其内容在构建之后也不会被改变。</p>
+<p>docker镜像就好比一个模板，可以通过这个模板来创建容器服务，tomcat镜像===&gt;run==&gt;tomcat01 容器(提供服务器)，通过这个镜像可以创建多个容器(最终服务运行或者项目运行就是在容器中的)。</p>
+<p> <strong>分层存储</strong></p>
+<p>因为镜像包含操作系统完整的 <code>root</code> 文件系统，其体积往往是庞大的，因此在 Docker 设计时，就充分利用 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Union_mount">Union FS (opens new window)</a>的技术，将其设计为分层存储的架构。所以严格来说，镜像并非是像一个 <code>ISO</code> 那样的打包文件，镜像只是一个虚拟的概念，其实际体现并非由一个文件组成，而是由一组文件系统组成，或者说，由多层文件系统联合组成。</p>
+<p>镜像构建时，会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层。比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。</p>
+<p>分层存储的特征还使得镜像的复用、定制变的更为容易。甚至可以用之前构建好的镜像作为基础层，然后进一步添加新的层，以定制自己所需的内容，构建新的镜像。</p>
+<p>Docker在运行容器前需要本地存在对应的镜像，如果镜像不存在，Docker会尝试先从默认镜像仓库下载（默认使用Docker Hub公共注册服务器中的仓库），用户也可以通过配置，使用自定义的镜像仓库。</p>
+<img src="/2021/12/12/dockerstudy1/image-20211213200759298.png" srcset="/img/loading.gif" lazyload class="" title="image-20211213200759298">
+
+<p>虚悬镜像</p>
+<p>一个特殊的镜像，这个镜像既没有仓库名，也没有标签，均为 <code>&lt;none&gt;</code>。：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs bash">&lt;none&gt;               &lt;none&gt;              00285df0df87        5 days ago          342 MB<br></code></pre></td></tr></table></figure>
+
+<p>这个镜像原本是有镜像名和标签的，但随着官方镜像的维护，发不了新的版本，重新上传了镜像，原来的标签就被废弃了。</p>
+<h4 id="容器-container"><a href="#容器-container" class="headerlink" title="容器(container)"></a><strong>容器(container)</strong></h4><p>镜像（<code>Image</code>）和容器（<code>Container</code>）的关系，就像是面向对象程序设计中的 <code>类</code> 和 <code>实例</code> 一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</p>
+<p>容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Linux_namespaces">命名空间 (opens new window)</a>。因此容器可以拥有自己的 <code>root</code> 文件系统、自己的网络配置、自己的进程空间，甚至自己的用户 ID 空间。容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立于宿主的系统下操作一样。这种特性使得容器封装的应用比直接在宿主运行更加安全。也因为这种隔离的特性，很多人初学 Docker 时常常会混淆容器和虚拟机。</p>
+<p>前面讲过镜像使用的是分层存储，容器也是如此。每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，我们可以称这个为容器运行时读写而准备的存储层为 <strong>容器存储层</strong>。</p>
+<p>容器存储层的生存周期和容器一样，容器消亡时，容器存储层也随之消亡。因此，任何保存于容器存储层的信息都会随容器删除而丢失。</p>
+<p>按照 Docker 最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 <a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/data_management/volume.html">数据卷（Volume）</a>、或者 <a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/data_management/bind-mounts.html">绑定宿主目录</a>，在这些位置的读写会跳过容器存储层，直接对宿主（或网络存储）发生读写，其性能和稳定性更高。</p>
+<p>数据卷的生存周期独立于容器，容器消亡，数据卷不会消亡。因此，使用数据卷后，容器删除或者重新运行之后，数据却不会丢失。</p>
+<h4 id="仓库-repository"><a href="#仓库-repository" class="headerlink" title="仓库(repository)"></a><strong>仓库(repository)</strong></h4><p>仓库就是用来存放镜像的地方！仓库分为公有仓库和私有仓库。</p>
+<p>镜像构建完成后，可以很容易的在当前宿主机上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，<a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/repository/registry.html">Docker Registry</a> 就是这样的服务。</p>
+<p>一个 <strong>Docker Registry</strong> 中可以包含多个 <strong>仓库</strong>（<code>Repository</code>）；每个仓库可以包含多个 <strong>标签</strong>（<code>Tag</code>）；每个标签对应一个镜像。</p>
+<p>通常，一个仓库会包含同一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本。我们可以通过 <code>&lt;仓库名&gt;:&lt;标签&gt;</code> 的格式来指定具体是这个软件哪个版本的镜像。如果不给出标签，将以 <code>latest</code> 作为默认标签。</p>
+<p>以 <a target="_blank" rel="noopener" href="https://hub.docker.com/_/ubuntu">Ubuntu 镜像 (opens new window)</a>为例，<code>ubuntu</code> 是仓库的名字，其内包含有不同的版本标签，如，<code>16.04</code>, <code>18.04</code>。我们可以通过 <code>ubuntu:16.04</code>，或者 <code>ubuntu:18.04</code> 来具体指定所需哪个版本的镜像。如果忽略了标签，比如 <code>ubuntu</code>，那将视为 <code>ubuntu:latest</code>。</p>
+<p>仓库名经常以 <em>两段式路径</em> 形式出现，比如 <code>jwilder/nginx-proxy</code>，前者往往意味着 Docker Registry 多用户环境下的用户名，后者则往往是对应的软件名。但这并非绝对，取决于所使用的具体 Docker Registry 的软件或服务。</p>
+<h4 id="注册服务器"><a href="#注册服务器" class="headerlink" title="注册服务器"></a><strong>注册服务器</strong></h4><p>仓库注册服务器是存放仓库的地方，其上往往存放着多个仓库。</p>
+<p> <strong>Docker Registry 公开服务</strong></p>
+<p>Docker Registry 公开服务是开放给用户使用、允许用户管理镜像的 Registry 服务。一般这类公开服务允许用户免费上传、下载公开的镜像，并可能提供收费服务供用户管理私有镜像。</p>
+<p>最常使用的 Registry 公开服务是官方的 <a target="_blank" rel="noopener" href="https://hub.docker.com/">Docker Hub (opens new window)</a>，这也是默认的 Registry，并拥有大量的高质量的 <a target="_blank" rel="noopener" href="https://hub.docker.com/search?q=&type=image&image_filter=official">官方镜像 (opens new window)</a>。除此以外，还有 Red Hat 的 <a target="_blank" rel="noopener" href="https://quay.io/repository/">Quay.io (opens new window)</a>；Google 的 <a target="_blank" rel="noopener" href="https://cloud.google.com/container-registry/">Google Container Registry (opens new window)</a>，<a target="_blank" rel="noopener" href="https://kubernetes.io/">Kubernetes (opens new window)</a>的镜像使用的就是这个服务；代码托管平台 <a target="_blank" rel="noopener" href="https://github.com/">GitHub (opens new window)</a>推出的 <a target="_blank" rel="noopener" href="https://docs.github.com/cn/packages/working-with-a-github-packages-registry/working-with-the-container-registry">ghcr.io (opens new window)</a>。</p>
+<p>由于某些原因，在国内访问这些服务可能会比较慢。国内的一些云服务商提供了针对 Docker Hub 的镜像服务（<code>Registry Mirror</code>），这些镜像服务被称为 <strong>加速器</strong>。常见的有 <a target="_blank" rel="noopener" href="https://www.aliyun.com/product/acr?source=5176.11533457&userCode=8lx5zmtu">阿里云加速器 (opens new window)</a>、<a target="_blank" rel="noopener" href="https://www.daocloud.io/mirror#accelerator-doc">DaoCloud 加速器 (opens new window)</a>等。使用加速器会直接从国内的地址下载 Docker Hub 的镜像，比直接从 Docker Hub 下载速度会提高很多。在 <a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/install/mirror.html">安装 Docker</a> 一节中有详细的配置方法。</p>
+<p>国内也有一些云服务商提供类似于 Docker Hub 的公开服务。比如 <a target="_blank" rel="noopener" href="https://c.163.com/hub#/m/library/">网易云镜像服务 (opens new window)</a>、<a target="_blank" rel="noopener" href="https://hub.daocloud.io/">DaoCloud 镜像市场 (opens new window)</a>、<a target="_blank" rel="noopener" href="https://www.aliyun.com/product/acr?source=5176.11533457&userCode=8lx5zmtu">阿里云镜像库 (opens new window)</a>等。</p>
+<p><strong>私有 Docker Registry</strong></p>
+<p>除了使用公开服务外，用户还可以在本地搭建私有 Docker Registry。Docker 官方提供了 <a target="_blank" rel="noopener" href="https://hub.docker.com/_/registry/">Docker Registry (opens new window)</a>镜像，可以直接使用做为私有 Registry 服务。在 <a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/repository/registry.html">私有仓库</a> 一节中，会有进一步的搭建私有 Registry 服务的讲解。</p>
+<p>开源的 Docker Registry 镜像只提供了 <a target="_blank" rel="noopener" href="https://docs.docker.com/registry/spec/api/">Docker Registry API (opens new window)</a>的服务端实现，足以支持 <code>docker</code> 命令，不影响使用。但不包含图形界面，以及镜像维护、用户管理、访问控制等高级功能。</p>
+<p>除了官方的 Docker Registry 外，还有第三方软件实现了 Docker Registry API，甚至提供了用户界面以及一些高级功能。比如，<a target="_blank" rel="noopener" href="https://github.com/goharbor/harbor">Harbor (opens new window)</a>和 <a target="_blank" rel="noopener" href="https://vuepress.mirror.docker-practice.com/repository/nexus3_registry.html">Sonatype Nexus</a>。</p>
+<h3 id="2-Docker的原理"><a href="#2-Docker的原理" class="headerlink" title="2.Docker的原理"></a>2.Docker的原理</h3><h4 id="1-1-Docker-架构"><a href="#1-1-Docker-架构" class="headerlink" title="1.1 Docker 架构"></a>1.1 Docker 架构</h4><p>在安装docker之前，先了解它的原理，我们可以直接从它的架构开始，Docker 使用客户端-服务器架构。Docker<em>客户端</em>与 Docker<em>守护进程</em>对话，后者负责构建、运行和分发 Docker 容器的繁重工作。Docker 客户端和守护程序<em>可以</em> 运行在同一系统上，或者可以将 Docker 客户端连接到远程 Docker 守护程序。Docker 客户端和守护进程使用 REST API、UNIX 套接字或网络接口进行通信。另一个 Docker 客户端是 Docker Compose，它允许使用由一组容器组成的应用程序。</p>
 <img src="/2021/12/12/dockerstudy1/image-20211213193212761.png" srcset="/img/loading.gif" lazyload class="">
 
 <p>也就是说，Docker 是一个Client-Server 结构的系统，Docker的守护进程运行在主机上，通过Socket从客户端访问，而DockerServer 接收到Docker-Client 的指令，就会执行这个命令。</p>
 <img src="/2021/12/12/dockerstudy1/image-20211213201422772.png" srcset="/img/loading.gif" lazyload class="" title="image-20211213201422772">
 
-<p>我们可以把docker可以分成三大部分：镜像、容器和仓库。</p>
-<p><strong>镜像(image)</strong></p>
-<p>docker镜像就好比一个模板，可以通过这个模板来创建容器服务，tomcat镜像===&gt;run==&gt;tomcat01 容器(提供服务器)，通过这个镜像可以创建多个容器(最终服务运行或者项目运行就是在容器中的)。</p>
-<p>#镜像是一层一层的，这个以后理解透彻了再来研究.</p>
-<p>Docker在运行容器前需要本地存在对应的镜像，如果镜像不存在，Docker会尝试先从默认镜像仓库下载（默认使用Docker Hub公共注册服务器中的仓库），用户也可以通过配置，使用自定义的镜像仓库。</p>
-<img src="/2021/12/12/dockerstudy1/image-20211213200759298.png" srcset="/img/loading.gif" lazyload class="" title="image-20211213200759298">
 
-<p><strong>容器(container)</strong></p>
-<p>Docker利用容器技术，独立运行一个或者一组应用，通过镜像来创建的。</p>
-<p>启动，停止，删除，基本命令！</p>
-<p>目前就可以把这个容器理解为一个简易的Linux系统</p>
-<p><strong>仓库(repository)</strong></p>
-<p>仓库就是用来存放镜像的地方！仓库分为公有仓库和私有仓库。</p>
-<p><strong>注册服务器</strong></p>
-<p>仓库注册服务器是存放仓库的地方，其上往往存放着多个仓库。</p>
+
 <h4 id="1-2-docker-底层原理"><a href="#1-2-docker-底层原理" class="headerlink" title="1.2 docker 底层原理"></a>1.2 docker 底层原理</h4><p>Docker 是用<a target="_blank" rel="noopener" href="https://golang.org/">Go 编程语言</a>编写的，并利用 Linux 内核的几个特性来提供其功能。Docker 使用一种<code>namespaces</code>称为<em>容器</em>的技术来提供隔离的工作空间。当您运行一个容器时，Docker 会为该容器创建一组 <em>命名空间</em>。这些命名空间提供了一层隔离。容器的每个方面都在单独的命名空间中运行，并且其访问权限仅限于该命名空间。</p>
 <p>#docker为什么比VM快? </p>
 <p>1、Docker有着比虚拟机更少的抽象层。</p>
@@ -289,7 +314,7 @@
 
 <h4 id="2-Docker的安装"><a href="#2-Docker的安装" class="headerlink" title="2.Docker的安装"></a>2.Docker的安装</h4><p><strong>这里的安装以kali Linux安装docker-ce为例。</strong></p>
 <p>(1)使用的清华镜像:</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/gpg | sudo apt-key add -<br></code></pre></td></tr></table></figure>
 
 <p>(2)配置docker apt ：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">echo &#x27;deb [arch=amd64] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/debian/ buster stable&#x27; | sudo tee /etc/apt/sources.list.d/docker.list<br></code></pre></td></tr></table></figure>
@@ -307,37 +332,109 @@
 <ol start="2">
 <li>docker的常用命令</li>
 </ol>
-<h3 id="3-docker镜像命令"><a href="#3-docker镜像命令" class="headerlink" title="3 docker镜像命令"></a>3 docker镜像命令</h3><h4 id="3-1获取镜像"><a href="#3-1获取镜像" class="headerlink" title="3.1获取镜像"></a>3.1获取镜像</h4><p>其中，NAME是镜像仓库名称(用来区分镜像),TAG是镜像的标签（往往用来表示版本信息)。通常情况下，描述一个镜像需要包括“名称+标签”信息。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker [image] pull NAME[:TAG]<br></code></pre></td></tr></table></figure>
+<h3 id="3-docker镜像操作"><a href="#3-docker镜像操作" class="headerlink" title="3. docker镜像操作"></a>3. docker镜像操作</h3><h4 id="3-1获取镜像"><a href="#3-1获取镜像" class="headerlink" title="3.1获取镜像"></a>3.1获取镜像</h4><p>其中，NAME是镜像仓库名称(用来区分镜像),TAG是镜像的标签（往往用来表示版本信息)。通常情况下，描述一个镜像需要包括“名称+标签”信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]<br></code></pre></td></tr></table></figure>
 
-<p>若不加标签,默认是拉取最新版</p>
+<p>具体的选项可以通过 <code>docker pull --help</code> 命令看到，这里我们说一下镜像名称的格式。</p>
+<ul>
+<li>Docker 镜像仓库地址：地址的格式一般是 <code>&lt;域名/IP&gt;[:端口号]</code>。默认地址是 Docker Hub(<code>docker.io</code>)。</li>
+<li>仓库名：如之前所说，这里的仓库名是两段式名称，即 <code>&lt;用户名&gt;/&lt;软件名&gt;</code>。对于 Docker Hub，如果不给出用户名，则默认为 <code>library</code>，也就是官方镜像。</li>
+</ul>
+<p>若不加标签,默认是拉取最新版。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull ubuntu<br><br>Using default tag:latest<br>latest:Pulling from libraay/ubuntu<br></code></pre></td></tr></table></figure>
 
-<h4 id="3-2查看镜像信息"><a href="#3-2查看镜像信息" class="headerlink" title="3.2查看镜像信息"></a>3.2查看镜像信息</h4><p>(1).使用images命令列出镜像，其中[]为可选项</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker images [ls]<br></code></pre></td></tr></table></figure>
+<p>从下载过程中可以看到我们之前提及的分层存储的概念，镜像是由多层存储所构成。下载也是一层层的去下载，并非单一文件。下载过程中给出了每一层的 ID 的前 12 位。并且下载结束后，给出该镜像完整的 <code>sha256</code> 的摘要，以确保下载一致性。</p>
+<p>在使用上面命令的时候，你可能会发现，你所看到的层 ID 以及 <code>sha256</code> 的摘要和这里的不一样。这是因为官方镜像是一直在维护的，有任何新的 bug，或者版本更新，都会进行修复再以原来的标签发布，这样可以确保任何使用这个标签的用户可以获得更安全、更稳定的镜像。</p>
+<p>如果获取镜像太慢，则需要配置镜像加速器。</p>
+<h4 id="3-2查看镜像信息"><a href="#3-2查看镜像信息" class="headerlink" title="3.2查看镜像信息"></a>3.2查看镜像信息</h4><p>(1).使用images命令列出镜像，不加任何参数的情况下，<code>docker image ls</code> 会列出所有顶层镜像，其中[]为可选项。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker image ls [-a/-f/-q]<br></code></pre></td></tr></table></figure>
 
 <p>(2).使用tag命令添加镜像标签，docker tag命令来为本地镜像任意添加新的标签。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker tag ubuntu:latest myubuntu:latest<br></code></pre></td></tr></table></figure>
 
 <p>(3).使用inspect命令查看详细信息,使用docker[image]inspect命令可以获取该镜像的详细信息，包括制作者、适应架构、各层的数字摘要等。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker [image] inspect ubuntu:18.04<br></code></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker image inspect ubuntu:18.04<br></code></pre></td></tr></table></figure>
 
 <p>(4).使用history命令查看镜像历史,该命令将列出各层的创建信息。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker history ubuntu:18.04<br></code></pre></td></tr></table></figure>
 
 <h4 id="3-3搜寻镜像"><a href="#3-3搜寻镜像" class="headerlink" title="3.3搜寻镜像"></a>3.3搜寻镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker search [] keyword<br></code></pre></td></tr></table></figure>
 
-<h4 id="3-4删除和清理镜像"><a href="#3-4删除和清理镜像" class="headerlink" title="3.4删除和清理镜像"></a>3.4删除和清理镜像</h4><p>(1).使用标签删除镜像,使用docker rmi或docker image rm命令可以删除镜像,其中IMAGE可以为标签或ID。</p>
+<h4 id="3-4-运行"><a href="#3-4-运行" class="headerlink" title="3.4 运行"></a>3.4 运行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -it --rm --name ubuntu ubuntu:18.04 /bin/bash<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-it</code>：这是两个参数，一个是 <code>-i</code>：交互式操作，一个是 <code>-t</code> 终端。我们这里打算进入 <code>bash</code> 执行一些命令并查看返回结果，因此我们需要交互式终端。</li>
+<li><code>--name</code>:`这个参数是给容器重命名，方便后续的操作。</li>
+<li><code>--rm</code>：这个参数是说容器退出后随之将其删除。默认情况下，为了排障需求，退出的容器并不会立即删除，除非手动 <code>docker rm</code>。我们这里只是随便执行个命令，看看结果，不需要排障和保留结果，因此使用 <code>--rm</code> 可以避免浪费空间。</li>
+<li><code>ubuntu:18.04</code>：这是指用 <code>ubuntu:18.04</code> 镜像为基础来启动容器。</li>
+<li><code>bash</code>：放在镜像名后的是 <strong>命令</strong>，这里我们希望有个交互式 Shell，因此用的是 <code>bash</code>。</li>
+</ul>
+<p>进入容器后，我们可以在 Shell 下操作，执行任何所需的命令。这里，我们执行了 <code>cat /etc/os-release</code>，这是 Linux 常用的查看当前系统版本的命令，从返回的结果可以看到容器内是 <code>Ubuntu 18.04.1 LTS</code> 系统。</p>
+<p>最后我们通过 <code>exit</code> 退出了这个容器。</p>
+<h4 id="3-5删除和清理镜像"><a href="#3-5删除和清理镜像" class="headerlink" title="3.5删除和清理镜像"></a>3.5删除和清理镜像</h4><p>(1).使用标签删除镜像,使用docker rmi或docker image rm命令可以删除镜像,其中IMAGE可以为标签或ID。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker rmi IMAGE[IMAGE.....]<br><span class="hljs-meta"></span><br><span class="hljs-meta">#</span><span class="bash">若要强行删除镜像,可以使用-f参数</span><br>docker rmi -f ubuntu:18.04<br></code></pre></td></tr></table></figure>
 
 <p>(2).使用镜像ID来删除镜像,需要注意的是，如果该镜像创建的容器存在时，镜像文件默认是无法删除的。</p>
-<h4 id="3-5创建镜像"><a href="#3-5创建镜像" class="headerlink" title="3.5创建镜像"></a>3.5创建镜像</h4><h4 id="3-6存出和载入镜像"><a href="#3-6存出和载入镜像" class="headerlink" title="3.6存出和载入镜像"></a>3.6存出和载入镜像</h4><h4 id="3-7上传镜像"><a href="#3-7上传镜像" class="headerlink" title="3.7上传镜像"></a>3.7上传镜像</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><br></code></pre></td></tr></table></figure>
+<h4 id="3-5创建镜像"><a href="#3-5创建镜像" class="headerlink" title="3.5创建镜像"></a>3.5创建镜像</h4><p>在终端下，运行以下命令能够创建镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker build -t getting-started <br></code></pre></td></tr></table></figure>
 
-<h3 id="4-docker容器命令"><a href="#4-docker容器命令" class="headerlink" title="4. docker容器命令"></a>4. docker容器命令</h3><p>(1)使用images命令列出镜像</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker images [ls]<br></code></pre></td></tr></table></figure>
+<h4 id="3-6导入和导出镜像"><a href="#3-6导入和导出镜像" class="headerlink" title="3.6导入和导出镜像"></a>3.6导入和导出镜像</h4><p><strong>导出镜像</strong></p>
+<p>使用 <code>docker save</code> 命令可以将本地ubuntu镜像保存为归档文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker save ubuntu -o ubuntu-18.04-x86_64.tar.gz <br></code></pre></td></tr></table></figure>
 
+<p>(1).从rootfs压缩包导入</p>
+<p>格式：<code>docker import [选项] &lt;文件&gt;|&lt;URL&gt;|- [&lt;仓库名&gt;[:&lt;标签&gt;]]</code></p>
+<p>压缩包可以是本地文件、远程 Web 文件，甚至是从标准输入中得到。压缩包将会在镜像 <code>/</code> 目录展开，并直接作为镜像第一层提交。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker import ubuntu-18.04-x86_64.tar.gz joker/unbuntu:18.04<br></code></pre></td></tr></table></figure>
 
+<p>(2).使用<code>docker load</code>进行导入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker load -i alpine-latest.tar.gz<br></code></pre></td></tr></table></figure>
 
+<h4 id="3-7上传镜像"><a href="#3-7上传镜像" class="headerlink" title="3.7上传镜像"></a>3.7上传镜像</h4><p>将本地的镜像上传到镜像仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker push [OPTIONS] NAME[:TAG]<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-docker容器命令"><a href="#4-docker容器命令" class="headerlink" title="4. docker容器命令"></a>4. docker容器命令</h3><h4 id="4-1启动容器"><a href="#4-1启动容器" class="headerlink" title="4.1启动容器"></a>4.1启动容器</h4><p>启动容器有两种方式，一种是基于镜像新建一个容器并启动，另外一个是将在终止状态（<code>exited</code>）的容器重新启动。</p>
+<p><strong>新建并启动</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -it --rm --name ubuntu -p 宿主机端口:容器端口 -v /root/test:/root ubuntu:18.04 /bin/bash<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>-it</code>：<code>-t</code>选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上，<code>-i</code> 则让容器的标准输入保持打开。</li>
+<li><code>--name</code>: 给容器进行重命名。</li>
+<li><code>-p</code>: 将容器端口映射至主机端口，若-p为大写则随机分配端口。</li>
+<li><code>-v</code>: 将容器文件目录挂载至本机目录。</li>
+</ul>
+<p><strong>启动已终止的容器</strong></p>
+<p>可以利用 <code>docker container start</code> 命令，直接将一个已经终止（<code>exited</code>）的容器启动运行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker container start 容器名<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-2终止容器"><a href="#4-2终止容器" class="headerlink" title="4.2终止容器"></a>4.2终止容器</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker stop 容器名/id<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-3后台运行"><a href="#4-3后台运行" class="headerlink" title="4.3后台运行"></a>4.3后台运行</h4><p>在使用 <code>-d</code> 参数时，容器启动后会进入后台。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -d ubuntu:18.04 /bin/bash<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-4进入容器"><a href="#4-4进入容器" class="headerlink" title="4.4进入容器"></a>4.4进入容器</h4><p>(1).在使用 <strong>-d</strong> 参数时，容器启动后会自动进入后台，可以通过一下命令进入：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker attach 容器名/id<br></code></pre></td></tr></table></figure>
+
+<p>但进入容器后，如果从这个容器退出，会导致容器的停止，并且只能同时使用一个终端。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker exec -it 容器名/id /bin/bash<br></code></pre></td></tr></table></figure>
+
+<p> 如果从这个容器退出，容器不会停止。</p>
+<p>(2).在启动容器时，若使用了-it参数，则会自动进入容器。</p>
+<h4 id="4-5删除容器"><a href="#4-5删除容器" class="headerlink" title="4.5删除容器"></a>4.5删除容器</h4><p>使用docker rm删除命令,<code>-f</code>: 强制删除。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker rm -f 容器名/id<br></code></pre></td></tr></table></figure>
+
+<h4 id="4-6导出和导入容器"><a href="#4-6导出和导入容器" class="headerlink" title="4.6导出和导入容器"></a>4.6导出和导入容器</h4><p><strong>导出容器</strong></p>
+<p>如果要导出本地某个容器，可以使用 <code>docker export</code> 命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker export 容器名/id &gt; ubuntu18.04.tar<br></code></pre></td></tr></table></figure>
+
+<p><strong>导入容器快照</strong></p>
+<p>可以使用 <code>docker import</code> 从容器快照文件中再导入为镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">cat ubuntu.tar | docker import - test/ubuntu:v1.0<br></code></pre></td></tr></table></figure>
+
+<p>此外，也可以通过指定 URL 或者某个目录来导入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker import http://example.com/exampleimage.tgz example/imagerepo<br></code></pre></td></tr></table></figure>
+
+<p><em>注：用户既可以使用 <code>docker load</code> 来导入镜像存储文件到本地镜像库，也可以使用 <code>docker import</code> 来导入一个容器快照到本地镜像库。这两者的区别在于容器快照文件将丢弃所有的历史记录和元数据信息（即仅保存容器当时的快照状态），而镜像存储文件将保存完整记录，体积也要大。此外，从容器快照文件导入时可以重新指定标签等元数据信息。</em></p>
 
             </div>
             <hr>

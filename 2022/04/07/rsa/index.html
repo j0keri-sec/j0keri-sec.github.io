@@ -16,25 +16,18 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0x00 前言前面一节讲了docker的原理，安装以及一些docker的镜像命令，发现在虚拟机里调试docker实在是太不方便了，想到可以使用vscode来调试docker,极大地减轻了工作负担,接下来的话要讲如何在windows下优雅地使用docker。这节主要讲述如何使用vscode配合docker容器进行开发。   0x01 win10环境配置wsl子系统的安装及配置如果不了解wsl子系统的">
-<meta property="og:type" content="article">
-<meta property="og:title" content="使用vscode玩转docker">
-<meta property="og:url" content="http://example.com/2022/03/18/dockerstudy2/index.html">
+    <meta property="og:type" content="article">
+<meta property="og:title" content="rsa">
+<meta property="og:url" content="http://example.com/2022/04/07/rsa/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
-<meta property="og:description" content="0x00 前言前面一节讲了docker的原理，安装以及一些docker的镜像命令，发现在虚拟机里调试docker实在是太不方便了，想到可以使用vscode来调试docker,极大地减轻了工作负担,接下来的话要讲如何在windows下优雅地使用docker。这节主要讲述如何使用vscode配合docker容器进行开发。   0x01 win10环境配置wsl子系统的安装及配置如果不了解wsl子系统的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/img/cover/14.jpg">
-<meta property="article:published_time" content="2022-03-18T06:40:15.000Z">
-<meta property="article:modified_time" content="2022-04-05T15:04:48.658Z">
+<meta property="article:published_time" content="2022-04-07T07:17:06.000Z">
+<meta property="article:modified_time" content="2022-04-07T07:22:09.267Z">
 <meta property="article:author" content="j0ker">
-<meta property="article:tag" content="wsl2">
-<meta property="article:tag" content="虚拟化">
-<meta property="article:tag" content="vscode">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/img/cover/14.jpg">
   
   
-  <title>使用vscode玩转docker - j0ker&#39;s blog</title>
+  <title>rsa - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -196,7 +189,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="使用vscode玩转docker">
+            <span class="h2" id="subtitle" title="rsa">
               
             </span>
 
@@ -206,8 +199,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-18 14:40" pubdate>
-        2022年3月18日 下午
+      <time datetime="2022-04-07 15:17" pubdate>
+        2022年4月7日 下午
       </time>
     </span>
   
@@ -217,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      0 字
     </span>
   
 
@@ -226,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      1 分钟
     </span>
   
 
@@ -255,60 +248,15 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">使用vscode玩转docker</h1>
+            <h1 style="display: none">rsa</h1>
             
             <div class="markdown-body">
-              <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>前面一节讲了docker的原理，安装以及一些docker的镜像命令，发现在虚拟机里调试docker实在是太不方便了，想到可以使用vscode来调试docker,极大地减轻了工作负担,接下来的话要讲如何在windows下优雅地使用docker。这节主要讲述如何使用vscode配合docker容器进行开发。</p>
-<img src="/2022/03/18/dockerstudy2/image-20220405214731059.png" srcset="/img/loading.gif" lazyload class="" title="image-20220405214731059">
-
-<h3 id="0x01-win10环境配置"><a href="#0x01-win10环境配置" class="headerlink" title="0x01 win10环境配置"></a>0x01 win10环境配置</h3><h4 id="wsl子系统的安装及配置"><a href="#wsl子系统的安装及配置" class="headerlink" title="wsl子系统的安装及配置"></a>wsl子系统的安装及配置</h4><p>如果不了解wsl子系统的话，可以先去看<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/about">微软官方文档</a></p>
-<p>目前Docker Desktop 仅支持在Hyper-v模式或wsl模式下启动，但归根结底，wsl2子系统的底层还是离不开Hyper-v的驱动。 安装docker前，需要在控制面板-&gt;程序-.启用或关闭Windows功能进行配置，如果使用Hyper-v，则需要打开Hyper-V。但我推荐在wsl2下进行配置，所以，需要将适用于Linux的Windows子系统和虚拟机平台打开，并安装内核，具体操作请查看文档：<a target="_blank" rel="noopener" href="https://jokeri.top/2021/11/06/wsl2/">win10搭建kali子系统(WSL2)</a></p>
-<h3 id="0x02-docker的安装及配置"><a href="#0x02-docker的安装及配置" class="headerlink" title="0x02 docker的安装及配置"></a>0x02 docker的安装及配置</h3><p>到<a target="_blank" rel="noopener" href="https://www.docker.com/get-started/">docker官网</a>下载Docker Desktop的最新安装包，然后执行安装步骤。成功安装并启动 Docker Desktop 后，可以在Docker菜单中注册账号并登录。</p>
-<p>进入Docker Desktop 后，我们还得对Docker进行切换国内镜像源，设置以wsl2模式启动，以及设置内存等限制。</p>
-<p><strong>切换国内镜像源</strong></p>
-<p>点击设置图标，进入Docker Engine，修改配置文件为以下内容：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></div></td><td class="code"><pre><code class="hljs yaml">&#123;<br>  <span class="hljs-attr">&quot;builder&quot;:</span> &#123;<br>    <span class="hljs-attr">&quot;gc&quot;:</span> &#123;<br>      <span class="hljs-attr">&quot;defaultKeepStorage&quot;:</span> <span class="hljs-string">&quot;20GB&quot;</span>,<br>      <span class="hljs-attr">&quot;enabled&quot;:</span> <span class="hljs-literal">true</span><br>    &#125;<br>  &#125;,<br>  <span class="hljs-attr">&quot;experimental&quot;:</span> <span class="hljs-literal">false</span>,<br>  <span class="hljs-attr">&quot;features&quot;:</span> &#123;<br>    <span class="hljs-attr">&quot;buildkit&quot;:</span> <span class="hljs-literal">true</span><br>  &#125;,<br>  <span class="hljs-attr">&quot;registry-mirrors&quot;:</span> [<br>    <span class="hljs-string">&quot;https://docker.mirrors.ustc.edu.cn/&quot;</span><br>  ]<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>并点击应用并重启。</p>
-<img src="/2022/03/18/dockerstudy2/image-20220405220135335.png" srcset="/img/loading.gif" lazyload class="" title="image-20220405220135335">
-
-<p><strong>设置以wsl模式启动</strong></p>
-<p>在General下，选中Use the WSL 2 based engine，并点击应用并重启即可。</p>
-<img src="/2022/03/18/dockerstudy2/image-20220405221428040.png" srcset="/img/loading.gif" lazyload class="" title="image-20220405221428040">
-
-<p><strong><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/wsl-config">设置wsl2内存等限制。</a></strong></p>
-<p>在地址栏输入%UserProfile%，进入用户文件夹。</p>
-<img src="/2022/03/18/dockerstudy2/image-20220405222042068.png" srcset="/img/loading.gif" lazyload class="" title="image-20220405222042068">
-
-<p>win10在2004正式版中提供了wsl2。wsl命令已具备之前wslconfig的所有功能。</p>
-<p>新建.wslconfig文件，并输入以下内容：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml">[<span class="hljs-string">wsl2</span>]<br><span class="hljs-string">memory=8GB</span><br><span class="hljs-string">processors=4</span><br><span class="hljs-string">swap=2GB</span><br><span class="hljs-string">localhostForwarding=true</span><br></code></pre></td></tr></table></figure>
-
-<p>限制内存为8G，核心为4，交换分区2G。</p>
-<h3 id="0x03-vscode的安装及配置"><a href="#0x03-vscode的安装及配置" class="headerlink" title="0x03 vscode的安装及配置"></a>0x03 vscode的安装及配置</h3><p>到<a target="_blank" rel="noopener" href="https://code.visualstudio.com/">官网</a>下载稳定版的vscode,并执行安装步骤。安装完成后，启动vscode，在vscode的扩展栏中搜索：Remote，找到<code>Remote - Containers</code>这个插件，按照同样的步骤，将docker这个插件安装好，扩展栏中就会出现docker的图标。</p>
-<img src="/2022/03/18/dockerstudy2/image-20220405225812291.png" srcset="/img/loading.gif" lazyload class="" title="image-20220405225812291">
-
-<p>接下来开启个容器，试试插件能不能正常运行。</p>
-<img src="/2022/03/18/dockerstudy2/image-20220405230415434.png" srcset="/img/loading.gif" lazyload class="" title="image-20220405230415434">
-
-<p>可以发现，成功进入容器。</p>
-
+              
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/wsl2/">wsl2</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a>
-                    
-                      <a class="hover-with-bg" href="/tags/vscode/">vscode</a>
-                    
-                  </div>
                 
               </div>
               
@@ -323,18 +271,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/28/system-exam/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">system-exam</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/07/bluecms1-6/">
-                        <span class="hidden-mobile">bluecms1.6</span>
+                      <a href="/2022/03/28/system-exam/">
+                        <span class="hidden-mobile">system-exam</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

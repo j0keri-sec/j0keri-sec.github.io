@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/cover/12.jpg">
 <meta property="article:published_time" content="2021-12-16T11:40:27.000Z">
-<meta property="article:modified_time" content="2022-04-16T02:54:44.224Z">
+<meta property="article:modified_time" content="2022-05-04T01:27:31.428Z">
 <meta property="article:author" content="j0ker">
 <meta property="article:tag" content="总结">
 <meta name="twitter:card" content="summary_large_image">
@@ -215,7 +215,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.5k 字
+      5.1k 字
     </span>
   
 
@@ -224,7 +224,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      38 分钟
+      43 分钟
     </span>
   
 
@@ -294,9 +294,18 @@
 <h3 id="0x04-kali-文件尺寸不符，您使用的镜像正在同步中……"><a href="#0x04-kali-文件尺寸不符，您使用的镜像正在同步中……" class="headerlink" title="0x04 kali 文件尺寸不符，您使用的镜像正在同步中……"></a>0x04 kali 文件尺寸不符，您使用的镜像正在同步中……</h3><p>这种情况一般发生在apt clean后，删除了包缓存中的所有包，重新apt update后。发生这种错误的原因是第三方镜像源未来得及和官方镜像源进行同步，导致hash校验不通过。解决问题也很简单，换源，但我建议换成官方的镜像源(现在官方的镜像源也挺快的),查看<a target="_blank" rel="noopener" href="https://www.kali.org/docs/general-use/kali-linux-sources-list-repositories/">官网文档</a>发现官方镜像源也分为<strong>kali-rolling</strong>(默认 &amp; 经常更新)和<strong>kali-last-snapshot</strong>(更“稳定”和“最安全)两个版本。</p>
 <img src="/2021/12/16/summary1/image-20220406162452797.png" srcset="/img/loading.gif" lazyload class="" title="image-20220406162452797">
 
-<h3 id="0x05-此平台不支持AMD-V-RVI"><a href="#0x05-此平台不支持AMD-V-RVI" class="headerlink" title="0x05 此平台不支持AMD-V/RVI"></a>0x05 此平台不支持AMD-V/RVI</h3><p>明明在win下已经开启了cpu的虚拟化，但还是会报错，这是由于在Windows下开了wsl2子系统，就必须依赖Hyper-V来驱动，虽然VMware 支持Hyper-V，但在底层还是会存在问题，不知道是不是AMD的自身虚拟化的原因,而且用过ENSP再细心点会发现，ENSP底层需要开启CPU的虚拟化，但如果操作系统直接或间接开启Hyper-V，将会导致ENSP的虚拟化失败，报40错误。解决方法主要为以下两种：</p>
-<p>1.将wsl2降至wsl版本，并在启用或关闭Windows功能里取消勾选虚拟机平台。</p>
-<p>2.使用一块硬盘制作WTG盘，下次直接通过硬盘启动。(不得不说，这方法确实有点麻烦)</p>
+<h3 id="0x05-此平台不支持AMD-V-RVI"><a href="#0x05-此平台不支持AMD-V-RVI" class="headerlink" title="0x05 此平台不支持AMD-V/RVI"></a>0x05 此平台不支持AMD-V/RVI</h3><p>明明在win下已经开启了cpu的虚拟化，但还是会报错，这是由于在Windows下开了wsl2子系统，就必须依赖Hyper-V来驱动，虽然VMware 支持Hyper-V，但在底层还是会存在问题，不知道是不是AMD的自身虚拟化的原因,而且用过ENSP再细心点会发现，ENSP底层需要开启CPU的虚拟化，但如果操作系统直接或间接开启Hyper-V，将会导致ENSP的虚拟化失败，报40错误。解决方法主要为以下三种，目前第一种还是非常有效的：</p>
+<ul>
+<li><p>1.进入管理员命令提示符(win+x),输入如下命令(关闭虚拟机平台),并重启电脑：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bcdedit /set hypervisorlaunchtype off<br></code></pre></td></tr></table></figure>
+
+<p>如果要是用子系统的时，进入管理员命令提示符(win+x),输入如下命令(开启虚拟机平台),并重启电脑：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bcdedit /set hypervisorlaunchtype auto<br></code></pre></td></tr></table></figure></li>
+<li><p>2.将wsl2降至wsl版本，并在启用或关闭Windows功能里取消勾选虚拟机平台。</p>
+</li>
+<li><p>3.使用一块硬盘制作WTG盘，下次直接通过硬盘启动。(不得不说，这方法确实有点麻烦)</p>
+</li>
+</ul>
 <img src="/2021/12/16/summary1/image-20220406164151923.png" srcset="/img/loading.gif" lazyload class="" title="image-20220406164151923">
 
 <h3 id="0x06-docker-compose容器多服务通信问题"><a href="#0x06-docker-compose容器多服务通信问题" class="headerlink" title="0x06 docker-compose容器多服务通信问题"></a>0x06 docker-compose容器多服务通信问题</h3><h4 id="在同一个服务内，如何实现用php-apache容器连接mysql容器的服务"><a href="#在同一个服务内，如何实现用php-apache容器连接mysql容器的服务" class="headerlink" title="在同一个服务内，如何实现用php-apache容器连接mysql容器的服务?"></a>在同一个服务内，如何实现用php-apache容器连接mysql容器的服务?</h4><p>问题解决，如果php-apache和mysql在一个服务中，那么可以通过在php-apache连接mysql时服务器名填mysql(mysql服务名)，也就是说mysqli的mysql.default_host默认为容器名。</p>
@@ -325,7 +334,13 @@
 <p>这样子就成功了，很不理解。</p>
 <img src="/2021/12/16/summary1/image-20220410132153437.png" srcset="/img/loading.gif" lazyload class="" title="image-20220410132153437">
 
-<h3 id="0x09-eve-ng中用VNC远程windows虚拟机时，出现-reading-version-failed-not-an-RFB-server？-，造成无法连接的问题"><a href="#0x09-eve-ng中用VNC远程windows虚拟机时，出现-reading-version-failed-not-an-RFB-server？-，造成无法连接的问题" class="headerlink" title="0x09 eve-ng中用VNC远程windows虚拟机时，出现 reading version failed:not an RFB server？ ，造成无法连接的问题"></a>0x09 eve-ng中用VNC远程windows虚拟机时，出现 reading version failed:not an RFB server？ ，造成无法连接的问题</h3>
+<h3 id="0x09-eve-ng中用VNC远程windows虚拟机时，出现-reading-version-failed-not-an-RFB-server？-，造成无法连接的问题"><a href="#0x09-eve-ng中用VNC远程windows虚拟机时，出现-reading-version-failed-not-an-RFB-server？-，造成无法连接的问题" class="headerlink" title="0x09 eve-ng中用VNC远程windows虚拟机时，出现 reading version failed:not an RFB server？ ，造成无法连接的问题"></a>0x09 eve-ng中用VNC远程windows虚拟机时，出现 reading version failed:not an RFB server？ ，造成无法连接的问题</h3><p>最后发现是虚拟化的问题，把虚拟机平台关掉即可。</p>
+<h3 id="0x10-wsl子系统无法访问外部网络"><a href="#0x10-wsl子系统无法访问外部网络" class="headerlink" title="0x10 wsl子系统无法访问外部网络"></a>0x10 wsl子系统无法访问外部网络</h3><p>升级win11后，把wsl子系统卸载了再重装了一遍，但能ping通ip地址，但无法ping域名，以为是DNS的解析问题，在/etc/resolv.conf下重新配了nameserver,能重新ping通域名。但如果把防火墙关闭的话，不重新编辑resolv.conf文件，也能ping通域名，说明是防火墙的问题。</p>
+<p>Windows 认为 WSL 的虚拟网卡是<strong>公用网络</strong>，因此任何阻止公用网络入站请求的防火墙策略都会拦住 WSL 发过来的请求。()</p>
+<p>使用 PowerShell 命令行创建一条给 WSL 网卡的防火墙策略：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">New-NetFirewallRule -DisplayName &quot;WSL&quot; -Direction Inbound  -InterfaceAlias &quot;vEthernet (WSL)&quot;  -Action Allow<br></code></pre></td></tr></table></figure>
+
+
             </div>
             <hr>
             <div>

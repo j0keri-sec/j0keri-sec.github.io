@@ -1,0 +1,592 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="0x00前言在配置之前建议先看下xdebug的调试原理，可以少走很多坑。最详细的phpstorm+xdebug调试详细教程，没有之一，以及另一位师傅的文章：PhpStorm+xdebug远程调试配置关键 如果在本地xdebug的话，没必要设置DBGp代理，DBGp协议支持多个用户共同调试远程服务器,具体的教程还是以官方文档为主。 0x01 安装php-xdebug并配置1.在windows上安装p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用idea、xdebug进行调试php代码">
+<meta property="og:url" content="http://example.com/2022/04/25/php-debug/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="0x00前言在配置之前建议先看下xdebug的调试原理，可以少走很多坑。最详细的phpstorm+xdebug调试详细教程，没有之一，以及另一位师傅的文章：PhpStorm+xdebug远程调试配置关键 如果在本地xdebug的话，没必要设置DBGp代理，DBGp协议支持多个用户共同调试远程服务器,具体的教程还是以官方文档为主。 0x01 安装php-xdebug并配置1.在windows上安装p">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426103001798.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220425230828899.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426104743664.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426105746021.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426110120323.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426110805821.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426110955355.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220426111122992.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220427175601690.png">
+<meta property="og:image" content="http://example.com/2022/04/25/php-debug/image-20220427175902574.png">
+<meta property="article:published_time" content="2022-04-25T15:04:42.000Z">
+<meta property="article:modified_time" content="2022-04-27T10:04:07.812Z">
+<meta property="article:author" content="j0ker">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2022/04/25/php-debug/image-20220426103001798.png">
+  
+  
+  <title>使用idea、xdebug进行调试php代码 - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="使用idea、xdebug进行调试php代码">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-25 23:04" pubdate>
+        2022年4月25日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">使用idea、xdebug进行调试php代码</h1>
+            
+            <div class="markdown-body">
+              <h3 id="0x00前言"><a href="#0x00前言" class="headerlink" title="0x00前言"></a>0x00前言</h3><p>在配置之前建议先看下xdebug的调试原理，可以少走很多坑。<a target="_blank" rel="noopener" href="https://blog.csdn.net/yinhangbbbbb/article/details/79247331?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-4.pc_relevant_default&spm=1001.2101.3001.4242.3&utm_relevant_index=7">最详细的phpstorm+xdebug调试详细教程，没有之一</a>，以及另一位师傅的文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/kunoy/article/details/114271805">PhpStorm+xdebug远程调试配置关键</a></p>
+<p>如果在本地xdebug的话，没必要设置DBGp代理，DBGp协议支持多个用户共同调试远程服务器,具体的教程还是以<a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/idea/configuring-xdebug.html?keymap=primary_kde#configuring-xdebug-vagrant">官方文档</a>为主。</p>
+<h3 id="0x01-安装php-xdebug并配置"><a href="#0x01-安装php-xdebug并配置" class="headerlink" title="0x01 安装php-xdebug并配置"></a>0x01 <a target="_blank" rel="noopener" href="https://xdebug.org/docs/install">安装php-xdebug</a>并配置</h3><h4 id="1-在windows上安装php-xdebug"><a href="#1-在windows上安装php-xdebug" class="headerlink" title="1.在windows上安装php-xdebug"></a>1.在windows上安装php-xdebug</h4><ul>
+<li>最简单的方法当然是安装小皮面板，打开小皮面板的软件管理，进入对应php版本的配置，打开XDebug调试组件即可。</li>
+</ul>
+<img src="/2022/04/25/php-debug/image-20220426103001798.png" srcset="/img/loading.gif" lazyload class="">
+
+<ul>
+<li>第二种方法便是在<a target="_blank" rel="noopener" href="https://xdebug.org/download/historical">官网</a>下载对应版本的PHP版本的xdebug，下载好后,在对应版本的php.ini下设置引入的xdebug的dll文件即可。</li>
+</ul>
+<p>以下是xdebug配置项，xdebug.remote_port默认的端口是9000，这里我改成了9001(9000端口会和有些应用冲突)。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></div></td><td class="code"><pre><code class="hljs yaml">[<span class="hljs-string">Xdebug</span>]<br><span class="hljs-string">zend_extension=D:/phpstudy_pro/Extensions/php/php5.6.9nts/ext/php_xdebug.dll</span><br><span class="hljs-string">xdebug.collect_params=1</span><br><span class="hljs-string">xdebug.collect_return=1</span><br><span class="hljs-string">xdebug.auto_trace=Off</span><br><span class="hljs-string">xdebug.trace_output_dir=D:/phpstudy_pro/Extensions/php_log/php5.6.9nts.xdebug.trace</span><br><span class="hljs-string">xdebug.profiler_enable=Off</span><br><span class="hljs-string">xdebug.profiler_output_dir=&quot;D:\phpstudy_pro\Extensions\tmp\xdebug&quot;</span><br><span class="hljs-string">xdebug.remote_enable=On</span><br><span class="hljs-string">xdebug.remote_host=&quot;127.0.0.1&quot;</span><br><span class="hljs-string">xdebug.remote_port=9001</span><br><span class="hljs-string">xdebug.remote_handler=dbgp</span><br><span class="hljs-string">xdebug.idekey=&quot;idea&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-在Linux上安装xdebug"><a href="#2-在Linux上安装xdebug" class="headerlink" title="2.在Linux上安装xdebug"></a>2.在Linux上安装xdebug</h4><ul>
+<li>1.在<a target="_blank" rel="noopener" href="https://xdebug.org/docs/install">官网</a>上文档说明中，可以使用软件包管理工具进行安装，<strong>但不推荐，这种安装的软件包太旧！</strong>服务器系统为ubuntu18.04，默认安装了php7.2，只需要php-xdebug即可。</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt install php-xdebug<br></code></pre></td></tr></table></figure>
+
+<p>编辑xdebug配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">/etc/php/7.2/mods-available/xdebug.ini<br></code></pre></td></tr></table></figure>
+
+<p>粘贴为以下内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">zend_extension=xdebug.so</span><br><span class="hljs-string">xdebug.remote_autostart</span> <span class="hljs-string">=</span> <span class="hljs-number">1</span><br><span class="hljs-string">xdebug.remote_enable</span> <span class="hljs-string">=</span> <span class="hljs-number">1</span><br><span class="hljs-string">xdebug.remote_handler</span> <span class="hljs-string">=</span> <span class="hljs-string">dbgp</span><br><span class="hljs-string">xdebug.remote_host</span> <span class="hljs-string">=</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><br><span class="hljs-string">xdebug.remote_log</span> <span class="hljs-string">=</span> <span class="hljs-string">/tmp/xdebug_remote.log</span><br><span class="hljs-string">xdebug.remote_mode</span> <span class="hljs-string">=</span> <span class="hljs-string">req</span><br><span class="hljs-string">xdebug.remote_port</span> <span class="hljs-string">=</span> <span class="hljs-number">9001</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>但这种方式安装的版本早已过时，官方推荐用pecl或者源码进行安装</strong></p>
+<ul>
+<li><strong>2.另一种方式是通过percl方式进行安装</strong></li>
+</ul>
+<p>先安装php-pecl和php-dev</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">apt install php7.2-pecl php7.2-dev<br></code></pre></td></tr></table></figure>
+
+<p>若无法安装php-pecl,可安装php-pear，会自动安装pecl</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">apt-get install php-pear<br></code></pre></td></tr></table></figure>
+
+<p>安装好后，运行以下命令，自动会进行下载软件包(会默认安装最新版本的xdebug)，并进行编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">pecl install xdebug<br></code></pre></td></tr></table></figure>
+
+<p>修改xdebug配置文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">vim</span> <span class="hljs-string">/etc/php/7.2/mods-available/xdebug.ini</span><br></code></pre></td></tr></table></figure>
+
+<p>替换为以下内容</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">xdebug.remote_enable</span> <span class="hljs-string">=</span> <span class="hljs-number">1</span><br><span class="hljs-string">xdebug.remote_handler</span> <span class="hljs-string">=</span> <span class="hljs-string">dbgp</span><br><span class="hljs-string">xdebug.remote_host</span> <span class="hljs-string">=</span> <span class="hljs-string">localhost</span><br><span class="hljs-string">xdebug.remote_log</span> <span class="hljs-string">=</span> <span class="hljs-string">/tmp/xdebug_remote.log</span><br><span class="hljs-string">xdebug.remote_mode</span> <span class="hljs-string">=</span> <span class="hljs-string">req</span><br><span class="hljs-string">xdebug.mode=debug</span><br><span class="hljs-string">;要与idea的xdebug调试端口对应</span><br><span class="hljs-string">xdebug.remote_port</span> <span class="hljs-string">=</span> <span class="hljs-number">9001</span><br></code></pre></td></tr></table></figure>
+
+<p>再重启web服务即可。</p>
+<h3 id="0x02-idea的配置"><a href="#0x02-idea的配置" class="headerlink" title="0x02 idea的配置"></a>0x02 idea的配置</h3><h4 id="php插件的安装"><a href="#php插件的安装" class="headerlink" title="php插件的安装"></a>php插件的安装</h4><p>在文件-&gt;设置-&gt;插件，搜索PHP插件并安装，重启IDE。</p>
+<img src="/2022/04/25/php-debug/image-20220425230828899.png" srcset="/img/loading.gif" lazyload class="" title="image-20220425230828899">
+
+<p>再新建idea项目时，便能看到PHP的项目。</p>
+<img src="/2022/04/25/php-debug/image-20220426104743664.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>再打开任意一个php项目文件，在文件-&gt;设置-语言和框架-PHP-调试设置Xdebug调试端口，并应用。</p>
+<img src="/2022/04/25/php-debug/image-20220426105746021.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>右键，修改运行时配置，若没有PHP解释器，需先添加好PHP解释器，再进行如下操作。</p>
+<img src="/2022/04/25/php-debug/image-20220426110120323.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>修改好后，使用小皮面板(或在Linux上)开启web服务，在文件-&gt;设置-&gt;语言和框架-&gt;PHP-&gt;调试测试xdebug是否配置成功。</p>
+<img src="/2022/04/25/php-debug/image-20220426110805821.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>验证成功，调试一下代码。下好断点，开启侦听PHP调试连接，点击调试按钮，在项目首次xdebug时，会出现来自xdebug的传入连接，点接收即可，这时会在本地开启idea的服务器，用来接收xdebug传入的内容。</p>
+<img src="/2022/04/25/php-debug/image-20220426110955355.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>若断点处的圆圈出现√，则说明调试成功。</p>
+<img src="/2022/04/25/php-debug/image-20220426111122992.png" srcset="/img/loading.gif" lazyload class="">
+
+<h3 id="0x03-在docker容器中进行xdebug"><a href="#0x03-在docker容器中进行xdebug" class="headerlink" title="0x03 在docker容器中进行xdebug"></a>0x03 在docker容器中进行xdebug</h3><h4 id="在官方文档中，-提供了以下Dockerfile例子"><a href="#在官方文档中，-提供了以下Dockerfile例子" class="headerlink" title="在官方文档中， 提供了以下Dockerfile例子"></a>在官方文档中， 提供了以下Dockerfile例子</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">RUN pecl install xdebug \<br>    &amp;&amp; docker-php-ext-enable xdebug \<br>    &amp;&amp; echo &quot;xdebug.mode=debug&quot; &gt;&gt; /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \<br>    &amp;&amp; echo &quot;xdebug.client_host = host.docker.internal&quot; &gt;&gt;/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini<br></code></pre></td></tr></table></figure>
+
+<p>如果本机是windows或mac，则xdebug可以设置为<code>xdebug.client_host = host.docker.internal</code>,但如果是Linux，就必须设置成本机的ip,假如本机ip为192.168.1.20(<code>xdebug.client_host = 192.168.1.20</code>)</p>
+<p>这里自己改了dockerfile文件，构建镜像，创建好容器，并做好端口映射(999:80)。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">FROM php:7.2-apache<br>COPY www/ /var/www/html/<br>RUN pecl install xdebug \<br>    &amp;&amp; docker-php-ext-enable xdebug \<br>    &amp;&amp; echo &quot;xdebug.mode=debug,trace&quot; &gt;&gt; /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \<br>    &amp;&amp; echo &quot;xdebug.client_host = host.docker.internal&quot; &gt;&gt; /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \<br>    &amp;&amp; echo &quot;xdebug.idekey = docker&quot; &gt;&gt; /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \<br>    &amp;&amp; echo &quot;xdebug.discover_client_host = false&quot; &gt;&gt; /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \<br>    &amp;&amp; echo &quot;xdebug.start_with_request=yes&quot; &gt;&gt; /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini<br></code></pre></td></tr></table></figure>
+
+<p>访问phpinfo测试页，若出现xdebug扩展，则安装xdebug成功。</p>
+<img src="/2022/04/25/php-debug/image-20220427175601690.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>开始侦听PHP调试连接，打开浏览器并输入网址，若断点处的圆圈出现√，则说明调试成功。</p>
+<img src="/2022/04/25/php-debug/image-20220427175902574.png" srcset="/img/loading.gif" lazyload class="">
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/29/javastudy3/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">javastudy3</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/21/javastudy2/">
+                        <span class="hidden-mobile">javastudy2</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br><span id="timeDate">天数载入中</span><span id="times">...</span><br> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/xm_custom/custom.js"></script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

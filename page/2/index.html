@@ -25,15 +25,21 @@
 <meta name="twitter:card" content="summary_large_image">
   
   
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
   <title>j0ker&#39;s blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
@@ -42,7 +48,13 @@
 
 <link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
 
   
 <link rel="stylesheet" href="/xm_custom/custom.css">
@@ -51,16 +63,29 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+
+  
 <meta name="generator" content="Hexo 6.0.0"></head>
 
 
 <body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
       <strong>j0ker&#39;s blog</strong>
@@ -154,6 +179,7 @@
               &nbsp;<i class="iconfont icon-search"></i>&nbsp;
             </a>
           </li>
+          
         
         
           <li class="nav-item" id="color-toggle-btn">
@@ -166,34 +192,40 @@
   </div>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="An elegant Material-Design theme for Hexo">
-              
-            </span>
+  
 
-            
-          </div>
-
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
           
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
+            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
           
         </div>
+
+        
       </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
     
       <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
+        <div id="board"
+          style="margin-top: 0">
           
           <div class="container">
             <div class="row">
@@ -218,12 +250,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/03/07/bluecms1-6/" target="_self">
+      <a class="index-excerpt" href="/2022/03/07/bluecms1-6/" target="_self">
+        <div>
           
           0x00 前言
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -257,12 +289,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/02/22/env-injection/" target="_self">
+      <a class="index-excerpt" href="/2022/02/22/env-injection/" target="_self">
+        <div>
           
           前言今天学习到了p牛的一个trick,我是如何利用环境变量注入执行任意命令然后发现其实环境变量注入早在14年就存在了，还是来学习下吧。 0x01代码如下： 123456&lt;?phpforeach($_REQUEST[&amp;#x27;envs&amp;#x27;] as $key &#x3D;&gt; $val) &amp;#123;    putenv(&quot;&amp;#123;$key&amp;#125;&#x3D;&amp;#123;$val&amp;#
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -296,12 +328,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/02/07/ctfshow-sql-injection/" target="_self">
+      <a class="index-excerpt" href="/2022/02/07/ctfshow-sql-injection/" target="_self">
+        <div>
           
           ctfshow之sql注入web171  查询语句 1$sql &#x3D; &quot;select username,password from user where username !&#x3D;&amp;#x27;flag&amp;#x27; and id &#x3D; &amp;#x27;&quot;.$_GET[&amp;#x27;id&amp;#x27;].&quot;&amp;#x27; limit 1;&quot;;  这里已经给出了sql语句，也就是说
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -313,22 +345,41 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/CTF/">CTF</a>
-            
-              <a href="/categories/CTF/Web/">Web</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Web/">Web</a>
+              <a href="/tags/Web/">#Web</a>
             
-              <a href="/tags/SQL%E6%B3%A8%E5%85%A5/">SQL注入</a>
+              <a href="/tags/SQL%E6%B3%A8%E5%85%A5/">#SQL注入</a>
             
           </div>
         
@@ -353,12 +404,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/02/06/ctfshow-upload/" target="_self">
+      <a class="index-excerpt" href="/2022/02/06/ctfshow-upload/" target="_self">
+        <div>
           
           ctfshow之文件上传web151upload.js会对上传的文件进行检查，可以先上传一张真的图片(.png)，再用burpsuite将png改为php,内容改成php代码，再命令执行即可。   也可以上传图片马，然后在burpsuie里将png改为php，再命令执行即可。 12用小点的图片和一句话木马，利用copy命令生成图片马copy shell.png&#x2F;b+shell.php&#x2F;a a.pn
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -370,22 +421,41 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/CTF/">CTF</a>
-            
-              <a href="/categories/CTF/Web/">Web</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Web/">Web</a>
+              <a href="/tags/Web/">#Web</a>
             
-              <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a>
+              <a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">#文件上传</a>
             
           </div>
         
@@ -410,12 +480,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/01/14/day02/" target="_self">
+      <a class="index-excerpt" href="/2022/01/14/day02/" target="_self">
+        <div>
           
           第2天：基础入门-Web应用&amp;架构搭建&amp;漏洞&amp;HTTP数据包&amp;代理服务器12345#知识点：1、网站搭建前置知识2、WEB应用环境架构类3、WEB应用安全漏洞分类4、WEB请求返回过程数据包  0x01网站搭建前置知识域名，子域名，DNS，HTTP&#x2F;HTTPS，证书等 0x02 WEB应用环境架构类12345678理解不同WEB应用组成角色功能架构:开发语言，程序源
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -427,18 +497,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/">小迪安全</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/" class="category-chain-item">小迪安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">#渗透测试</a>
             
           </div>
         
@@ -463,12 +547,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/01/12/day21/" target="_self">
+      <a class="index-excerpt" href="/2022/01/12/day21/" target="_self">
+        <div>
           
           第21天：WEB攻防-JavaWeb项目&amp;JWT身份攻击&amp;组件安全&amp;访问控制1234#知识点：1、JavaWeb常见安全及代码逻辑2、目录遍历&amp;身份验证&amp;逻辑&amp;JWT3、访问控制&amp;安全组件&amp;越权&amp;三方组件   演示案例：  JavaWeb-WebGoat8靶场搭建使用 安全问题-目录遍历&amp;身份认证-JWT攻击 安全问题
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -480,18 +564,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/">小迪安全</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/" class="category-chain-item">小迪安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-Java/">渗透测试 - Java</a>
+              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-Java/">#渗透测试 - Java</a>
             
           </div>
         
@@ -516,12 +614,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/01/11/day01/" target="_self">
+      <a class="index-excerpt" href="/2022/01/11/day01/" target="_self">
+        <div>
           
           第1天：基础入门-操作系统&amp;名词&amp;文件下载&amp;反弹SHELL&amp;防火墙绕过​                          12345678910111213#知识点：1、名词解释-渗透测试-漏洞&amp;攻击&amp;后门&amp;代码&amp;专业词2、必备技能-操作系统-用途&amp;命令&amp;权限&amp;用户&amp;防火墙3、必备技能-文件下载-缘由
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -533,18 +631,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/">小迪安全</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/" class="category-chain-item">小迪安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">#渗透测试</a>
             
           </div>
         
@@ -569,12 +681,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/01/11/day20/" target="_self">
+      <a class="index-excerpt" href="/2022/01/11/day20/" target="_self">
+        <div>
           
           第20天：WEB攻防-PHP特性&amp;缺陷对比函数&amp;CTF考点&amp;CMS审计实例​                          1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -586,18 +698,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/">小迪安全</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B0%8F%E8%BF%AA%E5%AE%89%E5%85%A8/" class="category-chain-item">小迪安全</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-php/">渗透测试 - php</a>
+              <a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95-php/">#渗透测试 - php</a>
             
           </div>
         
@@ -622,12 +748,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/01/03/cloud-computing/" target="_self">
+      <a class="index-excerpt" href="/2022/01/03/cloud-computing/" target="_self">
+        <div>
           
           1234567891011121314解答题1.云计算的基本概念及优点2.容器云的概念：4大核心概念3.虚拟化技术的概念、分类、类型4.什么是分布式系统、分类6.云计算安全7.第九章综合题第一题：1.基础环境配置：yum源2.网络配置（配置文件）3.安全机制的关闭第二题：流程控制语句  简答题1.云计算的基本概念及优点概念 1云计算是一种按使用量付费的模式，这种模式提供可用的、便捷的、按需的网络访
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -639,20 +765,34 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E4%BA%91%E8%AE%A1%E7%AE%97/" class="category-chain-item">云计算</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a>
+              <a href="/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">#云计算</a>
             
-              <a href="/tags/Linux/">Linux</a>
+              <a href="/tags/Linux/">#Linux</a>
             
           </div>
         
@@ -677,12 +817,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2021/12/29/mysql-exam/" target="_self">
+      <a class="index-excerpt" href="/2021/12/29/mysql-exam/" target="_self">
+        <div>
           
           1、在数据库game下建表，注意满足如下要求：（20分）1）定义各个表的主外健约束。2）运动员的姓名和所属系别不能为空值。3）积分要么为空值，要么为6，4，2，0。分别代表第一、二、三名和其他名次的积分 答： 先创建数据库game 命令如下： 1create database game;  截图如下：   使用数据库game 命令如下： 1use game;  截图如下：   接下来开始创建一下的
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -694,18 +834,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/MySQL/">MySQL</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/MySQL/" class="category-chain-item">MySQL</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/MySQL/">MySQL</a>
+              <a href="/tags/MySQL/">#MySQL</a>
             
           </div>
         
@@ -750,86 +904,89 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
     </div>
   </div>
 </div>
+
     
 
     
   </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br><span id="timeDate">天数载入中</span><span id="times">...</span><br> 
-  </div>
+  <footer>
+    <div class="footer-inner">
   
-  <div class="statistics">
-    
-    
-
-    
-      
-        <!-- 不蒜子统计PV -->
-        <span id="busuanzi_container_site_pv" style="display: none">
-            总访问量 
-            <span id="busuanzi_value_site_pv"></span>
-             次
-          </span>
-      
-      
-        <!-- 不蒜子统计UV -->
-        <span id="busuanzi_container_site_uv" style="display: none">
-            总访客数 
-            <span id="busuanzi_value_site_uv"></span>
-             人
-          </span>
-      
-    
-  </div>
-
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br><span id="timeDate">天数载入中</span><span id="times">...</span><br> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
 
   
-  <!-- 备案信息 -->
-  <div class="beian">
-    <span>
-      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-        赣ICP证2021009463号
-      </a>
-    </span>
     
-      
-        <span>
-          <a
-            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
-            rel="nofollow noopener"
-            class="beian-police"
-            target="_blank"
-          >
-            
-              <span style="visibility: hidden; width: 0">|</span>
-              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-            
-            <span>赣ICP备2021009463号</span>
-          </a>
-        </span>
-      
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
     
-  </div>
-
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
 
   
-</footer>
-
-
-  <!-- SCRIPTS -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      赣ICP证2021009463号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备2021009463号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -840,69 +997,53 @@
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-<!-- Plugins -->
 
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-  
-
-
-
-
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
       
-      jQuery.ajax({
-        type: 'GET',
-        url: 'https://v1.hitokoto.cn',
-        headers: {},
-        dataType: 'json',
-        success: function(result) {
-          var text;
-          if (result) {
-            var keys = 'hitokoto'.split(',');
-            if (result instanceof Array) {
-              result = result[0];
-            }
-            for (const k of keys) {
-              var value = result[k];
-              if (typeof value === 'string') {
-                text = value;
-                break;
-              } else if (value instanceof Object) {
-                result = value;
+        jQuery.ajax({
+          type: 'GET',
+          url: 'https://v1.hitokoto.cn',
+          headers: {},
+          dataType: 'json',
+          success: function(result) {
+            var apiText;
+            if (result) {
+              var keys = 'hitokoto'.split(',');
+              if (result instanceof Array) {
+                result = result[0];
+              }
+              for (const k of keys) {
+                var value = result[k];
+                if (typeof value === 'string') {
+                  apiText = value;
+                  break;
+                } else if (value instanceof Object) {
+                  result = value;
+                }
               }
             }
+            apiText ? typing(apiText) : typing(text);
+          },
+          error: function(xhr, status, error) {
+            if (error) {
+              console.error('Failed to request https://v1.hitokoto.cn:', error);
+            }
+            typing(text);
           }
-          text ? typing(text) : typing(title);
-        },
-        error: function() {
-          typing(title);
-        }
-      })
+        })
       
     })(window, document);
   </script>
@@ -912,10 +1053,16 @@
 
 
 
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
@@ -925,9 +1072,15 @@
 
 
 
-<!-- 主题的启动项 保持在最底部 -->
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
 <script  src="/js/boot.js" ></script>
 
 
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

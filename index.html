@@ -25,15 +25,21 @@
 <meta name="twitter:card" content="summary_large_image">
   
   
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
   <title>j0ker&#39;s blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
@@ -42,7 +48,13 @@
 
 <link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
 
   
 <link rel="stylesheet" href="/xm_custom/custom.css">
@@ -51,16 +63,29 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.0","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+
+  
 <meta name="generator" content="Hexo 6.0.0"></head>
 
 
 <body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
       <strong>j0ker&#39;s blog</strong>
@@ -154,6 +179,7 @@
               &nbsp;<i class="iconfont icon-search"></i>&nbsp;
             </a>
           </li>
+          
         
         
           <li class="nav-item" id="color-toggle-btn">
@@ -166,34 +192,40 @@
   </div>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="An elegant Material-Design theme for Hexo">
-              
-            </span>
+  
 
-            
-          </div>
-
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
           
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
+            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
           
         </div>
+
+        
       </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
     
       <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
+        <div id="board"
+          style="margin-top: 0">
           
           <div class="container">
             <div class="row">
@@ -218,12 +250,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/10/ctfshow-thinkphp/" target="_self">
+      <a class="index-excerpt" href="/2022/05/10/ctfshow-thinkphp/" target="_self">
+        <div>
           
           web569  做这题之前，先补充下thinkphp3的URL模式,ThinkPHP支持的 URL模式有四种：普通模式、PATHINFO、REWRITE和兼容模式。 入口文件是应用的单一入口，对应用的所有请求都定向到应用入口文件，系统会从URL参数中解析当前请求的模 块、控制器和操作： 1http:&#x2F;&#x2F;serverName&#x2F;index.php&#x2F;模块&#x2F;控制器&#x2F;操作  普通模式普通模式也就是传统的GE
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -257,12 +289,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/06/ctfshow-unserialize/" target="_self">
+      <a class="index-excerpt" href="/2022/05/06/ctfshow-unserialize/" target="_self">
+        <div>
           
           web254123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354&lt;?php&#x2F;*# -*- coding: utf-8 -*-# @Author: h1xa# @Date:   2020-12-02 17:44:47# @Last Modified
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -274,22 +306,41 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/CTF/">CTF</a>
-            
-              <a href="/categories/CTF/Web/">Web</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Web/">Web</a>
+              <a href="/tags/Web/">#Web</a>
             
-              <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
+              <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">#反序列化</a>
             
           </div>
         
@@ -314,12 +365,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/06/ctfshow-ssrf/" target="_self">
+      <a class="index-excerpt" href="/2022/05/06/ctfshow-ssrf/" target="_self">
+        <div>
           
           web3511234567891011 &lt;?phperror_reporting(0);highlight_file(__FILE__);$url&#x3D;$_POST[&amp;#x27;url&amp;#x27;];$ch&#x3D;curl_init($url);curl_setopt($ch, CURLOPT_HEADER, 0);curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1)
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -331,22 +382,41 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/CTF/">CTF</a>
-            
-              <a href="/categories/CTF/Web/">Web</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Web/">Web</a>
+              <a href="/tags/Web/">#Web</a>
             
-              <a href="/tags/SSRF/">SSRF</a>
+              <a href="/tags/SSRF/">#SSRF</a>
             
           </div>
         
@@ -371,12 +441,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/05/babyserialize/" target="_self">
+      <a class="index-excerpt" href="/2022/05/05/babyserialize/" target="_self">
+        <div>
           
           babyserializeindex.php 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970 &lt;?phpinclude &quot;waf.php&quot;;class NIS
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -388,22 +458,41 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/CTF/">CTF</a>
-            
-              <a href="/categories/CTF/Web/">Web</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF/Web/" class="category-chain-item">Web</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Web/">Web</a>
+              <a href="/tags/Web/">#Web</a>
             
-              <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">反序列化</a>
+              <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">#反序列化</a>
             
           </div>
         
@@ -428,12 +517,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/29/javastudy3/" target="_self">
+      <a class="index-excerpt" href="/2022/04/29/javastudy3/" target="_self">
+        <div>
           
           JAVA基础知识面向对象思想概述1、概述Java语言是一种面向对象的程序设计语言，而面向对象思想(OOP）)是一种程序设计思想，我们在面向对象思想的指引下，使用Java语言去设计、开发计算机程序。这里的对象泛指现实中一切事物，每种事物都具备自己的属性和行为。面向对象思想就是在计算机程序设计过程中，参照现实中事物，将事物的属性特征、行为特征抽象出来，描述成计算机事件的设计思想。它区别于面向过程思想(
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -445,18 +534,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/JAVA%E5%AD%A6%E4%B9%A0/">JAVA学习</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA%E5%AD%A6%E4%B9%A0/" class="category-chain-item">JAVA学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/JAVA/">JAVA</a>
+              <a href="/tags/JAVA/">#JAVA</a>
             
           </div>
         
@@ -481,12 +584,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/25/php-debug/" target="_self">
+      <a class="index-excerpt" href="/2022/04/25/php-debug/" target="_self">
+        <div>
           
           0x00前言在配置之前建议先看下xdebug的调试原理，可以少走很多坑。最详细的phpstorm+xdebug调试详细教程，没有之一，以及另一位师傅的文章：PhpStorm+xdebug远程调试配置关键 如果在本地xdebug的话，没必要设置DBGp代理，DBGp协议支持多个用户共同调试远程服务器,具体的教程还是以官方文档为主。 0x01 安装php-xdebug并配置1.在windows上安装p
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -520,12 +623,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/21/javastudy2/" target="_self">
+      <a class="index-excerpt" href="/2022/04/21/javastudy2/" target="_self">
+        <div>
           
           Java基础知识流程语句结构分支结构 if语句(范围校验) switch语句(等值校验)   if语句if单分支 语法格式： 123if(条件表达式)&amp;#123;    语句体;&amp;#125;  执行流程  首先判断条件表达式看其结果是true还是false 如果是true就执行语句体 如果是false就不执行语句体  1234567891011121314151617181920212223242
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -537,18 +640,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/JAVA%E5%AD%A6%E4%B9%A0/">JAVA学习</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA%E5%AD%A6%E4%B9%A0/" class="category-chain-item">JAVA学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/JAVA/">JAVA</a>
+              <a href="/tags/JAVA/">#JAVA</a>
             
           </div>
         
@@ -573,12 +690,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/21/javastudy1/" target="_self">
+      <a class="index-excerpt" href="/2022/04/21/javastudy1/" target="_self">
+        <div>
           
           JAVA基础知识用java写第一个程序: helloworld.java12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152&#x2F;*写第一个程序：    0.显示文件的扩展名    1.修改后缀名为.java    2.java文件的内容    2.1 class
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -590,18 +707,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/JAVA%E5%AD%A6%E4%B9%A0/">JAVA学习</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/JAVA%E5%AD%A6%E4%B9%A0/" class="category-chain-item">JAVA学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/JAVA/">JAVA</a>
+              <a href="/tags/JAVA/">#JAVA</a>
             
           </div>
         
@@ -626,12 +757,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/03/28/system-exam/" target="_self">
+      <a class="index-excerpt" href="/2022/03/28/system-exam/" target="_self">
+        <div>
           
           Here&#39;s something encrypted, password is required to continue reading.
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -643,18 +774,32 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E8%BF%90%E7%BB%B4/">运维</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%BF%90%E7%BB%B4/" class="category-chain-item">运维</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/system/">system</a>
+              <a href="/tags/system/">#system</a>
             
           </div>
         
@@ -679,12 +824,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/03/18/dockerstudy2/" target="_self">
+      <a class="index-excerpt" href="/2022/03/18/dockerstudy2/" target="_self">
+        <div>
           
           0x00 前言前面一节讲了docker的原理，安装以及一些docker的镜像命令，发现在虚拟机里调试docker实在是太不方便了，想到可以使用vscode来调试docker,极大地减轻了工作负担,接下来的话要讲如何在windows下优雅地使用docker。这节主要讲述如何使用vscode配合docker容器进行开发。   0x01 win10环境配置wsl子系统的安装及配置如果不了解wsl子系统的
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -700,11 +845,11 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/wsl2/">wsl2</a>
+              <a href="/tags/wsl2/">#wsl2</a>
             
-              <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">虚拟化</a>
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/">#虚拟化</a>
             
-              <a href="/tags/vscode/">vscode</a>
+              <a href="/tags/vscode/">#vscode</a>
             
           </div>
         
@@ -749,86 +894,89 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
     </div>
   </div>
 </div>
+
     
 
     
   </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br><span id="timeDate">天数载入中</span><span id="times">...</span><br> 
-  </div>
+  <footer>
+    <div class="footer-inner">
   
-  <div class="statistics">
-    
-    
-
-    
-      
-        <!-- 不蒜子统计PV -->
-        <span id="busuanzi_container_site_pv" style="display: none">
-            总访问量 
-            <span id="busuanzi_value_site_pv"></span>
-             次
-          </span>
-      
-      
-        <!-- 不蒜子统计UV -->
-        <span id="busuanzi_container_site_uv" style="display: none">
-            总访客数 
-            <span id="busuanzi_value_site_uv"></span>
-             人
-          </span>
-      
-    
-  </div>
-
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <br><span id="timeDate">天数载入中</span><span id="times">...</span><br> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
 
   
-  <!-- 备案信息 -->
-  <div class="beian">
-    <span>
-      <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
-        赣ICP证2021009463号
-      </a>
-    </span>
     
-      
-        <span>
-          <a
-            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
-            rel="nofollow noopener"
-            class="beian-police"
-            target="_blank"
-          >
-            
-              <span style="visibility: hidden; width: 0">|</span>
-              <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
-            
-            <span>赣ICP备2021009463号</span>
-          </a>
-        </span>
-      
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
     
-  </div>
-
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
 
   
-</footer>
-
-
-  <!-- SCRIPTS -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      赣ICP证2021009463号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2021009463"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>赣ICP备2021009463号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -839,69 +987,53 @@
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-<!-- Plugins -->
 
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-  
-
-
-
-
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
       
-      jQuery.ajax({
-        type: 'GET',
-        url: 'https://v1.hitokoto.cn',
-        headers: {},
-        dataType: 'json',
-        success: function(result) {
-          var text;
-          if (result) {
-            var keys = 'hitokoto'.split(',');
-            if (result instanceof Array) {
-              result = result[0];
-            }
-            for (const k of keys) {
-              var value = result[k];
-              if (typeof value === 'string') {
-                text = value;
-                break;
-              } else if (value instanceof Object) {
-                result = value;
+        jQuery.ajax({
+          type: 'GET',
+          url: 'https://v1.hitokoto.cn',
+          headers: {},
+          dataType: 'json',
+          success: function(result) {
+            var apiText;
+            if (result) {
+              var keys = 'hitokoto'.split(',');
+              if (result instanceof Array) {
+                result = result[0];
+              }
+              for (const k of keys) {
+                var value = result[k];
+                if (typeof value === 'string') {
+                  apiText = value;
+                  break;
+                } else if (value instanceof Object) {
+                  result = value;
+                }
               }
             }
+            apiText ? typing(apiText) : typing(text);
+          },
+          error: function(xhr, status, error) {
+            if (error) {
+              console.error('Failed to request https://v1.hitokoto.cn:', error);
+            }
+            typing(text);
           }
-          text ? typing(text) : typing(title);
-        },
-        error: function() {
-          typing(title);
-        }
-      })
+        })
       
     })(window, document);
   </script>
@@ -911,10 +1043,16 @@
 
 
 
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
 
 
 
 
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
@@ -924,9 +1062,15 @@
 
 
 
-<!-- 主题的启动项 保持在最底部 -->
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
 <script  src="/js/boot.js" ></script>
 
 
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
 </html>

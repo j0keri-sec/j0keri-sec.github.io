@@ -16,25 +16,32 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言环境的安装步骤就不再赘述。 在代码审计之前，先了解一下目录的总体结构。   12345678910admin         --管理后台文件夹css           --存放css的文件夹files         --存放页面的文件夹images        --存放图片的文件夹inc           --存放网站配置文件的文件夹install       --网站进行安装的文件">
+    <meta name="description" content="靶机详情:https:&#x2F;&#x2F;www.vulnhub.com&#x2F;entry&#x2F;infosec-prep-oscp,508&#x2F; 1.信息收集1.1主机发现确定192.168.20.5为靶机  1.2端口扫描用nmap进行端口扫描，发现存在web服务。  1.3目录扫描用dirsearch进行路径探测，并忽略状态码403(不建议加这个参数)，发现存在wordpress网站。  1.4网站信息收集http:&#x2F;&#x2F;1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="熊海cms v1.0代码审计">
-<meta property="og:url" content="http://example.com/2022/05/30/xhcmsv1-0/index.html">
+<meta property="og:title" content="vulnhub-oscp">
+<meta property="og:url" content="http://example.com/2022/10/07/vulnhub-oscp/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
-<meta property="og:description" content="前言环境的安装步骤就不再赘述。 在代码审计之前，先了解一下目录的总体结构。   12345678910admin         --管理后台文件夹css           --存放css的文件夹files         --存放页面的文件夹images        --存放图片的文件夹inc           --存放网站配置文件的文件夹install       --网站进行安装的文件">
+<meta property="og:description" content="靶机详情:https:&#x2F;&#x2F;www.vulnhub.com&#x2F;entry&#x2F;infosec-prep-oscp,508&#x2F; 1.信息收集1.1主机发现确定192.168.20.5为靶机  1.2端口扫描用nmap进行端口扫描，发现存在web服务。  1.3目录扫描用dirsearch进行路径探测，并忽略状态码403(不建议加这个参数)，发现存在wordpress网站。  1.4网站信息收集http:&#x2F;&#x2F;1">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/30/xhcmsv1-0/image-20220602142637840.png">
-<meta property="article:published_time" content="2022-05-30T15:26:50.000Z">
-<meta property="article:modified_time" content="2022-06-02T08:21:42.626Z">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007171814355.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007171859186.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007172207670.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007172607879.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007172909582.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007173305588.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007173534014.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007173954677.png">
+<meta property="article:published_time" content="2022-10-07T09:11:35.000Z">
+<meta property="article:modified_time" content="2022-10-07T09:49:08.245Z">
 <meta property="article:author" content="j0ker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/30/xhcmsv1-0/image-20220602142637840.png">
+<meta name="twitter:image" content="d:/HexoBlogs/source_posts/vulnhub-oscp/image-20221007171814355.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>熊海cms v1.0代码审计 - j0ker&#39;s blog</title>
+  <title>vulnhub-oscp - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +220,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="熊海cms v1.0代码审计"></span>
+            <span id="subtitle" data-typed-text="vulnhub-oscp"></span>
           
         </div>
 
@@ -224,8 +231,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-30 23:26" pubdate>
-          2022年5月30日 晚上
+        <time datetime="2022-10-07 17:11" pubdate>
+          2022年10月7日 下午
         </time>
       </span>
     
@@ -237,7 +244,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          2.1k 字
+          3.9k 字
         
       </span>
     
@@ -249,7 +256,7 @@
         
         
           <!-- compatible with older versions-->
-          18 分钟
+          33 分钟
         
       </span>
     
@@ -287,36 +294,35 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">熊海cms v1.0代码审计</h1>
+            <h1 style="display: none">vulnhub-oscp</h1>
             
             <div class="markdown-body">
               
-              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>环境的安装步骤就不再赘述。</p>
-<p>在代码审计之前，先了解一下目录的总体结构。</p>
-<img src="/2022/05/30/xhcmsv1-0/image-20220602142637840.png" srcset="/img/loading.gif" lazyload class="" title="image-20220602142637840">
+              <p>靶机详情:<a target="_blank" rel="noopener" href="https://www.vulnhub.com/entry/infosec-prep-oscp,508/">https://www.vulnhub.com/entry/infosec-prep-oscp,508/</a></p>
+<h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1.信息收集"></a>1.信息收集</h3><h4 id="1-1主机发现"><a href="#1-1主机发现" class="headerlink" title="1.1主机发现"></a>1.1主机发现</h4><p>确定192.168.20.5为靶机</p>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007171814355.png" srcset="/img/loading.gif" lazyload alt="image-20221007171814355"></p>
+<h4 id="1-2端口扫描"><a href="#1-2端口扫描" class="headerlink" title="1.2端口扫描"></a>1.2端口扫描</h4><p>用nmap进行端口扫描，发现存在web服务。</p>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007171859186.png" srcset="/img/loading.gif" lazyload alt="image-20221007171859186"></p>
+<h4 id="1-3目录扫描"><a href="#1-3目录扫描" class="headerlink" title="1.3目录扫描"></a>1.3目录扫描</h4><p>用dirsearch进行路径探测，并忽略状态码403(不建议加这个参数)，发现存在wordpress网站。</p>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007172207670.png" srcset="/img/loading.gif" lazyload alt="image-20221007172207670"></p>
+<h4 id="1-4网站信息收集"><a href="#1-4网站信息收集" class="headerlink" title="1.4网站信息收集"></a>1.4网站信息收集</h4><p><a target="_blank" rel="noopener" href="http://192.168.20.5/%E6%9C%89%E4%BD%9C%E8%80%85%E7%95%99%E4%B8%8B%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%8C%E9%9C%80%E8%A6%81%E8%8E%B7%E5%8F%96/root%E4%B8%8B%E7%9A%84flag%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8F%90%E7%A4%BA%E5%AD%98%E5%9C%A8oscp%E7%94%A8%E6%88%B7%E3%80%82">http://192.168.20.5/有作者留下的信息，需要获取/root下的flag文件，提示存在oscp用户。</a></p>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007172607879.png" srcset="/img/loading.gif" lazyload alt="image-20221007172607879"></p>
+<p>访问<a target="_blank" rel="noopener" href="http://192.168.20.5/secret.txt">robots.txt</a>，发现base64编码过的文件。</p>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007172909582.png" srcset="/img/loading.gif" lazyload alt="image-20221007172909582"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs she">echo -n LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUJsd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFZRUF0SENzU3pIdFVGOEs4dGlPcUVDUVlMcktLckNSc2J2cTZpSUc3UjlnMFdQdjl3K2drVVdlCkl6QlNjdmdsTEU5ZmxvbHNLZHhmTVFRYk1WR3FTQURuWUJUYXZhaWdRZWt1ZTBiTHNZay9yWjVGaE9VUlpMVHZkbEpXeHoKYklleUM1YTVGMERsOVVZbXpDaGU0M3owRG8waVF3MTc4R0pVUWFxc2NMbUVhdHFJaVQvMkZrRitBdmVXM2hxUGZicnc5dgpBOVFBSVVBM2xlZHFyOFhFelkvL0xxMCtzUWcvcFV1MEtQa1kxOGk2dm5maVlIR2t5VzFTZ3J5UGg1eDlCR1RrM2VSWWNOCnc2bURiQWpYS0tDSEdNK2RubkdOZ3ZBa3FUK2daV3ovTXB5MGVrYXVrNk5QN05Dek9STnJJWEFZRmExcld6YUV0eXBId1kKa0NFY2ZXSkpsWjcrZmNFRmE1QjdnRXd0L2FLZEZSWFBRd2luRmxpUU1ZTW1hdThQWmJQaUJJcnh0SVlYeTNNSGNLQklzSgowSFNLditIYktXOWtwVEw1T29Ba0I4ZkhGMzB1alZPYjZZVHVjMXNKS1dSSElaWTNxZTA4STJSWGVFeEZGWXU5b0x1ZzBkCnRIWWRKSEZMN2NXaU52NG1SeUo5UmNyaFZMMVYzQ2F6TlpLS3dyYVJBQUFGZ0g5SlFMMS9TVUM5QUFBQUIzTnphQzF5YzIKRUFBQUdCQUxSd3JFc3g3VkJmQ3ZMWWpxaEFrR0M2eWlxd2tiRzc2dW9pQnUwZllORmo3L2NQb0pGRm5pTXdVbkw0SlN4UApYNWFKYkNuY1h6RUVHekZScWtnQTUyQVUycjJvb0VIcExudEd5N0dKUDYyZVJZVGxFV1MwNzNaU1ZzYzJ5SHNndVd1UmRBCjVmVkdKc3dvWHVOODlBNk5Ja01OZS9CaVZFR3FySEM1aEdyYWlJay85aFpCZmdMM2x0NGFqMzI2OFBid1BVQUNGQU41WG4KYXEvRnhNMlAveTZ0UHJFSVA2Vkx0Q2o1R05mSXVyNTM0bUJ4cE1sdFVvSzhqNGVjZlFSazVOM2tXSERjT3BnMndJMXlpZwpoeGpQblo1eGpZTHdKS2svb0dWcy96S2N0SHBHcnBPalQrelFzemtUYXlGd0dCV3RhMXMyaExjcVI4R0pBaEhIMWlTWldlCi9uM0JCV3VRZTRCTUxmMmluUlVWejBNSXB4WllrREdESm1ydkQyV3o0Z1NLOGJTR0Y4dHpCM0NnU0xDZEIwaXIvaDJ5bHYKWktVeStUcUFKQWZIeHhkOUxvMVRtK21FN25OYkNTbGtSeUdXTjZudFBDTmtWM2hNUlJXTHZhQzdvTkhiUjJIU1J4UyszRgpvamIrSmtjaWZVWEs0VlM5VmR3bXN6V1Npc0sya1FBQUFBTUJBQUVBQUFHQkFMQ3l6ZVp0SkFwYXFHd2I2Y2VXUWt5WFhyCmJqWmlsNDdwa05iVjcwSldtbnhpeFkzMUtqckRLbGRYZ2t6TEpSb0RmWXAxVnUrc0VUVmxXN3RWY0JtNU1abVFPMWlBcEQKZ1VNemx2RnFpRE5MRktVSmRUajdmcXlPQVhEZ2t2OFFrc05tRXhLb0JBakduTTl1OHJSQXlqNVBObzF3QVdLcENMeElZMwpCaGRsbmVOYUFYRFYvY0tHRnZXMWFPTWxHQ2VhSjBEeFNBd0c1SnlzNEtpNmtKNUVrZldvOGVsc1VXRjMwd1FrVzl5aklQClVGNUZxNnVkSlBubUVXQXB2THQ2MkllVHZGcWcrdFB0R25WUGxlTzNsdm5DQkJJeGY4dkJrOFd0b0pWSmRKdDNoTzhjNGoKa010WHN2TGdSbHZlMWJaVVpYNU15bUhhbE4vTEExSXNvQzRZa2cvcE1nM3M5Y1lSUmttK0d4aVVVNWJ2OWV6d000Qm1rbwpRUHZ5VWN5ZTI4endrTzZ0Z1ZNWng0b3NySW9OOVd0RFVVZGJkbUQyVUJaMm4zQ1pNa09WOVhKeGVqdTUxa0gxZnM4cTM5ClFYZnhkTmhCYjNZcjJSakNGVUxEeGh3RFNJSHpHN2dmSkVEYVdZY09rTmtJYUhIZ2FWN2t4enlwWWNxTHJzMFM3QzRRQUEKQU1FQWhkbUQ3UXU1dHJ0QkYzbWdmY2RxcFpPcTYrdFc2aGttUjBoWk5YNVo2Zm5lZFV4Ly9RWTVzd0tBRXZnTkNLSzhTbQppRlhsWWZnSDZLLzVVblpuZ0Viak1RTVRkT09sa2JyZ3BNWWloK1pneXZLMUxvT1R5TXZWZ1Q1TE1nakpHc2FRNTM5M00yCnlVRWlTWGVyN3E5ME42VkhZWERKaFVXWDJWM1FNY0NxcHRTQ1MxYlNxdmttTnZoUVhNQWFBUzhBSncxOXFYV1hpbTE1U3AKV29xZGpvU1dFSnhLZUZUd1VXN1dPaVlDMkZ2NWRzM2NZT1I4Um9yYm1HbnpkaVpneFpBQUFBd1FEaE5YS21TMG9WTWREeQozZktaZ1R1d3I4TXk1SHlsNWpyYTZvd2ovNXJKTVVYNnNqWkVpZ1phOTZFamNldlpKeUdURjJ1Vjc3QVEyUnF3bmJiMkdsCmpkTGtjMFl0OXVicVNpa2Q1ZjhBa1psWkJzQ0lydnVEUVpDb3haQkd1RDJEVVd6T2dLTWxmeHZGQk5RRitMV0ZndGJyU1AKT2dCNGloZFBDMSs2RmRTalFKNzdmMWJOR0htbjBhbW9pdUpqbFVPT1BMMWNJUHp0MGh6RVJMajJxdjlEVWVsVE9VcmFuTwpjVVdyUGdyelZHVCtRdmtrakdKRlgrcjh0R1dDQU9RUlVBQUFEQkFNMGNSaERvd09GeDUwSGtFK0hNSUoyalFJZWZ2d3BtCkJuMkZONmt3NEdMWmlWY3FVVDZhWTY4bmpMaWh0RHBlZVN6b3BTanlLaDEwYk53UlMwREFJTHNjV2c2eGMvUjh5dWVBZUkKUmN3ODV1ZGtoTlZXcGVyZzRPc2lGWk1wd0txY01sdDhpNmxWbW9VQmpSdEJENGc1TVlXUkFOTzBOajlWV01UYlc5UkxpUgprdW9SaVNoaDZ1Q2pHQ0NIL1dmd0NvZjllbkNlajRIRWo1RVBqOG5aMGNNTnZvQVJxN1ZuQ05HVFBhbWNYQnJmSXd4Y1ZUCjhuZksyb0RjNkxmckRtalFBQUFBbHZjMk53UUc5elkzQT0KLS0tLS1FTkQgT1BFTlNTSCBQUklWQVRFIEtFWS0tLS0tCg== |base64 -d<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs tex">admin         --管理后台文件夹<br>css           --存放css的文件夹<br>files         --存放页面的文件夹<br>images        --存放图片的文件夹<br>inc           --存放网站配置文件的文件夹<br>install       --网站进行安装的文件夹<br>seacmseditor  --编辑器文件夹<br>template      --模板文件夹<br>upload        --上传功能文件夹<br>index.php     --网站首页<br></code></pre></td></tr></table></figure>
+<p>进行解码，发现私钥。</p>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007173305588.png" srcset="/img/loading.gif" lazyload alt="image-20221007173305588"></p>
+<h3 id="2-漏洞利用"><a href="#2-漏洞利用" class="headerlink" title="2.漏洞利用"></a>2.漏洞利用</h3><h4 id="2-1suid提权"><a href="#2-1suid提权" class="headerlink" title="2.1suid提权"></a>2.1suid提权</h4><p>用xshell进行私钥登录，用户名为oscp，登录成功。但不是root权限，需要提权。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">find / -perm -u=s -type f 2&gt;/dev/null<br></code></pre></td></tr></table></figure>
 
-<h3 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h3><p><code>index.php</code>和<code>admin/index.php</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">//单一入口模式</span><br>error_reporting(<span class="hljs-number">0</span>); <span class="hljs-comment">//关闭错误显示</span><br><span class="hljs-variable">$file</span>=addslashes(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;r&#x27;</span>]); <span class="hljs-comment">//接收文件名</span><br><span class="hljs-variable">$action</span>=<span class="hljs-variable">$file</span>==<span class="hljs-string">&#x27;&#x27;</span>?<span class="hljs-string">&#x27;index&#x27;</span>:<span class="hljs-variable">$file</span>; <span class="hljs-comment">//判断为空或者等于index</span><br><span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;files/&#x27;</span>.<span class="hljs-variable">$action</span>.<span class="hljs-string">&#x27;.php&#x27;</span>); <span class="hljs-comment">//载入相应文件</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007173534014.png" srcset="/img/loading.gif" lazyload alt="image-20221007173534014"></p>
+<p>发现可以使用bash进行suid提权</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">bash -p<br></code></pre></td></tr></table></figure>
 
-<h4 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h4><p><strong>单一入口模式</strong>，一个文件处理所有的HTTP请求，例如不管是内容列表页，用户登录页还是内容详细页，都是通过从浏览器访问 <code>index.php</code> 文件来进行处理的，这里这个 <code>index.php</code> 文件就是这个应用程序的单一入口。</p>
-<p><code>addslashes</code> — 使用反斜线引用字符串</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">addslashes( <span class="hljs-keyword">string</span> <span class="hljs-variable">$str</span>) : <span class="hljs-keyword">string</span><br></code></pre></td></tr></table></figure>
+<p><img src="D:\HexoBlogs\source_posts\vulnhub-oscp\image-20221007173954677.png" srcset="/img/loading.gif" lazyload alt="image-20221007173954677"></p>
+<p>得到flag。</p>
 
-<p>返回字符串，该字符串为了数据库查询语句等的需要在某些字符前加上了反斜线。这些字符是单引号<code>&#39;</code>、双引号<code>&quot;</code>、反斜线<code>\</code>与    NUL（**<code>NULL</code>** 字符）。 </p>
-<p><code>addslashes</code>函数会将GET形式接收过来的参数r进行过滤，再看看第五行，使用三元运算符进行判断，若$action的内容为空，则$action为index，否则$action=$file。第六行，使用include函数进行包含文件，$action参数可控，但$action参数会和<code>.php</code>进行拼接。</p>
-<p><strong>如果不做任何处理的话，就只能包含当前目录的php文件。</strong>可以使用<code>../</code>来进行跳出当前目录，再利用截断，将后面的<code>.php</code>给置空。</p>
-<p>但不能利用<code>%00</code>截断，存在<code>addslashes</code>函数，会进行过滤。</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs tex">magic<span class="hljs-built_in">_</span>quotes<span class="hljs-built_in">_</span>gpc =off<br>php版本小于5.3.4<br></code></pre></td></tr></table></figure>
-
-<p>可以使用字节长度截断，但长度截断也需要满足以下条件：</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs tex">//长度最大值：Windows下最大值为256字节，Linux最大值为4096字节<br>php版本=5.2.17<br>Virtual Directory Support=enable<br></code></pre></td></tr></table></figure>
-
-<p>在windows下，payload为</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">//1</span><br>r=../test.txt........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................   <br><span class="hljs-comment">//2</span><br>r=../test.txt/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././<br></code></pre></td></tr></table></figure>
-
-<h3 id="SQL注入漏洞"><a href="#SQL注入漏洞" class="headerlink" title="SQL注入漏洞"></a>SQL注入漏洞</h3><h3 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h3>
               
             </div>
             <hr/>
@@ -332,8 +338,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>熊海cms v1.0代码审计</div>
-      <div>http://example.com/2022/05/30/xhcmsv1-0/</div>
+      <div>vulnhub-oscp</div>
+      <div>http://example.com/2022/10/07/vulnhub-oscp/</div>
     </div>
     <div class="license-meta">
       
@@ -345,7 +351,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月30日</div>
+          <div>2022年10月7日</div>
         </div>
       
       
@@ -375,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/20/kali-note-1/" title="kali-note-1">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">kali-note-1</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/30/php-gc/" title="php反序列化之强制GC">
-                        <span class="hidden-mobile">php反序列化之强制GC</span>
+                      <a href="/2022/09/09/nessus-docker/" title="docker下nessus与awvs安装实践">
+                        <span class="hidden-mobile">docker下nessus与awvs安装实践</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

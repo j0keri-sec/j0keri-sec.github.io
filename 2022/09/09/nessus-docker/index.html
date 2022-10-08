@@ -16,25 +16,26 @@
   <meta name="author" content="j0ker">
   <meta name="keywords" content="">
   
-    <meta name="description" content="前言环境的安装步骤就不再赘述。 在代码审计之前，先了解一下目录的总体结构。   12345678910admin         --管理后台文件夹css           --存放css的文件夹files         --存放页面的文件夹images        --存放图片的文件夹inc           --存放网站配置文件的文件夹install       --网站进行安装的文件">
+    <meta name="description" content="前言好久没更新了，最近太忙了。windows版的nessus和awvs，扫描起来实在是效率太低了，特别是nessus，还得花10来分钟编译插件，看到网上有文章，就将本机的nessus和awvs移植到子系统的docker上去。后来经过测试（开了个tp5的rce漏洞的主机），docker版的nessus花了10分钟，windows版花了15分钟，而虚拟机版的nessus（windows）花了21分钟，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="熊海cms v1.0代码审计">
-<meta property="og:url" content="http://example.com/2022/05/30/xhcmsv1-0/index.html">
+<meta property="og:title" content="docker下nessus与awvs安装实践">
+<meta property="og:url" content="http://example.com/2022/09/09/nessus-docker/index.html">
 <meta property="og:site_name" content="j0ker&#39;s blog">
-<meta property="og:description" content="前言环境的安装步骤就不再赘述。 在代码审计之前，先了解一下目录的总体结构。   12345678910admin         --管理后台文件夹css           --存放css的文件夹files         --存放页面的文件夹images        --存放图片的文件夹inc           --存放网站配置文件的文件夹install       --网站进行安装的文件">
+<meta property="og:description" content="前言好久没更新了，最近太忙了。windows版的nessus和awvs，扫描起来实在是效率太低了，特别是nessus，还得花10来分钟编译插件，看到网上有文章，就将本机的nessus和awvs移植到子系统的docker上去。后来经过测试（开了个tp5的rce漏洞的主机），docker版的nessus花了10分钟，windows版花了15分钟，而虚拟机版的nessus（windows）花了21分钟，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/05/30/xhcmsv1-0/image-20220602142637840.png">
-<meta property="article:published_time" content="2022-05-30T15:26:50.000Z">
-<meta property="article:modified_time" content="2022-06-02T08:21:42.626Z">
+<meta property="og:image" content="https://user-images.githubusercontent.com/40572216/174698816-440d4969-f9d6-4c7d-982c-9af9c4a3e875.png">
+<meta property="og:image" content="d:/HexoBlogs/source_posts/nessus-docker/image-20220922093328369.png">
+<meta property="article:published_time" content="2022-09-09T13:29:27.000Z">
+<meta property="article:modified_time" content="2022-09-27T03:54:44.524Z">
 <meta property="article:author" content="j0ker">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2022/05/30/xhcmsv1-0/image-20220602142637840.png">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/40572216/174698816-440d4969-f9d6-4c7d-982c-9af9c4a3e875.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>熊海cms v1.0代码审计 - j0ker&#39;s blog</title>
+  <title>docker下nessus与awvs安装实践 - j0ker&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="熊海cms v1.0代码审计"></span>
+            <span id="subtitle" data-typed-text="docker下nessus与awvs安装实践"></span>
           
         </div>
 
@@ -224,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-05-30 23:26" pubdate>
-          2022年5月30日 晚上
+        <time datetime="2022-09-09 21:29" pubdate>
+          2022年9月9日 晚上
         </time>
       </span>
     
@@ -237,7 +238,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          2.1k 字
+          1.7k 字
         
       </span>
     
@@ -249,7 +250,7 @@
         
         
           <!-- compatible with older versions-->
-          18 分钟
+          15 分钟
         
       </span>
     
@@ -287,36 +288,49 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">熊海cms v1.0代码审计</h1>
+            <h1 style="display: none">docker下nessus与awvs安装实践</h1>
             
             <div class="markdown-body">
               
-              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>环境的安装步骤就不再赘述。</p>
-<p>在代码审计之前，先了解一下目录的总体结构。</p>
-<img src="/2022/05/30/xhcmsv1-0/image-20220602142637840.png" srcset="/img/loading.gif" lazyload class="" title="image-20220602142637840">
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好久没更新了，最近太忙了。windows版的nessus和awvs，扫描起来实在是效率太低了，特别是nessus，还得花10来分钟编译插件，看到网上有文章，就将本机的<a target="_blank" rel="noopener" href="https://github.com/elliot-bia/nessus">nessus</a>和awvs移植到子系统的<a target="_blank" rel="noopener" href="https://hub.docker.com/r/secfa/docker-awvs">docker</a>上去。后来经过测试（开了个tp5的rce漏洞的主机），docker版的nessus花了10分钟，windows版花了15分钟，而虚拟机版的nessus（windows）花了21分钟，果断使用了docker版的，好了废话不多说，接下来进行实操吧。</p>
+<h3 id="nessus-docker-crack-破解"><a href="#nessus-docker-crack-破解" class="headerlink" title="nessus docker crack 破解"></a>nessus docker crack 破解</h3><p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/elliot-bia/nessus">https://github.com/elliot-bia/nessus</a></p>
+<p>此项目仅供非营利性学习研究，请勿用作非法用途，如有侵权请及时联系删除</p>
+<p><a target="_blank" rel="noopener" href="https://twitter.com/Elliot58616851">more info</a></p>
+<h4 id="用法-Usage"><a href="#用法-Usage" class="headerlink" title="用法/Usage"></a>用法/Usage</h4><p><code>docker run -itd --name=ramisec_nessus -p 8834:8834 ramisec/nessus</code>  (只有 497MB !!!)<br> 就是这么简单! 但是需要更新插件🤣</p>
+<blockquote>
+<p><del># 用法/Usage</del> <del><code>docker run -itd -p 8834:8834 ramisec/nessus</code>   (4.73GB)</del> <del>或者/or</del><br> <del><code>docker run -itd -p 8834:8834 ramisec/nessuslite</code> (3.55GB)</del><br> <del>前者不需要编译，适合低性能高带宽机器</del> <del>后者需要编译，适合高性能低带宽机器</del> <del>The former does not require compilation and is suitable for low-performance high-bandwidth machines</del><br> <del>The latter requires compilation and is suitable for high-performance low-bandwidth machines</del><br> <del>What? high-performance and high-bandwidth machines? Never mind, just use it! have fun!</del></p>
+</blockquote>
+<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker exec -it ramisec_nessus <span class="hljs-regexp">/bin/</span>bash <span class="hljs-regexp">/nessus/u</span>pdate.sh<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs tex">admin         --管理后台文件夹<br>css           --存放css的文件夹<br>files         --存放页面的文件夹<br>images        --存放图片的文件夹<br>inc           --存放网站配置文件的文件夹<br>install       --网站进行安装的文件夹<br>seacmseditor  --编辑器文件夹<br>template      --模板文件夹<br>upload        --上传功能文件夹<br>index.php     --网站首页<br></code></pre></td></tr></table></figure>
+<h4 id="账号密码"><a href="#账号密码" class="headerlink" title="账号密码"></a>账号密码</h4><p>account：admin<br> password： 每个版本密码就是一个彩蛋！ Easter egg！CHECK the Change Version<br> 让大家探索一下，避免伸手党，如果解出了密码，自己用就好，不要公开哟😉</p>
+<h4 id="说明-Readme"><a href="#说明-Readme" class="headerlink" title="说明/Readme"></a>说明/Readme</h4><p>这个破解原本是自用的，也没打算公开出来<br> 但是昨天在使用fahai破解版awvs的时候，看到了这么一句话：<br> <code>Thank&#39;s fahai &amp;&amp; Open Source Enthusiast </code><br> <a target="_blank" rel="noopener" href="https://user-images.githubusercontent.com/40572216/174698816-440d4969-f9d6-4c7d-982c-9af9c4a3e875.png"><img src="https://user-images.githubusercontent.com/40572216/174698816-440d4969-f9d6-4c7d-982c-9af9c4a3e875.png" srcset="/img/loading.gif" lazyload alt="图片名称"></a></p>
+<p>于是我就在思考，我用了那么多开源项目，那我又做出了多少贡献？<br> 索性将此项目公开，也算为网安做一点贡献<br> 如果没有意外，会持续更新，毕竟我也要用<br> <del>就不把自动更新插件版本弄出来了，先用着吧！</del><br> 已更新！（20220722）</p>
+<ul>
+<li><p>1.按照项目的介绍，直接运行命令即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -itd --name=ramisec_nessus -p 8834:8834 ramisec/nessus<br></code></pre></td></tr></table></figure></li>
+<li><p>2.更新nessus插件并执行破解。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker exec -it ramisec_nessus /bin/bash /nessus/update.sh<br></code></pre></td></tr></table></figure>
 
-<h3 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h3><p><code>index.php</code>和<code>admin/index.php</code></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">//单一入口模式</span><br>error_reporting(<span class="hljs-number">0</span>); <span class="hljs-comment">//关闭错误显示</span><br><span class="hljs-variable">$file</span>=addslashes(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;r&#x27;</span>]); <span class="hljs-comment">//接收文件名</span><br><span class="hljs-variable">$action</span>=<span class="hljs-variable">$file</span>==<span class="hljs-string">&#x27;&#x27;</span>?<span class="hljs-string">&#x27;index&#x27;</span>:<span class="hljs-variable">$file</span>; <span class="hljs-comment">//判断为空或者等于index</span><br><span class="hljs-keyword">include</span>(<span class="hljs-string">&#x27;files/&#x27;</span>.<span class="hljs-variable">$action</span>.<span class="hljs-string">&#x27;.php&#x27;</span>); <span class="hljs-comment">//载入相应文件</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+<p><img src="D:\HexoBlogs\source_posts\nessus-docker\image-20220922093328369.png" srcset="/img/loading.gif" lazyload alt="image-20220922093328369"></p>
+<p>当到这个页面时，重启一下容器即可，接着就是漫长地等待插件重新编译好(第一次会很慢，后面再启动一分钟就好了。)2.更新nessus插件并执行破解</p>
+</li>
+<li><p>3.修改初始密码(看项目上密码好像是rabbit加密，但就是没解出来)。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /opt/nessus/sbin<br>./nessuscli chpasswd admin<br></code></pre></td></tr></table></figure>
 
-<h4 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h4><p><strong>单一入口模式</strong>，一个文件处理所有的HTTP请求，例如不管是内容列表页，用户登录页还是内容详细页，都是通过从浏览器访问 <code>index.php</code> 文件来进行处理的，这里这个 <code>index.php</code> 文件就是这个应用程序的单一入口。</p>
-<p><code>addslashes</code> — 使用反斜线引用字符串</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">addslashes( <span class="hljs-keyword">string</span> <span class="hljs-variable">$str</span>) : <span class="hljs-keyword">string</span><br></code></pre></td></tr></table></figure>
+<h3 id="awvs-docker-crack-破解"><a href="#awvs-docker-crack-破解" class="headerlink" title="awvs docker crack 破解"></a>awvs docker crack 破解</h3><p>镜像项目地址为：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/secfa/docker-awvs">https://hub.docker.com/r/secfa/docker-awvs</a></p>
+</li>
+<li><p>1.拉取镜像</p>
+<p>docker pull secfa/docker-awvs</p>
+</li>
+<li><p>2.启动容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -it -d -p 13443:3443 secfa/docker-awvs<br></code></pre></td></tr></table></figure>
 
-<p>返回字符串，该字符串为了数据库查询语句等的需要在某些字符前加上了反斜线。这些字符是单引号<code>&#39;</code>、双引号<code>&quot;</code>、反斜线<code>\</code>与    NUL（**<code>NULL</code>** 字符）。 </p>
-<p><code>addslashes</code>函数会将GET形式接收过来的参数r进行过滤，再看看第五行，使用三元运算符进行判断，若$action的内容为空，则$action为index，否则$action=$file。第六行，使用include函数进行包含文件，$action参数可控，但$action参数会和<code>.php</code>进行拼接。</p>
-<p><strong>如果不做任何处理的话，就只能包含当前目录的php文件。</strong>可以使用<code>../</code>来进行跳出当前目录，再利用截断，将后面的<code>.php</code>给置空。</p>
-<p>但不能利用<code>%00</code>截断，存在<code>addslashes</code>函数，会进行过滤。</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs tex">magic<span class="hljs-built_in">_</span>quotes<span class="hljs-built_in">_</span>gpc =off<br>php版本小于5.3.4<br></code></pre></td></tr></table></figure>
+<p><code>AWVS 版本为:220401065</code></p>
+<p><code>用户名：admin@admin.com</code></p>
+<p><code>密码:Admin123</code></p>
+</li>
+</ul>
 
-<p>可以使用字节长度截断，但长度截断也需要满足以下条件：</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs tex">//长度最大值：Windows下最大值为256字节，Linux最大值为4096字节<br>php版本=5.2.17<br>Virtual Directory Support=enable<br></code></pre></td></tr></table></figure>
-
-<p>在windows下，payload为</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">//1</span><br>r=../test.txt........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................   <br><span class="hljs-comment">//2</span><br>r=../test.txt/././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././././<br></code></pre></td></tr></table></figure>
-
-<h3 id="SQL注入漏洞"><a href="#SQL注入漏洞" class="headerlink" title="SQL注入漏洞"></a>SQL注入漏洞</h3><h3 id="垂直越权"><a href="#垂直越权" class="headerlink" title="垂直越权"></a>垂直越权</h3>
               
             </div>
             <hr/>
@@ -332,8 +346,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>熊海cms v1.0代码审计</div>
-      <div>http://example.com/2022/05/30/xhcmsv1-0/</div>
+      <div>docker下nessus与awvs安装实践</div>
+      <div>http://example.com/2022/09/09/nessus-docker/</div>
     </div>
     <div class="license-meta">
       
@@ -345,7 +359,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年5月30日</div>
+          <div>2022年9月9日</div>
         </div>
       
       
@@ -375,9 +389,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/08/20/kali-note-1/" title="kali-note-1">
+                      <a href="/2022/10/07/vulnhub-oscp/" title="vulnhub-oscp">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">kali-note-1</span>
+                        <span class="hidden-mobile">vulnhub-oscp</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -385,8 +399,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/30/php-gc/" title="php反序列化之强制GC">
-                        <span class="hidden-mobile">php反序列化之强制GC</span>
+                      <a href="/2022/08/20/kali-note-1/" title="kali-note-1">
+                        <span class="hidden-mobile">kali-note-1</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
